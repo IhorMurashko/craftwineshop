@@ -21,6 +21,21 @@ public class User extends AbstractUserClass {
     }
 
 
+    public User(String email, String password, String phoneNumber,
+                String firstName, String lastName, String deliveryAddress) {
+        super();
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.role = UserRole.USER;
+        this.enabled = false;
+        this.locked = false;
+        this.deliveryAddress = deliveryAddress;
+        this.userCart = new UserCart(this);
+    }
+
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
@@ -41,18 +56,18 @@ public class User extends AbstractUserClass {
 
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserRole role = UserRole.USER;
+    private UserRole role;
 
     @Column(name = "locked")
-    private Boolean locked = false;
+    private Boolean locked;
 
     @Column(name = "enabled")
-    private Boolean enabled = false;
+    private Boolean enabled;
 
     @OneToOne(
 //            mappedBy = "user",
             cascade = CascadeType.ALL)
-    private Bucket bucket;
+    private UserCart userCart;
 
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

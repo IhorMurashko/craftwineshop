@@ -6,10 +6,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -25,17 +25,29 @@ public class Order extends AbstractOrderClass {
         status = OrderStatus.AWAITING_CONFIRMATION;
     }
 
+
+    public Order(User user, String deliveryAddress, String userComment) {
+        super();
+        this.user = user;
+        this.deliveryAddress = deliveryAddress;
+        this.userComment = userComment;
+        this.sum = new BigDecimal(0);
+        this.orderCreated = LocalDateTime.now();
+        isPaid = false;
+        status = OrderStatus.AWAITING_CONFIRMATION;
+    }
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     private BigDecimal sum;
 
-    @CreatedDate
-    private String orderCreated;
+    private LocalDateTime orderCreated;
+
 
     @LastModifiedDate
-    private String LastModifiedDate;
+    private LocalDateTime LastModifiedDate;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;

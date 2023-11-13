@@ -11,21 +11,21 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @MappedSuperclass
-@SequenceGenerator(name = "bucket_sequence_generator",
-        sequenceName = "bucket_sequence_generator",
+@SequenceGenerator(name = "userCart_sequence_generator",
+        sequenceName = "userCart_sequence_generator",
         allocationSize = 1)
-public abstract class AbstractBucketClass {
+public abstract class AbstractUserCartClass {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bucket_sequence_generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userCart_sequence_generator")
     private long id;
 
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AbstractBucketClass that)) return false;
+        if (!(o instanceof AbstractUserCartClass that)) return false;
         return Objects.equals(this.id, that.getId());
     }
 

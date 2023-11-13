@@ -4,6 +4,7 @@ import com.craftWine.shop.enumTypes.SugarConsistency;
 import com.craftWine.shop.enumTypes.WineColor;
 import com.craftWine.shop.models.abstracts.AbstractWineClass;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,7 +29,7 @@ public class CraftWine extends AbstractWineClass {
     private String wineDescription;
     private short quantity;         //количество товара на складе
     private String bottleCapacity;  //емкость бутылки
-    private String alcohol;
+    private String alcohol;         //алкоголя
 
     private boolean isNewCollection;
     private boolean isBestSeller;
@@ -60,5 +61,35 @@ public class CraftWine extends AbstractWineClass {
     private LocalDateTime addedDateTime;
     private String imageUrl;
 
-
+    public CraftWine(String wineArticle, String wineName, BigDecimal price, String wineDescription,
+                     short quantity, String bottleCapacity, String alcohol, boolean isNewCollection,
+                     boolean isBestSeller, boolean isSale, String winemaking, String grapeVarieties,
+                     String tastingNotes, String storeAndServeAdvices, String foodPairing, String reviewsAndAwards,
+                     WineColor wineColor, SugarConsistency sugarConsistency, ProducedCountry country, Region region,
+                     long bottlesSoldCounter, LocalDateTime addedDateTime, String imageUrl) {
+        super();
+        this.wineArticle = wineArticle;
+        this.wineName = wineName;
+        this.price = price;
+        this.wineDescription = wineDescription;
+        this.quantity = quantity;
+        this.bottleCapacity = bottleCapacity;
+        this.alcohol = alcohol;
+        this.isNewCollection = isNewCollection;
+        this.isBestSeller = isBestSeller;
+        this.isSale = isSale;
+        this.winemaking = winemaking;
+        this.grapeVarieties = grapeVarieties;
+        this.tastingNotes = tastingNotes;
+        this.storeAndServeAdvices = storeAndServeAdvices;
+        this.foodPairing = foodPairing;
+        this.reviewsAndAwards = reviewsAndAwards;
+        this.wineColor = wineColor;
+        this.sugarConsistency = sugarConsistency;
+        this.country = country;
+        this.region = region;
+        this.bottlesSoldCounter = bottlesSoldCounter;
+        this.addedDateTime = addedDateTime;
+        this.imageUrl = imageUrl;
+    }
 }

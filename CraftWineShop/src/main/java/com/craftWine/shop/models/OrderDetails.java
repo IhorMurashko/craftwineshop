@@ -24,6 +24,7 @@ public class OrderDetails extends AbstractOrderDetailsClass {
 
     @OneToOne
     private CraftWine wine;
+
     private short quantity;
     private BigDecimal sum;
 

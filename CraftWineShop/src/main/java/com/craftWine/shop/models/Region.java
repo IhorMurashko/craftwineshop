@@ -2,10 +2,14 @@ package com.craftWine.shop.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Objects;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "regions")
 @SequenceGenerator(name = "country_region_sequence_generator",
@@ -16,6 +20,7 @@ public class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_region_sequence_generator")
     private long id;
+    @Column(unique = true)
     private String name;
 
 
@@ -23,4 +28,19 @@ public class Region {
     @JoinColumn(name = "produced_country_id")
     private ProducedCountry producedCountry;
 
+    public Region(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof Region region)) return false;
+        return getId() == region.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }

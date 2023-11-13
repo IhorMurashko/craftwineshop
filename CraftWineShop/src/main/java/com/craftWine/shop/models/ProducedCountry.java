@@ -1,11 +1,14 @@
 package com.craftWine.shop.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -17,13 +20,30 @@ import java.util.List;
         allocationSize = 1)
 public class ProducedCountry {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "produced_country_sequence_generator")
     private long id;
-
+    @Column(unique = true)
     private String name;
 
     @OneToMany(mappedBy = "producedCountry")
-    private List<Region> regions;
+    private Set<Region> regions;
 
+
+    public ProducedCountry(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof ProducedCountry that)) return false;
+        return getId() == that.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }
