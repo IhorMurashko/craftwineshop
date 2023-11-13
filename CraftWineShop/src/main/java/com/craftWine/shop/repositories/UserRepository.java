@@ -1,4 +1,4 @@
-package com.craftWine.repositories;
+package com.craftWine.shop.repositories;
 
 import com.craftWine.shop.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;

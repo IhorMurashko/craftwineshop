@@ -1,9 +1,12 @@
 package com.craftWine.shop.repositories;
 
-import com.craftWine.shop.models.UserCart;
+import com.craftWine.shop.models.CraftWine;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserCartRepository extends JpaRepository<UserCart, Long> {
+public interface CraftWineRepository extends JpaRepository<CraftWine, Long> {
+
+
+
 }
