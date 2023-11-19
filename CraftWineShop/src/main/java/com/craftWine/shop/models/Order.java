@@ -46,9 +46,6 @@ public class Order extends AbstractOrderClass {
     private LocalDateTime orderCreated;
 
 
-    @LastModifiedDate
-    private LocalDateTime LastModifiedDate;
-
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 

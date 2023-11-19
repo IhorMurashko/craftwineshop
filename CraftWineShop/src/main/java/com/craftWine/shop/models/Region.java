@@ -20,6 +20,7 @@ public class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_region_sequence_generator")
     private long id;
+
     @Column(unique = true)
     private String name;
 

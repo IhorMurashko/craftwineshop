@@ -4,7 +4,6 @@ import com.craftWine.shop.enumTypes.SugarConsistency;
 import com.craftWine.shop.enumTypes.WineColor;
 import com.craftWine.shop.models.abstracts.AbstractWineClass;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,15 +16,21 @@ import java.time.LocalDateTime;
 @Table(name = "craft_wines")
 public class CraftWine extends AbstractWineClass {
 
+//block 1: order by added wine time DESC
+//block 2: BestSellers - auto counter
+//block 3: SALES - make an adin
 
-    public CraftWine() {
-        super();
-    }
 
     @Column(unique = true)
     private String wineArticle;
+
     private String wineName;
+
     private BigDecimal price;
+    private float discount;
+    private BigDecimal priceWithDiscount;
+
+
     private String wineDescription;
     private short quantity;         //количество товара на складе
     private String bottleCapacity;  //емкость бутылки
@@ -59,14 +64,19 @@ public class CraftWine extends AbstractWineClass {
 
     private long bottlesSoldCounter;
     private LocalDateTime addedDateTime;
+
     private String imageUrl;
+
+    public CraftWine() {
+        super();
+    }
 
     public CraftWine(String wineArticle, String wineName, BigDecimal price, String wineDescription,
                      short quantity, String bottleCapacity, String alcohol, boolean isNewCollection,
                      boolean isBestSeller, boolean isSale, String winemaking, String grapeVarieties,
                      String tastingNotes, String storeAndServeAdvices, String foodPairing, String reviewsAndAwards,
                      WineColor wineColor, SugarConsistency sugarConsistency, ProducedCountry country, Region region,
-                     long bottlesSoldCounter, LocalDateTime addedDateTime, String imageUrl) {
+                     LocalDateTime addedDateTime, String imageUrl) {
         super();
         this.wineArticle = wineArticle;
         this.wineName = wineName;
@@ -88,7 +98,10 @@ public class CraftWine extends AbstractWineClass {
         this.sugarConsistency = sugarConsistency;
         this.country = country;
         this.region = region;
-        this.bottlesSoldCounter = bottlesSoldCounter;
+
+        //TODO:  to do bottlesSoldCounter
+        this.bottlesSoldCounter = 0;
+
         this.addedDateTime = addedDateTime;
         this.imageUrl = imageUrl;
     }

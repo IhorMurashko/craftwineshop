@@ -16,25 +16,7 @@ import java.util.List;
 public class User extends AbstractUserClass {
 
 
-    public User() {
-        super();
-    }
 
-
-    public User(String email, String password, String phoneNumber,
-                String firstName, String lastName, String deliveryAddress) {
-        super();
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.role = UserRole.USER;
-        this.enabled = false;
-        this.locked = false;
-        this.deliveryAddress = deliveryAddress;
-        this.userCart = new UserCart(this);
-    }
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -79,6 +61,23 @@ public class User extends AbstractUserClass {
             inverseJoinColumns = @JoinColumn(name = "craft_wine_id")
     )
     private List<CraftWine> favorites;
+    public User() {
+        super();
+    }
 
+
+    public User(String email, String password, String phoneNumber,
+                String firstName, String lastName) {
+        super();
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.role = UserRole.USER;
+        this.enabled = false;
+        this.locked = false;
+        this.userCart = new UserCart(this);
+    }
 
 }
