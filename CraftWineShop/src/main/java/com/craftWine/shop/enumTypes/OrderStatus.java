@@ -7,7 +7,7 @@ public enum OrderStatus {
     AWAITING_CONFIRMATION("В очікуванні підтвердження"),
     APPROVED("Підтверджено"),
     CANCELED("Скасовано"),
-    SENT("Надіслано"),
+    SENT("Відправлено"),
     CLOSED("Закрито");
 
     private final String name;
