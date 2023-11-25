@@ -3,12 +3,14 @@ package com.craftWine.shop.models;
 import com.craftWine.shop.enumTypes.SugarConsistency;
 import com.craftWine.shop.enumTypes.WineColor;
 import com.craftWine.shop.models.abstracts.AbstractWineClass;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,8 +18,8 @@ import java.time.LocalDateTime;
 @Table(name = "craft_wines")
 public class CraftWine extends AbstractWineClass {
 
-//block 1: order by added wine time DESC
-//block 2: BestSellers - auto counter
+//block 1: AUTO order by added wine time DESC
+//block 2: BestSellers - AUTO sold counter DESC
 //block 3: SALES - make an adin
 
 
@@ -32,9 +34,9 @@ public class CraftWine extends AbstractWineClass {
 
 
     private String wineDescription;
-    private short quantity;         //количество товара на складе
-    private String bottleCapacity;  //емкость бутылки
-    private String alcohol;         //алкоголя
+    private short quantity;
+    private String bottleCapacity;
+    private String alcohol;
 
     private boolean isNewCollection;
     private boolean isBestSeller;
@@ -62,6 +64,16 @@ public class CraftWine extends AbstractWineClass {
     private Region region;
 
 
+    @OneToMany(mappedBy = "craftWine")
+    private List<WineStar> stars;
+
+    @Column(nullable = true)
+    private short rate;
+
+    @OneToMany(mappedBy = "craftWine")
+    private List<WineComment> wineComments;
+
+
     private long bottlesSoldCounter;
     private LocalDateTime addedDateTime;
 
@@ -69,6 +81,39 @@ public class CraftWine extends AbstractWineClass {
 
     public CraftWine() {
         super();
+    }
+
+    public CraftWine(String wineArticle, String wineName, BigDecimal price, String wineDescription,
+                     short quantity, String bottleCapacity, String alcohol, boolean isNewCollection,
+                     boolean isBestSeller, boolean isSale, String winemaking, String grapeVarieties,
+                     String tastingNotes, String storeAndServeAdvices, String foodPairing, String reviewsAndAwards,
+                     WineColor wineColor, SugarConsistency sugarConsistency, ProducedCountry country, Region region, String imageUrl) {
+        super();
+        this.wineArticle = wineArticle;
+        this.wineName = wineName;
+        this.price = price;
+        this.wineDescription = wineDescription;
+        this.quantity = quantity;
+        this.bottleCapacity = bottleCapacity;
+        this.alcohol = alcohol;
+        this.isNewCollection = isNewCollection;
+        this.isBestSeller = isBestSeller;
+        this.isSale = isSale;
+        this.winemaking = winemaking;
+        this.grapeVarieties = grapeVarieties;
+        this.tastingNotes = tastingNotes;
+        this.storeAndServeAdvices = storeAndServeAdvices;
+        this.foodPairing = foodPairing;
+        this.reviewsAndAwards = reviewsAndAwards;
+        this.wineColor = wineColor;
+        this.sugarConsistency = sugarConsistency;
+        this.country = country;
+        this.region = region;
+
+        this.bottlesSoldCounter = 0;
+
+        this.addedDateTime = LocalDateTime.now();
+        this.imageUrl = imageUrl;
     }
 
     public CraftWine(String wineArticle, String wineName, BigDecimal price, String wineDescription,
@@ -102,7 +147,9 @@ public class CraftWine extends AbstractWineClass {
         //TODO:  to do bottlesSoldCounter
         this.bottlesSoldCounter = 0;
 
-        this.addedDateTime = addedDateTime;
+        this.addedDateTime = LocalDateTime.now();
         this.imageUrl = imageUrl;
     }
+
+
 }

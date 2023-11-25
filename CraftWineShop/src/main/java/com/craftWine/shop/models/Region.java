@@ -1,5 +1,6 @@
 package com.craftWine.shop.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,7 @@ public class Region {
     @Column(unique = true)
     private String name;
 
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "produced_country_id")
     private ProducedCountry producedCountry;

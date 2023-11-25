@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @Entity
-@Table(name = "order_deteils")
+@Table(name = "order_details")
 public class OrderDetails extends AbstractOrderDetailsClass {
 
     public OrderDetails() {

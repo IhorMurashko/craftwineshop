@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -16,15 +17,13 @@ import java.util.List;
 public class User extends AbstractUserClass {
 
 
-
-
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
     @Column(name = "first_name")
@@ -61,6 +60,13 @@ public class User extends AbstractUserClass {
             inverseJoinColumns = @JoinColumn(name = "craft_wine_id")
     )
     private List<CraftWine> favorites;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<WineComment> wineComments;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private Set<WineStar> wineStars;
+
     public User() {
         super();
     }
