@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -18,5 +20,10 @@ public class ProducedCountryServiceImpl implements ProducedCountryService {
     @Override
     public void save(ProducedCountry producedCountry) {
         producedCountryRepository.save(producedCountry);
+    }
+
+    @Override
+    public List<ProducedCountry> findAll() {
+        return producedCountryRepository.findAll();
     }
 }
