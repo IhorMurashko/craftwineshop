@@ -26,7 +26,7 @@ public class Region {
     private String name;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "produced_country_id")
     private ProducedCountry producedCountry;
 

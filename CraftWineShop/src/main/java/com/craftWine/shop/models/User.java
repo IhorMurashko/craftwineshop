@@ -5,7 +5,12 @@ import com.craftWine.shop.models.abstracts.AbstractUserClass;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -14,7 +19,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 
-public class User extends AbstractUserClass {
+public class User extends AbstractUserClass implements UserDetails {
 
 
     @Column(name = "email", nullable = false, unique = true)
@@ -85,5 +90,35 @@ public class User extends AbstractUserClass {
         this.locked = false;
         this.userCart = new UserCart(this);
     }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> grantedAuthorities = new LinkedList<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority(this.getRole().name()));
+        return grantedAuthorities;
+    }
 
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !locked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
 }

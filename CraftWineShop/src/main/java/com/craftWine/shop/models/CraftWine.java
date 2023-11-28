@@ -57,10 +57,10 @@ public class CraftWine extends AbstractWineClass {
     private SugarConsistency sugarConsistency;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private ProducedCountry country;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Region region;
 
 
