@@ -90,6 +90,7 @@ public class User extends AbstractUserClass implements UserDetails {
         this.locked = false;
         this.userCart = new UserCart(this);
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> grantedAuthorities = new LinkedList<>();

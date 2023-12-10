@@ -41,15 +41,12 @@ public class RegistrationController {
     public ResponseEntity<String> register(@Valid @RequestBody RegisterDTO registerDTO) {
 
         return registrationService.register(registerDTO);
-
-
     }
 
 
     @GetMapping("/reset_password")
     public ResponseEntity<String> rememberThePassword(@RequestParam("email") String userEmail) {
         return resetPasswordService.resetUserPassword(userEmail);
-
     }
 
 

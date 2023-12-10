@@ -11,12 +11,12 @@ import java.nio.file.StandardCopyOption;
 public class ImagineHandler {
     /**
      * Saves an image file into the server directory and returns the path.
-     *
+     * <p>
      * This method takes a {@code MultipartFile} representing an image file and a unique identifier {@code wineArticle},
      * saves the image to a server directory, and returns the path where the image is saved.
      *
-     * @param imageFile    The {@code MultipartFile} representing the image file to be saved.
-     * @param wineArticle  A unique identifier associated with the wine article.
+     * @param imageFile   The {@code MultipartFile} representing the image file to be saved.
+     * @param wineArticle A unique identifier associated with the wine article.
      * @return The path where the image is saved.
      * @throws IOException If an I/O exception occurs during the file copying process.
      */
@@ -30,5 +30,13 @@ public class ImagineHandler {
 
         // Return the path where the image is saved
         return destination.toString();
+    }
+
+
+    public static boolean deleteWineImageFromServer(String path) throws IOException {
+
+        Path destination = Paths.get(path);
+
+        return Files.deleteIfExists(destination);
     }
 }

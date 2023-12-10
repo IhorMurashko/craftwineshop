@@ -1,7 +1,7 @@
 package com.craftWine.shop.authentication;
 
 import com.craftWine.shop.email.EmailSender;
-import com.craftWine.shop.exceptions.EmailProblem;
+import com.craftWine.shop.exceptions.EmailProblemException;
 import com.craftWine.shop.repositories.UserRepository;
 import com.craftWine.shop.utils.EmailBuilder;
 import com.craftWine.shop.utils.RandomPasswordGenerator;
@@ -45,7 +45,7 @@ public class ResetPasswordService {
 
             return ResponseEntity.ok("New password sent to your email");
         } else {
-            throw new EmailProblem("Email not found");
+            throw new EmailProblemException("Email not found");
         }
 
 

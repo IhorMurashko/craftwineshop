@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -28,4 +30,6 @@ public class WineComment {
     private CraftWine craftWine;
 
     private String comment;
+    private LocalDateTime addedCommentTime;
+
 }

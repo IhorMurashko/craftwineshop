@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Getter
 @Value
-public class NewCraftWineDTO implements Serializable {
+public class CraftWineDTO implements Serializable {
 
     @NotBlank
     @Pattern(regexp = "^[0-9]{4}$", message = "article of the wine should be 4 characters and contains only numbers")
@@ -90,7 +90,7 @@ public class NewCraftWineDTO implements Serializable {
     Long id;
 
     @Nullable
-    String imagePath;
+    String imageUrl;
 
 
 }

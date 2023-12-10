@@ -1,6 +1,7 @@
 package com.craftWine.shop.models.abstracts;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @MappedSuperclass
 @SequenceGenerator(name = "wine_sequence_generator",
         sequenceName = "wine_sequence_generator",

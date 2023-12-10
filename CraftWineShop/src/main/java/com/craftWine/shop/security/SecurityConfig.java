@@ -64,8 +64,10 @@ public class SecurityConfig {
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/register").permitAll()
 //                                .requestMatchers("/admin/**").hasAuthority("ADMIN")
-//                                .requestMatchers("/user/**").hasAuthority("USER")
-//                                .requestMatchers("/user/**").hasAnyRole("ADMIN", "USER")
+//                                .requestMatchers("/admin/**").hasAnyRole("ADMIN", "USER")
+                                .requestMatchers("/admin/**").hasAnyAuthority("ADMIN", "USER")
+                                .requestMatchers("/user/**").hasAuthority("USER")
+                                .requestMatchers("/user/**").hasAnyRole("ADMIN", "USER")
                                 .anyRequest().permitAll()
 //                        .anyRequest().authenticated()
 

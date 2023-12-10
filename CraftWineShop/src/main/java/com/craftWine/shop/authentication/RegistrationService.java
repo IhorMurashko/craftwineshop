@@ -2,7 +2,7 @@ package com.craftWine.shop.authentication;
 
 import com.craftWine.shop.dto.authUserDTO.RegisterDTO;
 import com.craftWine.shop.email.EmailSender;
-import com.craftWine.shop.exceptions.EmailProblem;
+import com.craftWine.shop.exceptions.EmailProblemException;
 import com.craftWine.shop.exceptions.InvalidConfirmationPasswordException;
 import com.craftWine.shop.models.User;
 import com.craftWine.shop.repositories.UserRepository;
@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -43,7 +44,7 @@ public class RegistrationService {
      *                   - lastName<br>
      * @return A User token and information about the successful email letter sent for confirming registration.
      * @throws InvalidConfirmationPasswordException If the user's password and confirmation password do not match,
-     * @throws EmailProblem             or if the user's email has already been confirmed and is ready for use.
+     * @throws EmailProblemException                or if the user's email has already been confirmed and is ready for use.
      */
 //    public String register(RegisterDTO requestDTO) {
     public ResponseEntity<String> register(RegisterDTO requestDTO) {
@@ -68,7 +69,7 @@ public class RegistrationService {
         if (userExists) {
 
             User user = userRepository.findUserByEmail(requestDTO.getEmail()).orElseThrow(
-                    () -> new EmailProblem("Could not find account with email " + requestDTO.getEmail()));
+                    () -> new EmailProblemException("Could not find account with email " + requestDTO.getEmail()));
 
             return user.getEnabled()
                     ? ResponseEntity.status(HttpStatus.CONFLICT).body("The account has already been enabled")
@@ -108,7 +109,7 @@ public class RegistrationService {
      * @param userId The user ID used to check if the user is already confirmed.
      * @param link   The link for confirmation.
      * @return The token associated with the confirmation process.
-     * @throws EmailProblem If there is an issue with sending the confirmation email.
+     * @throws EmailProblemException If there is an issue with sending the confirmation email.
      */
     private String sendConfirmationLetterAgain(String email, String name, long userId, String link) {
 
@@ -116,7 +117,7 @@ public class RegistrationService {
         // Checking if the user is already confirmed and if the email already exists.
         ConfirmationToken confirmationToken = confirmationTokenService
                 .getConfirmationTokenByUserID(userId).orElseThrow(() ->
-                        new EmailProblem("Email not found"));
+                        new EmailProblemException("Email not found"));
 
         confirmationToken.setExpiresAt(
                 LocalDateTime.now().plusDays(1)
@@ -139,7 +140,7 @@ public class RegistrationService {
      * @throws IllegalStateException If the user is already confirmed, the confirmation date has already expired, or the token wasn't found.
      */
     @Transactional
-    public String confirmToken(String token) {
+    public ResponseEntity<HttpStatus> confirmToken(String token) {
 
 
         // get token from database
@@ -150,7 +151,7 @@ public class RegistrationService {
 
         // If the date of confirmation is not null, throw an exception with the message "Email already confirmed."
         if (confirmationToken.getConfirmedAt() != null) {
-            throw new EmailProblem("email already confirmed");
+            throw new EmailProblemException("email already confirmed");
         }
 
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
@@ -165,6 +166,7 @@ public class RegistrationService {
         // make the user's field "enable" true using his email
         userService.enableUser(
                 confirmationToken.getUser().getEmail());
-        return "confirmed";
+
+        return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/main/craft_wines")).build();
     }
 }

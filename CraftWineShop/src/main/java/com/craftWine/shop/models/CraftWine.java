@@ -3,7 +3,6 @@ package com.craftWine.shop.models;
 import com.craftWine.shop.enumTypes.SugarConsistency;
 import com.craftWine.shop.enumTypes.WineColor;
 import com.craftWine.shop.models.abstracts.AbstractWineClass;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -83,12 +82,12 @@ public class CraftWine extends AbstractWineClass {
         super();
     }
 
-    public CraftWine(String wineArticle, String wineName, BigDecimal price, String wineDescription,
+    public CraftWine(Long id, String wineArticle, String wineName, BigDecimal price, String wineDescription,
                      short quantity, String bottleCapacity, String alcohol, boolean isNewCollection,
                      boolean isBestSeller, boolean isSale, String winemaking, String grapeVarieties,
                      String tastingNotes, String storeAndServeAdvices, String foodPairing, String reviewsAndAwards,
                      WineColor wineColor, SugarConsistency sugarConsistency, ProducedCountry country, Region region, String imageUrl) {
-        super();
+        super(id);
         this.wineArticle = wineArticle;
         this.wineName = wineName;
         this.price = price;
@@ -110,6 +109,7 @@ public class CraftWine extends AbstractWineClass {
         this.country = country;
         this.region = region;
 
+        this.rate = 0;
         this.bottlesSoldCounter = 0;
 
         this.addedDateTime = LocalDateTime.now();
@@ -121,7 +121,7 @@ public class CraftWine extends AbstractWineClass {
                      boolean isBestSeller, boolean isSale, String winemaking, String grapeVarieties,
                      String tastingNotes, String storeAndServeAdvices, String foodPairing, String reviewsAndAwards,
                      WineColor wineColor, SugarConsistency sugarConsistency, ProducedCountry country, Region region,
-                     LocalDateTime addedDateTime, String imageUrl) {
+                     String imageUrl) {
         super();
         this.wineArticle = wineArticle;
         this.wineName = wineName;
@@ -144,7 +144,7 @@ public class CraftWine extends AbstractWineClass {
         this.country = country;
         this.region = region;
 
-        //TODO:  to do bottlesSoldCounter
+        this.rate = 0;
         this.bottlesSoldCounter = 0;
 
         this.addedDateTime = LocalDateTime.now();

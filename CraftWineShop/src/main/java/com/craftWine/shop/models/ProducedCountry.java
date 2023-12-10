@@ -1,5 +1,6 @@
 package com.craftWine.shop.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class ProducedCountry {
     @Column(unique = true)
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "producedCountry", fetch = FetchType.EAGER)
     private Set<Region> regions;
 

@@ -1,25 +1,28 @@
 package com.craftWine.shop.service;
 
+import com.craftWine.shop.dto.wineDTO.CraftWineDTO;
 import com.craftWine.shop.models.CraftWine;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 public interface CraftWineService {
 
-    void save(CraftWine craftWine);
+    boolean save(CraftWineDTO craftWineDTO, String imagePath);
 
-    List<CraftWine> findAllByAddedTimeDesc();
+    boolean save(CraftWine craftWine);
 
-    List<CraftWine> findAllByBottlesSoldCounter();
 
     List<CraftWine> findAll();
 
-    Optional<CraftWine> findById(long id);
+    CraftWine findById(long id);
 
-    Optional<CraftWine> findByArticle(String article);
+    CraftWine findByArticle(String article);
 
 
-    void deleteCraftWineById(long id);
+    boolean deleteCraftWineById(long id) throws IOException;
+
+    short setAverageRateForTheCraftWine(long id, short rate);
 
 }

@@ -3,6 +3,7 @@ package com.craftWine.shop.repositories;
 import com.craftWine.shop.models.CraftWine;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,6 +19,13 @@ public interface CraftWineRepository extends JpaRepository<CraftWine, Long> {
     List<CraftWine> findAllByBottlesSoldCounter();
 
     Optional<CraftWine> findCraftWineByWineArticle(String article);
+
+    boolean existsByWineArticle(String article);
+
+    @Query("select cw.imageUrl from CraftWine cw where cw.id=:id ")
+    String findImagePathById(@Param("id") Long id);
+
+
 
 
 }
