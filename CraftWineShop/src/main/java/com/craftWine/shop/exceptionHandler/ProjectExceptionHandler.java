@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
+import java.sql.SQLException;
+
 @ControllerAdvice
 public class ExceptionHandler {
 
@@ -19,5 +21,8 @@ public class ExceptionHandler {
     public ResponseEntity<ResponseException> invalidConfirmationPasswordExceptionHandler(@NotNull EmailProblem exception) {
         return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.CONFLICT);
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(SQLException.class)
+    public ResponseEntity<ResponseException> 
 
 }

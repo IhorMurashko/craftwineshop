@@ -2,6 +2,7 @@ package com.craftWine.shop.dto.wineDTO;
 
 import com.craftWine.shop.models.ProducedCountry;
 import com.craftWine.shop.models.Region;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Getter
 @Value
-public class CraftWineForAddedIntoDBDTO implements Serializable {
+public class NewCraftWineDTO implements Serializable {
 
     @NotBlank
     @Pattern(regexp = "^[0-9]{4}$", message = "article of the wine should be 4 characters and contains only numbers")
@@ -26,7 +27,6 @@ public class CraftWineForAddedIntoDBDTO implements Serializable {
     @NotBlank
     String wineName;
 
-    @NotBlank
     @Digits(integer = 10, fraction = 2)
     @Positive
     //ценник не должен содержать более десяти цифр в целой части
@@ -45,7 +45,6 @@ public class CraftWineForAddedIntoDBDTO implements Serializable {
     @NotBlank
     String wineDescription;
 
-    @NotBlank
     @PositiveOrZero
     short quantity;
 
@@ -60,11 +59,11 @@ public class CraftWineForAddedIntoDBDTO implements Serializable {
     // дробная часть разделена точкой
     String alcohol;
 
-    @NotBlank
+    @NotNull
     boolean isNewCollection;
-    @NotBlank
+    @NotNull
     boolean isBestSeller;
-    @NotBlank
+    @NotNull
     boolean isSale;
     @NotBlank
     String winemaking;
@@ -82,10 +81,16 @@ public class CraftWineForAddedIntoDBDTO implements Serializable {
     String wineColor;
     @NotBlank
     String sugarConsistency;
-    @NotBlank
+    @NotNull
     ProducedCountry country;
-    @NotBlank
+    @NotNull
     Region region;
+
+    @Nullable
+    Long id;
+
+    @Nullable
+    String imagePath;
 
 
 }
