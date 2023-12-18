@@ -32,7 +32,7 @@ public class MyTokenFilter extends OncePerRequestFilter {
         final String token = extractToken(request);
         if (tokenProvider.validateToken(token)) {
             String email = tokenProvider.extractUsername(token);
-            System.out.println(email);
+//            System.out.println(email);
             UserDetails user = userService.loadUserByUsername(email);
 
             if (user != null) {

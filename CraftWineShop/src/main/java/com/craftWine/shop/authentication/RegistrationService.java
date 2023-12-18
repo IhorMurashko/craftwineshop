@@ -59,7 +59,7 @@ public class RegistrationService {
                 .findUserByEmail(requestDTO.getEmail())
                 .isPresent();
         // The link to be included in the confirmation email.
-        String link = "http://localhost:8080/confirm?token=";
+        String link = "http://localhost:8080/reg/confirm?token=";
 
         /*
          * If the user already exists and has confirmed their account, a message will be returned.
@@ -90,14 +90,11 @@ public class RegistrationService {
         String token = userService.signUpUser(user);
 
         // Return the token associated with the registration process.
-//        emailSender.send(
-//                requestDTO.getEmail(),
-//                buildEmail(requestDTO.getEmail(), link + token), "Confirm your email");
         emailSender.send(user.getEmail(),
                 EmailBuilder.emailRegistrationBuilder(user.getFirstName(), link + token),
                 "Confirm your email");
 
-        return ResponseEntity.status(HttpStatus.OK).body(token);
+        return ResponseEntity.status(HttpStatus.CREATED).body("success");
     }
 
 
@@ -132,41 +129,43 @@ public class RegistrationService {
         return confirmationToken.getToken();
     }
 
+
     /**
-     * method called when a user activates a link from their email letter to confirm their account by email.
+     * The {@code ConfirmationTokenService} class handles HTTP requests related to confirming user registration tokens.
+     * It confirms the token, checks for expiration, and activates the user account.
      *
-     * @param token The token obtained from the GET method link, used to check for confirmation.
-     * @return A message about successful confirmation.
-     * @throws IllegalStateException If the user is already confirmed, the confirmation date has already expired, or the token wasn't found.
+     * @param token The token to be confirmed.
+     * @return ResponseEntity with HTTP status and a redirection location.
+     * @throws IllegalStateException If the token is not found, has already been confirmed, or has expired.
+     * @throws EmailProblemException If there is an issue with the email confirmation.
      */
     @Transactional
     public ResponseEntity<HttpStatus> confirmToken(String token) {
-
-
-        // get token from database
+        // Get token from the database
         ConfirmationToken confirmationToken = confirmationTokenService
                 .getToken(token)
-                .orElseThrow(() ->
-                        new IllegalStateException("token not found"));
+                .orElseThrow(() -> new IllegalStateException("Token not found"));
 
-        // If the date of confirmation is not null, throw an exception with the message "Email already confirmed."
+        // Check if the confirmation date is not null, indicating that the email is already confirmed
         if (confirmationToken.getConfirmedAt() != null) {
-            throw new EmailProblemException("email already confirmed");
+            throw new EmailProblemException("Email already confirmed");
         }
 
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
-        // If the expiration date is earlier than the current time, throw an exception with the message "Token expired."
+        // Check if the token has expired
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
+            throw new IllegalStateException("Token expired");
         }
 
+        // Set the confirmation date for the token
         confirmationTokenService.setConfirmedAt(token);
 
-        // make the user's field "enable" true using his email
-        userService.enableUser(
-                confirmationToken.getUser().getEmail());
+        // Activate the user by setting the "enabled" field to true using the user's email
+        userService.enableUser(confirmationToken.getUser().getEmail());
 
+        // Return a ResponseEntity with a redirection status and location
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/main/craft_wines")).build();
     }
+
 }

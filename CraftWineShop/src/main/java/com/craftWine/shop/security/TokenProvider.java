@@ -21,14 +21,17 @@ public class TokenProvider implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final TokenProperties tokenProperties;
+//    private final RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
     public TokenProvider(TokenProperties tokenProperties) {
+//                         RedisTemplate<String, Object> redisTemplate) {
         this.tokenProperties = tokenProperties;
+//        this.redisTemplate = redisTemplate;
     }
 
     /**
-     * This method construct the token at authentication
+     * This method constructs the token at authentication
      *
      * @param user the energy user who is authenticated
      * @return a string which represents the token generated
@@ -94,5 +97,8 @@ public class TokenProvider implements Serializable {
         }
         return false;
     }
+
+
+
 
 }

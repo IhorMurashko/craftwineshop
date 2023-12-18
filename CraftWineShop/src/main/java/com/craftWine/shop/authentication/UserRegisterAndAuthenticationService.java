@@ -58,6 +58,8 @@ public class UserRegisterAndAuthenticationService {
      */
     public String authenticate(CredentialsDTO credentialsDTO) throws Exception {
         try {
+
+
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentialsDTO.getEmail(), credentialsDTO.getPassword()));
             return tokenProvider.provideToken((User) userDetailsService.loadUserByUsername(credentialsDTO.getEmail()));
         } catch (DisabledException e) {
