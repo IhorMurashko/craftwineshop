@@ -1,5 +1,6 @@
 package com.craftWine.shop.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +24,6 @@ public class WineComment {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "wine_comments_sequence_generator")
     private long id;
-
     @ManyToOne
     private User user;
     @ManyToOne

@@ -5,10 +5,13 @@ import com.craftWine.shop.authentication.ResetPasswordService;
 import com.craftWine.shop.dto.authUserDTO.RegisterDTO;
 import com.craftWine.shop.exceptions.EmailProblemException;
 import com.craftWine.shop.exceptions.InvalidConfirmationPasswordException;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +28,8 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @Validated
 @RestController
-@RequestMapping("/reg")
+@Tag(name = "registration")
+@RequestMapping("/api/v1/reg")
 public class RegistrationController {
 
     private final RegistrationService registrationService;
@@ -40,14 +44,24 @@ public class RegistrationController {
      *                    - password
      *                    - confirmationPassword
      *                    - phoneNumber
-     *                    - deliveryAddress
      *                    - firstName
      *                    - lastName
-     * @return HTTP status CREATED and messaged "success".
+     * @return HTTP status CREATED and messaged "success",  OK and message "letter was sent successfully",
+     * or CONFLICT and message "This account has already been enabled".
      * @throws InvalidConfirmationPasswordException If the user's password and confirmation password do not match.
      * @throws EmailProblemException                If the user's email has already been confirmed and is ready for use.
      */
-    @PostMapping(value = "/registration", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "руєстрація нового кристовича",
+            description = "отримує інформацію для валідації і у випадку успішної валідації реєструє нового кристовича",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "created"),
+                    @ApiResponse(responseCode = "409", description = "This account has already been enabled"),
+                    @ApiResponse(responseCode = "200")
+
+            })
+    @PostMapping(value = "/registration"
+//            ,produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public ResponseEntity<String> register(@Valid @RequestBody RegisterDTO registerDTO) {
         return registrationService.register(registerDTO);
     }
@@ -61,6 +75,7 @@ public class RegistrationController {
      * @throws EmailProblemException    If the email address is not found in the UserRepository.
      * @throws IllegalArgumentException if the user is trying to reset the password more than once of 24 hours.
      */
+    @Hidden
     @GetMapping("/reset_password")
     public ResponseEntity<String> rememberThePassword(@RequestParam("email") String userEmail) {
         // Delegates the password reset operation to the ResetPasswordService.
@@ -74,6 +89,7 @@ public class RegistrationController {
      * @param token The token used for confirming user registration.
      * @return ResponseEntity with HTTP status indicating the result of the confirmation.
      */
+    @Hidden
     @GetMapping(path = "/confirm")
     public ResponseEntity<HttpStatus> confirm(@RequestParam("token") String token) {
         return registrationService.confirmToken(token);

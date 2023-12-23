@@ -2,6 +2,7 @@ package com.craftWine.shop.models;
 
 import com.craftWine.shop.enumTypes.UserRole;
 import com.craftWine.shop.models.abstracts.AbstractUserClass;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +22,7 @@ import java.util.Set;
 @Table(name = "users")
 
 public class User extends AbstractUserClass implements UserDetails {
-
+//TODO: JSONIGNORE!!!
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -58,17 +59,14 @@ public class User extends AbstractUserClass implements UserDetails {
             cascade = CascadeType.ALL)
     private UserCart userCart;
 
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders;
-
     @ManyToMany
     @JoinTable(name = "users_favorites",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "craft_wine_id")
     )
     private List<CraftWine> favorites;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<WineComment> wineComments;
 

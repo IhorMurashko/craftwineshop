@@ -3,21 +3,17 @@ package com.craftWine.shop.controllers;
 import com.craftWine.shop.dto.ProducedCountryDTO;
 import com.craftWine.shop.dto.UpdateWineRateDTO;
 import com.craftWine.shop.dto.wineDTO.CraftWineDTO;
-import com.craftWine.shop.dto.wineDTO.CraftWineForUserResponseDTO;
 import com.craftWine.shop.enumTypes.SugarConsistency;
 import com.craftWine.shop.enumTypes.WineColor;
-import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.models.ProducedCountry;
 import com.craftWine.shop.service.CraftWineService;
 import com.craftWine.shop.service.ProducedCountryService;
 import com.craftWine.shop.service.WineStarService;
 import com.craftWine.shop.utils.ImagineHandler;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.servlet.http.HttpServletRequest;
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +40,7 @@ public class AdminController {
     private final ProducedCountryService producedCountryService;
     private final WineStarService wineStarService;
 
+    @Hidden
     @PostMapping(value = "/save_a_new_wine")
     public ResponseEntity<?> saveNewWine(
             @Valid CraftWineDTO craftWineDTO,
@@ -67,7 +64,7 @@ public class AdminController {
         }
     }
 
-
+    @Hidden
     @GetMapping(value = "/add_new_wine", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> addNewWine() {
 
@@ -82,7 +79,7 @@ public class AdminController {
 
         List<ProducedCountryDTO> producedCountryDTOList =
                 producedCountryList.stream()
-                        .map(producedCountry -> new ProducedCountryDTO(producedCountry.getId(), producedCountry.getName(), producedCountry.getRegions())
+                        .map(producedCountry -> new ProducedCountryDTO(producedCountry.getId(), producedCountry.getName())
                         )
                         .collect(Collectors.toList());
 
@@ -94,30 +91,30 @@ public class AdminController {
 
         return ResponseEntity.ok(responseList);
     }
-
-    @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CraftWineForUserResponseDTO> getCraftWineDTOById(@PathVariable("id") long id) {
-
-        CraftWine craftWine = craftWineService.findById(id);
-
-        CraftWineForUserResponseDTO craftWineDTO = new CraftWineForUserResponseDTO(
-                craftWine.getId(),
-                craftWine.getWineArticle(), craftWine.getWineName(), craftWine.getPrice(),
-                craftWine.getDiscount(), craftWine.getPriceWithDiscount(),
-                craftWine.getWineDescription(), craftWine.getQuantity(), craftWine.getBottleCapacity(),
-                craftWine.getAlcohol(), craftWine.isNewCollection(), craftWine.isBestSeller(), craftWine.isSale(),
-                craftWine.getWinemaking(), craftWine.getGrapeVarieties(), craftWine.getTastingNotes(), craftWine.getStoreAndServeAdvices(),
-                craftWine.getFoodPairing(), craftWine.getReviewsAndAwards(), craftWine.getWineColor().getName(),
-                craftWine.getSugarConsistency().getName(), craftWine.getCountry(), craftWine.getRegion(),
-                craftWine.getRate(), craftWine.getWineComments(), craftWine.getBottlesSoldCounter(),
-                craftWine.getAddedDateTime(), craftWine.getImageUrl());
-
-
-        return ResponseEntity.ok(craftWineDTO);
-
-
-    }
-
+//    @Hidden
+//    @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<CraftWineForUserResponseDTO> getCraftWineDTOById(@PathVariable("id") long id) {
+//
+//        CraftWine craftWine = craftWineService.findById(id);
+//
+//        CraftWineForUserResponseDTO craftWineDTO = new CraftWineForUserResponseDTO(
+//                craftWine.getId(),
+//                 craftWine.getWineName(), craftWine.getPrice(),
+//                craftWine.getDiscount(), craftWine.getPriceWithDiscount(),
+//                craftWine.getWineDescription(), craftWine.getQuantity(), craftWine.getBottleCapacity(),
+//                craftWine.getAlcohol(), craftWine.isNewCollection(), craftWine.isBestSeller(), craftWine.isSale(),
+//                craftWine.getWinemaking(), craftWine.getGrapeVarieties(), craftWine.getTastingNotes(), craftWine.getStoreAndServeAdvices(),
+//                craftWine.getFoodPairing(), craftWine.getReviewsAndAwards(), craftWine.getWineColor().getName(),
+//                craftWine.getSugarConsistency().getName(), craftWine.getCountry(), craftWine.getRegion(),
+//                craftWine.getRate(), craftWine.getWineComments(), craftWine.getBottlesSoldCounter(),
+//                craftWine.getAddedDateTime(), craftWine.getImageUrl());
+//
+//
+//        return ResponseEntity.ok(craftWineDTO);
+//
+//
+//    }
+    @Hidden
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<HttpStatus> deleteWineFromShop(@PathVariable("id") Long id) throws IOException {
 
@@ -128,7 +125,7 @@ public class AdminController {
         }
     }
 
-
+    @Hidden
     @PostMapping(value = "/updateRate", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpStatus> updateWineRate(@RequestBody UpdateWineRateDTO updateWineRateDTO) {
 

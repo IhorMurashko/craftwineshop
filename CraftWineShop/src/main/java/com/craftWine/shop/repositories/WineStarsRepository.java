@@ -12,11 +12,13 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 public interface WineStarsRepository extends JpaRepository<WineStar, Long> {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    @Query("SELECT AVG(ws.star) FROM WineStar ws WHERE ws.craftWine = ?1")
+    @Query("SELECT  AVG (ws.star) FROM WineStar ws WHERE ws.craftWine = ?1")
     Short getAverageRateForTheWine(CraftWine craftWine);
 
     @Query("SELECT ws.id FROM WineStar ws WHERE ws.user=?1 AND ws.craftWine=?2 ")

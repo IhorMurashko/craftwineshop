@@ -18,7 +18,6 @@ public interface CraftWineService {
 
     CraftWine findById(long id);
 
-    CraftWine findByArticle(String article);
 
 
     boolean deleteCraftWineById(long id) throws IOException;

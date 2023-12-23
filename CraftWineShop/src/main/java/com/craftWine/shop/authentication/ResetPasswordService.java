@@ -35,7 +35,7 @@ public class ResetPasswordService {
      *
      * @param userEmail The email address of the user whose password needs to be reset.
      * @return ResponseEntity indicating the success of the password reset operation.
-     * @throws EmailProblemException if the email address is not found in the UserRepository.
+     * @throws EmailProblemException    if the email address is not found in the UserRepository.
      * @throws IllegalArgumentException if the user is trying to reset the password more than once of 24 hours.
      */
     public ResponseEntity<String> resetUserPassword(String userEmail) {
@@ -46,7 +46,7 @@ public class ResetPasswordService {
 
         if (!isTimeBetweenTwoDatesIsMoreThan23Hours) {
             throw new IllegalArgumentException("You can reset your password only one time during 24 hours.\n" +
-                    "You could try reset you password" + userRepository.lastTimeResetPassword(userEmail).get().plusDays(1));
+                    "You could try reset you password " + userRepository.lastTimeResetPassword(userEmail).get().plusDays(1));
         }
         // Check if the user is enabled.
         if (emailIsPresent && userRepository.isEnabled(userEmail)) {

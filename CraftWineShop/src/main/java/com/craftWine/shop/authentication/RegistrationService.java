@@ -11,6 +11,7 @@ import com.craftWine.shop.security.token.ConfirmationTokenService;
 import com.craftWine.shop.utils.EmailBuilder;
 import com.craftWine.shop.utils.SwitchCaseToCapitalize;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,10 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RegistrationService {
 
-    private final UserRegisterAndAuthenticationService userService;
+    private final UserRegisterAndAuthenticationService userRegisterAndAuthenticationService;
     private final EmailSender emailSender;
     private final ConfirmationTokenService confirmationTokenService;
     private final UserRepository userRepository;
@@ -46,7 +48,6 @@ public class RegistrationService {
      * @throws InvalidConfirmationPasswordException If the user's password and confirmation password do not match,
      * @throws EmailProblemException                or if the user's email has already been confirmed and is ready for use.
      */
-//    public String register(RegisterDTO requestDTO) {
     public ResponseEntity<String> register(RegisterDTO requestDTO) {
 
         // Check if the user's password and confirmation password do not match during the registration process.
@@ -72,10 +73,8 @@ public class RegistrationService {
                     () -> new EmailProblemException("Could not find account with email " + requestDTO.getEmail()));
 
             return user.getEnabled()
-                    ? ResponseEntity.status(HttpStatus.CONFLICT).body("The account has already been enabled")
+                    ? ResponseEntity.status(HttpStatus.CONFLICT).body("This account has already been enabled")
                     : ResponseEntity.status(HttpStatus.OK).body(sendConfirmationLetterAgain(requestDTO.getEmail(), requestDTO.getFirstName(), user.getId(), link));
-
-
         }
 
         User user = new User(
@@ -87,14 +86,14 @@ public class RegistrationService {
         );
 
         // If the user does not exist, register the new user and send a confirmation email.
-        String token = userService.signUpUser(user);
+        String token = userRegisterAndAuthenticationService.signUpUser(user);
 
         // Return the token associated with the registration process.
         emailSender.send(user.getEmail(),
                 EmailBuilder.emailRegistrationBuilder(user.getFirstName(), link + token),
                 "Confirm your email");
 
-        return ResponseEntity.status(HttpStatus.CREATED).body("success");
+        return ResponseEntity.status(HttpStatus.CREATED).body("created");
     }
 
 
@@ -126,7 +125,8 @@ public class RegistrationService {
                 EmailBuilder.emailRegistrationBuilder(name, link + confirmationToken.getToken()),
                 "Confirm your email again");
 
-        return confirmationToken.getToken();
+//        return confirmationToken.getToken();
+        return "letter was sent successfully";
     }
 
 
@@ -162,7 +162,7 @@ public class RegistrationService {
         confirmationTokenService.setConfirmedAt(token);
 
         // Activate the user by setting the "enabled" field to true using the user's email
-        userService.enableUser(confirmationToken.getUser().getEmail());
+        userRegisterAndAuthenticationService.enableUser(confirmationToken.getUser().getEmail());
 
         // Return a ResponseEntity with a redirection status and location
         return ResponseEntity.status(HttpStatus.SEE_OTHER).location(URI.create("/main/craft_wines")).build();

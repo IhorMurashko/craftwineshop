@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum WineColor {
-    WHITE("Біле"), PINK("Рожеве"), RED("Червоне"), ORANGE("Помаранчеве");
+    WHITE("White"), PINK("Pink"), RED("Red"), ORANGE("Orange");
 
     private final String name;
 

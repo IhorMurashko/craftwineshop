@@ -17,5 +17,4 @@ import java.util.Set;
 public class ProducedCountryDTO implements Serializable {
     long id;
     String name;
-    Set<Region> regions;
 }

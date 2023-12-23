@@ -22,8 +22,6 @@ public class CraftWine extends AbstractWineClass {
 //block 3: SALES - make an adin
 
 
-    @Column(unique = true)
-    private String wineArticle;
 
     private String wineName;
 
@@ -82,13 +80,12 @@ public class CraftWine extends AbstractWineClass {
         super();
     }
 
-    public CraftWine(Long id, String wineArticle, String wineName, BigDecimal price, String wineDescription,
+    public CraftWine(Long id, String wineName, BigDecimal price, String wineDescription,
                      short quantity, String bottleCapacity, String alcohol, boolean isNewCollection,
                      boolean isBestSeller, boolean isSale, String winemaking, String grapeVarieties,
                      String tastingNotes, String storeAndServeAdvices, String foodPairing, String reviewsAndAwards,
                      WineColor wineColor, SugarConsistency sugarConsistency, ProducedCountry country, Region region, String imageUrl) {
         super(id);
-        this.wineArticle = wineArticle;
         this.wineName = wineName;
         this.price = price;
         this.wineDescription = wineDescription;
@@ -116,14 +113,13 @@ public class CraftWine extends AbstractWineClass {
         this.imageUrl = imageUrl;
     }
 
-    public CraftWine(String wineArticle, String wineName, BigDecimal price, String wineDescription,
+    public CraftWine(String wineName, BigDecimal price, String wineDescription,
                      short quantity, String bottleCapacity, String alcohol, boolean isNewCollection,
                      boolean isBestSeller, boolean isSale, String winemaking, String grapeVarieties,
                      String tastingNotes, String storeAndServeAdvices, String foodPairing, String reviewsAndAwards,
                      WineColor wineColor, SugarConsistency sugarConsistency, ProducedCountry country, Region region,
                      String imageUrl) {
         super();
-        this.wineArticle = wineArticle;
         this.wineName = wineName;
         this.price = price;
         this.wineDescription = wineDescription;

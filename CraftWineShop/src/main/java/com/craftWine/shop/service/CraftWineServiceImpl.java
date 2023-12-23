@@ -47,7 +47,7 @@ public class CraftWineServiceImpl implements CraftWineService {
                 .orElseThrow(() -> new IllegalArgumentException("Could not find sugar consistency of wine"));
 
 
-        CraftWine craftWine = new CraftWine(craftWineDTO.getWineArticle(),
+        CraftWine craftWine = new CraftWine(
                 craftWineDTO.getWineName(), craftWineDTO.getPrice(), craftWineDTO.getWineDescription(),
                 craftWineDTO.getQuantity(), craftWineDTO.getBottleCapacity(), craftWineDTO.getAlcohol(),
                 craftWineDTO.isNewCollection(), craftWineDTO.isBestSeller(), craftWineDTO.isSale(),
@@ -89,14 +89,6 @@ public class CraftWineServiceImpl implements CraftWineService {
                 () -> new IllegalArgumentException("Could not find wine with id: " + id));
     }
 
-    @Override
-    public CraftWine findByArticle(String article) {
-        Optional<CraftWine> optionalCraftWine = craftWineRepository.findCraftWineByWineArticle(article);
-
-
-        return optionalCraftWine.orElseThrow(
-                () -> new IllegalArgumentException("Could not find wine with id: " + article));
-    }
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
