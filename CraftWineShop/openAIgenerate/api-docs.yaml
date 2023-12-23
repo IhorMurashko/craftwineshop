@@ -1,0 +1,306 @@
+openapi: 3.0.1
+info:
+  title: OpenAI API
+  description: OpenAI API
+  contact:
+    name: Ihor Murashko
+    email: i.murashko0911@gmail.com
+  version: "1.0"
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+tags:
+- name: Головна сторінка
+  description: представлення вина
+paths:
+  /api/v1/reg/registration:
+    post:
+      tags:
+      - registration
+      summary: руєстрація нового кристовича
+      description: отримує інформацію для валідації і у випадку успішної валідації
+        реєструє нового кристовича
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDTO'
+        required: true
+      responses:
+        "201":
+          description: created
+          content:
+            '*/*':
+              schema:
+                type: string
+        "409":
+          description: This account has already been enabled
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/v1/auth/login:
+    post:
+      tags:
+      - login
+      summary: авторизація та аутентифікація користувача
+      description: "авторизація та аутентифікація користувача на порталі, перевірк\
+        а прав доступу"
+      operationId: loginController
+      parameters:
+      - name: header Authorization
+        in: header
+        description: перевіряє заголовок Authorization на наявність токена
+        required: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CredentialsDTO'
+        required: true
+      responses:
+        "400":
+          description: "якщо користувач намагається повторно пройти авторизацію,ал\
+            е вже має дійсний токен; якщо користувача не було знайдено в БД або вв\
+            ів не дійсний пароль/емайл; якщо щось пішло не так"
+          content:
+            '*/*':
+              schema:
+                type: string
+        "200":
+          description: при вдалій аутентифікації
+          headers:
+            Authorization:
+              description: JWT token
+              style: simple
+              schema:
+                type: string
+          content:
+            '*/*':
+              schema:
+                type: string
+  /main/craft_wines:
+    get:
+      tags:
+      - Головна сторінка
+      summary: контроллер повертає колекцію вин
+      description: "кожний обєкт репрезунтує вино, яке є на даний момент в магазин\
+        і"
+      operationId: allCraftWines
+      responses:
+        "200":
+          description: статус ОК (200) та колекцію (массив) репрезентуючу вино
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CraftWineDTOResponse'
+components:
+  schemas:
+    RegisterDTO:
+      required:
+      - email
+      - firstName
+      - lastName
+      - password
+      - phoneNumber
+      type: object
+      properties:
+        email:
+          title: емайл користовача
+          type: string
+          description: має відповідати паттерну стандартного адресу для емайлу
+        password:
+          title: пароль користувача
+          maxLength: 35
+          minLength: 4
+          type: string
+          description: "пароль може буди будь-яким, але містити більше 3 символів\
+            \ і менше 36"
+        confirmationThePassword:
+          title: підтвердження паролю користувача
+          type: string
+          description: підтвердження паролю користувача
+        phoneNumber:
+          title: номер телефону користовача
+          pattern: "^\\d{12}$"
+          type: string
+          description: має містити 12 цифрових символів
+          example: "380632271010"
+        firstName:
+          title: ім'я користувача
+          pattern: "^\\p{L}{2,}$"
+          type: string
+          description: "має відповідати паттерну: містити тільки символи літер з т\
+            аблиці ЮНІКОД і довжиною від двух літер"
+          example: Дмитро
+        lastName:
+          title: прізвище користувача
+          pattern: "^\\p{L}{2,}$"
+          type: string
+          description: "має відповідати паттерну: містити тільки символи літер з т\
+            аблиці ЮНІКОД і довжиною від двух літер"
+          example: Кириленко
+      description: сутність для реєстрації
+    CredentialsDTO:
+      required:
+      - email
+      - password
+      type: object
+      properties:
+        email:
+          title: емайл користувача
+          pattern: має відповідати стандартному паттерну емайла
+          type: string
+          description: емайл для здійснення аутентифікації
+        password:
+          title: пароль користувача
+          maxLength: 35
+          minLength: 4
+          type: string
+          description: пароль для здійснення аутентифікації
+      description: "дані для проведення авторизації, які попередньо валідуються на\
+        \ відповідність обмеженням"
+    CraftWineDTOResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: уникальний цифровий ідентифікатор вина
+          format: int64
+          example: 5
+        wineName:
+          type: string
+          description: імя
+        price:
+          type: number
+          description: ціна
+          example: 184.85
+        discount:
+          type: number
+          description: знижка
+          format: float
+          example: 22.5
+        priceWithDiscount:
+          type: number
+          description: ціна зі знижкою
+          example: 165.03
+        wineDescription:
+          type: string
+          description: опис вина
+        quantity:
+          type: integer
+          description: залишок бутилок в магазині
+          format: int32
+          example: 41
+        bottleCapacity:
+          type: string
+          description: обєм бутилки
+          example: "0.7"
+        alcohol:
+          type: string
+          description: відсоток алкоголю
+          example: "7.5"
+        winemaking:
+          type: string
+        grapeVarieties:
+          type: string
+        tastingNotes:
+          type: string
+        storeAndServeAdvices:
+          type: string
+        foodPairing:
+          type: string
+        reviewsAndAwards:
+          type: string
+        wineColor:
+          type: string
+        sugarConsistency:
+          type: string
+        country:
+          $ref: '#/components/schemas/ProducedCountryDTO'
+        region:
+          $ref: '#/components/schemas/RegionDTO'
+        rate:
+          type: integer
+          description: може містити тільки ціле число від нуля (якщо ще жодної оцінки
+            не було) до пяти
+          format: int32
+          example: 4
+        wineComments:
+          type: array
+          description: "список коментарів для данного вина відсортированих за дато\
+            ю додавання (від більш нових, до старіших))"
+          items:
+            $ref: '#/components/schemas/WineCommentDTO'
+        bottlesSoldCounter:
+          type: integer
+          description: "ціле число, що репрезентує кількість проданих бутилок"
+          format: int64
+          example: 4
+        addedDateTime:
+          type: string
+          format: date-time
+        imageUrl:
+          type: string
+          description: "посилання на зображення вина, що зберігається на сервері"
+          example: /home/developer/my folder/java_projects/craftWineShop/CraftWineShop/src/main/wine_images/wine-4.jpg
+        newCollection:
+          type: boolean
+        bestSeller:
+          type: boolean
+        sale:
+          type: boolean
+      description: репрезентація сутності вина
+    ProducedCountryDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      description: "країна виробник, яка в своїй сітності містить унікальний цифро\
+        вий ідентифікатор та саме імя країни"
+    RegionDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      description: "регіон країни виробника, яка в своїй сітності містить унікальн\
+        ий цифровий ідентифікатор та саме імя країни"
+    WineCommentDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        userFirstName:
+          type: string
+        userLastName:
+          type: string
+        comment:
+          type: string
+        addedCommentTime:
+          type: string
+          format: date-time
+      description: "список коментарів для данного вина відсортированих за датою до\
+        давання (від більш нових, до старіших))"
+  securitySchemes:
+    JWT:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
