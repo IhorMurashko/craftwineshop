@@ -1,6 +1,5 @@
 package com.craftWine.shop.utils;
 
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Utility class for transforming the case of a word to capitalize the first letter and make the rest lowercase.
@@ -15,7 +14,7 @@ public class SwitchCaseToCapitalize {
      * If the input word is empty, it is returned as it is.
      * @throws NullPointerException If the input word is {@code null}.
      */
-    public static String switchCaseToCapitalize(@NotNull String word) {
+    public static String switchCaseToCapitalize(String word) {
         if (word.isEmpty()) {
             // If the input word is empty, return it as is
             return word;
