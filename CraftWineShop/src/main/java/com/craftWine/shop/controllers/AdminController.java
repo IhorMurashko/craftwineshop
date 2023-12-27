@@ -13,7 +13,6 @@ import com.craftWine.shop.utils.ImagineHandler;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +43,7 @@ public class AdminController {
     @PostMapping(value = "/save_a_new_wine")
     public ResponseEntity<?> saveNewWine(
             @Valid CraftWineDTO craftWineDTO,
-            @NotNull MultipartFile wineImage
+             MultipartFile wineImage
 
     ) throws IOException {
         String imagePath;

@@ -28,7 +28,8 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @Validated
 @RestController
-@Tag(name = "registration")
+@Tag(name = "авторизація та аутентифікація", description = "реєстрація, підтвердження реєстрації," +
+        "авторизація, відновлення паролю")
 @RequestMapping("/api/v1/reg")
 public class RegistrationController {
 
@@ -46,8 +47,8 @@ public class RegistrationController {
      *                    - phoneNumber
      *                    - firstName
      *                    - lastName
-     * @return HTTP status CREATED and messaged "success",  OK and message "letter was sent successfully",
-     * or CONFLICT and message "This account has already been enabled".
+     * @return HTTP status CREATED and messaged, OK and message,
+     * or CONFLICT and message.
      * @throws InvalidConfirmationPasswordException If the user's password and confirmation password do not match.
      * @throws EmailProblemException                If the user's email has already been confirmed and is ready for use.
      */
@@ -60,7 +61,6 @@ public class RegistrationController {
 
             })
     @PostMapping(value = "/registration"
-//            ,produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<String> register(@Valid @RequestBody RegisterDTO registerDTO) {
         return registrationService.register(registerDTO);

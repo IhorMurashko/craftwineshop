@@ -1,13 +1,9 @@
 package com.craftWine.shop.controllers;
 
-import com.craftWine.shop.dto.ProducedCountryDTO;
-import com.craftWine.shop.dto.RegionDTO;
-import com.craftWine.shop.dto.wineCommentDTO.WineCommentDTO;
 import com.craftWine.shop.dto.wineDTO.CraftWineDTOResponse;
+import com.craftWine.shop.mapper.CraftWineMapper;
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.service.CraftWineService;
-import io.swagger.v3.oas.annotations.Hidden;
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,23 +11,27 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Tag(name = "Головна сторінка", description = "представлення вина")
 @RequiredArgsConstructor
-//@CrossOrigin
+@CrossOrigin
 @RestController
 @RequestMapping("/main")
+//@CrossOrigin(value = "http://localhost:5500")
 public class MainPage {
 
     @Autowired
     private final CraftWineService craftWineService;
+    @Autowired
+    private final CraftWineMapper craftWineMapper;
+
 
     @Operation(
             summary = "контроллер повертає колекцію вин",
@@ -49,52 +49,61 @@ public class MainPage {
         List<CraftWine> craftWineList = craftWineService.findAll();
 
 
-        List<CraftWineDTOResponse> craftWineDTOResponseList = craftWineList.stream()
-                .map(craftWine ->
-                        new CraftWineDTOResponse(
-                                craftWine.getId(),
-                                craftWine.getWineName(),
-                                craftWine.getPrice(),
-                                craftWine.getDiscount(),
-                                craftWine.getPriceWithDiscount(),
-                                craftWine.getWineDescription(),
-                                craftWine.getQuantity(),
-                                craftWine.getBottleCapacity(),
-                                craftWine.getAlcohol(),
-                                craftWine.isNewCollection(),
-                                craftWine.isBestSeller(),
-                                craftWine.isBestSeller(),
-                                craftWine.getWinemaking(),
-                                craftWine.getGrapeVarieties(),
-                                craftWine.getTastingNotes(),
-                                craftWine.getStoreAndServeAdvices(),
-                                craftWine.getFoodPairing(),
-                                craftWine.getReviewsAndAwards(),
-                                craftWine.getWineColor().getName(),
-                                craftWine.getSugarConsistency().getName(),
-                                new ProducedCountryDTO(craftWine.getCountry().getId(), craftWine.getCountry().getName()),
-//                                craftWine.getCountry(),
-                                new RegionDTO(craftWine.getRegion().getId(), craftWine.getRegion().getName()),
-//                                craftWine.getRegion(),
-                                craftWine.getRate(),
-
-                                new ArrayList<WineCommentDTO>() {{
-                                    craftWine.getWineComments().stream().map(wineComment -> new WineCommentDTO(wineComment.getId(),
-                                            wineComment.getUser().getFirstName(), wineComment.getUser().getLastName(), wineComment.getComment(),
-                                            wineComment.getAddedCommentTime())).collect(Collectors.toList());
-                                }},
-//                                craftWine.getWineComments(),
-                                craftWine.getBottlesSoldCounter(),
-                                craftWine.getAddedDateTime(),
-                                craftWine.getImageUrl()
-                        ))
-
-                        .
-
-                collect(Collectors.toList());
-
+        List<CraftWineDTOResponse> craftWineDTOResponseList =
+                craftWineList
+                        .stream()
+                        .map(craftWineMapper::toDTOResponse)
+                        .collect(Collectors.toList());
 
         return ResponseEntity.ok(craftWineDTOResponseList);
+    }
+
+//        List<CraftWineDTOResponse> craftWineDTOResponseList = craftWineList.stream()
+//                .map(craftWine ->
+//                        new CraftWineDTOResponse(
+//                                craftWine.getId(),
+//                                craftWine.getWineName(),
+//                                craftWine.getPrice(),
+//                                craftWine.getDiscount(),
+//                                craftWine.getPriceWithDiscount(),
+//                                craftWine.getWineDescription(),
+//                                craftWine.getQuantity(),
+//                                craftWine.getBottleCapacity(),
+//                                craftWine.getAlcohol(),
+//                                craftWine.isNewCollection(),
+//                                craftWine.isBestSeller(),
+//                                craftWine.isBestSeller(),
+//                                craftWine.getWinemaking(),
+//                                craftWine.getGrapeVarieties(),
+//                                craftWine.getTastingNotes(),
+//                                craftWine.getStoreAndServeAdvices(),
+//                                craftWine.getFoodPairing(),
+//                                craftWine.getReviewsAndAwards(),
+//                                craftWine.getWineColor().getName(),
+//                                craftWine.getSugarConsistency().getName(),
+//                                new ProducedCountryDTO(craftWine.getCountry().getId(), craftWine.getCountry().getName()),
+////                                craftWine.getCountry(),
+//                                new RegionDTO(craftWine.getRegion().getId(), craftWine.getRegion().getName()),
+////                                craftWine.getRegion(),
+//                                craftWine.getRate(),
+//
+//                                new ArrayList<WineCommentDTO>() {{
+//                                    craftWine.getWineComments().stream().map(wineComment -> new WineCommentDTO(wineComment.getId(),
+//                                            wineComment.getUser().getFirstName(), wineComment.getUser().getLastName(), wineComment.getComment(),
+//                                            wineComment.getAddedCommentTime())).collect(Collectors.toList());
+//                                }},
+////                                craftWine.getWineComments(),
+//                                craftWine.getBottlesSoldCounter(),
+//                                craftWine.getAddedDateTime(),
+//                                craftWine.getImageUrl()
+//                        ))
+//
+//                        .
+//
+//                collect(Collectors.toList());
+
+
+//        return ResponseEntity.ok(craftWineDTOResponseList);
 
 
 //        List<CraftWineDTOResponse> sortedWineByAddedTime =
@@ -132,5 +141,5 @@ public class MainPage {
 //            add(sortedWineByIsSales);
 //        }});
 
-    }
+//    }
 }
