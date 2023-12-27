@@ -3,14 +3,17 @@ package com.craftWine.shop.authentication;
 import com.craftWine.shop.email.EmailSender;
 import com.craftWine.shop.exceptions.EmailProblemException;
 import com.craftWine.shop.repositories.UserRepository;
+import com.craftWine.shop.utils.CheckHoursBetweenTwoDates;
 import com.craftWine.shop.utils.EmailBuilder;
 import com.craftWine.shop.utils.RandomPasswordGenerator;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
@@ -24,6 +27,7 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ResetPasswordService {
 
     private final UserRepository userRepository;
@@ -42,11 +46,19 @@ public class ResetPasswordService {
 
         // Check if the email address is present in the UserRepository.
         boolean emailIsPresent = userRepository.findUserByEmail(userEmail).isPresent();
-        boolean isTimeBetweenTwoDatesIsMoreThan23Hours = isTimeBetweenTwoDatesIsMoreThan23Hours(userEmail);
+        boolean isTimeBetweenTwoDatesIsMoreThan23Hours = CheckHoursBetweenTwoDates
+                .isTimeBetweenTwoDatesIsMoreThan23Hours(userRepository.lastTimeResetPassword(userEmail));
+//        boolean isTimeBetweenTwoDatesIsMoreThan23Hours = isTimeBetweenTwoDatesIsMoreThan23Hours(userEmail);
 
         if (!isTimeBetweenTwoDatesIsMoreThan23Hours) {
-            throw new IllegalArgumentException("You can reset your password only one time during 24 hours.\n" +
-                    "You could try reset you password " + userRepository.lastTimeResetPassword(userEmail).get().plusDays(1));
+
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+            String exceptionMessage = "You can reset your password only one time during 24 hours." +
+                    "You could try reset you password " + userRepository.lastTimeResetPassword(userEmail).get().plusDays(1)
+                    .format(timeFormatter);
+
+            log.info(exceptionMessage);
+            throw new IllegalArgumentException(exceptionMessage);
         }
         // Check if the user is enabled.
         if (emailIsPresent && userRepository.isEnabled(userEmail)) {
@@ -70,27 +82,7 @@ public class ResetPasswordService {
             return ResponseEntity.ok("New password sent to your email");
         } else {
             // If the email address is not found, throw an EmailProblemException.
-            throw new EmailProblemException("Email not found or your account is not availed");
+            throw new EmailProblemException("Email not found or your account is not availed " + userEmail);
         }
-    }
-
-
-    private boolean isTimeBetweenTwoDatesIsMoreThan23Hours(String userEmail) {
-
-        Optional<LocalDateTime> optionalLastUserResetDate = userRepository.lastTimeResetPassword(userEmail);
-
-        if (optionalLastUserResetDate.isPresent()) {
-
-            long hoursBetweenDates = ChronoUnit.HOURS.between(
-                    LocalDateTime.now(), optionalLastUserResetDate.get()
-            );
-
-            return hoursBetweenDates > 23;
-
-        }
-        return true;
-
     }
 }
-
-
