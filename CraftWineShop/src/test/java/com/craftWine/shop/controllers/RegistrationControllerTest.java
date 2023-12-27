@@ -40,11 +40,11 @@ class RegistrationControllerTest {
     }
 
     @Test
-    @DisplayName("/reg/registration return HTTP status CREATED and message success")
+    @DisplayName("/api/v1/reg/reg/registration return HTTP status CREATED and message")
     void successRegister() {
 
 
-        doReturn(ResponseEntity.status(HttpStatus.CREATED).body("success")).when(registrationService).register(registerDTO);
+        doReturn(ResponseEntity.status(HttpStatus.CREATED).body("created")).when(registrationService).register(registerDTO);
 
 
         ResponseEntity<String> response = registrationController.register(registerDTO);
@@ -53,7 +53,7 @@ class RegistrationControllerTest {
 
         assertNotNull(response);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertEquals("success", response.getBody());
+        assertEquals("created", response.getBody());
 
         assertEquals(registerDTO, registerDTOArgumentCaptor.getValue());
 
@@ -64,7 +64,7 @@ class RegistrationControllerTest {
 
 
     @Test
-    @DisplayName("reg/registration return HTTP status CONFLICT and message The account has already been enabled")
+    @DisplayName("/api/v1/reg/reg/registration return HTTP status CONFLICT and message The account has already been enabled")
     void conflictRegister() {
 
         doReturn(ResponseEntity.status(HttpStatus.CONFLICT).body("The account has already been enabled"))
@@ -86,7 +86,8 @@ class RegistrationControllerTest {
 
 
     @Test
-    void getExceptionWhen_UserEmailNotFound() {
+    @DisplayName("/api/v1/reg/reg/registration return HTTP status BAD_REQUEST end exception Could not find account with email + email")
+    void emailProblemRegister() {
         doThrow(new EmailProblemException("Could not find account with email " + registerDTO.getEmail()))
                 .when(registrationService).register(registerDTO);
 
@@ -108,7 +109,10 @@ class RegistrationControllerTest {
 
 
     @Test
+    @DisplayName("/api/v1/reg/reset_password status BAD_REQUEST email not found")
     void rememberThePassword() {
+
+
     }
 
     @Test
