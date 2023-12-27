@@ -4,14 +4,12 @@ import com.craftWine.shop.dto.wineDTO.CraftWineDTO;
 import com.craftWine.shop.enumTypes.SugarConsistency;
 import com.craftWine.shop.enumTypes.WineColor;
 import com.craftWine.shop.models.CraftWine;
-import com.craftWine.shop.models.WineStar;
 import com.craftWine.shop.repositories.CraftWineRepository;
 import com.craftWine.shop.repositories.WineStarsRepository;
 import com.craftWine.shop.utils.ImagineHandler;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +18,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 @Getter
 @Setter
@@ -33,7 +30,7 @@ public class CraftWineServiceImpl implements CraftWineService {
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
-    public boolean save(@NotNull CraftWineDTO craftWineDTO, String imagePath) {
+    public boolean save( CraftWineDTO craftWineDTO, String imagePath) {
 
 
         WineColor wineColor = Arrays.stream(WineColor.values())
