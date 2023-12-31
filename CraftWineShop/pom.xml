@@ -118,11 +118,12 @@
             <version>${lombok-mapstruct-binding.version}</version>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.boot</groupId>-->
-        <!--            <artifactId>spring-boot-docker-compose</artifactId>-->
-        <!--            <optional>true</optional>-->
-        <!--        </dependency>-->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-docker-compose</artifactId>
+            <optional>true</optional>
+        </dependency>
 
 
     </dependencies>
@@ -136,10 +137,11 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <image>
-                        <name>docker.io/craft-wine-shop</name>
-                    </image>
-                    <!--                    <excludeDockerCompose>false</excludeDockerCompose>-->
+                    <!--                    <imageName>upagge/spring-boot-docker:spring-plugin</imageName>-->
+                    <!--                    <image>-->
+                    <!--                        <name>docker.io/craft-wine-shop</name>-->
+                    <!--                    </image>-->
+                    <excludeDockerCompose>false</excludeDockerCompose>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

@@ -4,6 +4,7 @@ import com.craftWine.shop.dto.wineDTO.CraftWineDTOResponse;
 import com.craftWine.shop.mapper.CraftWineMapper;
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.service.CraftWineService;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ public class Test {
     private final CraftWineService craftWineService;
     private final CraftWineMapper craftWineMapper;
 
+    @Hidden
     @GetMapping("/test")
     public ResponseEntity<List<CraftWineDTOResponse>> test() {
 

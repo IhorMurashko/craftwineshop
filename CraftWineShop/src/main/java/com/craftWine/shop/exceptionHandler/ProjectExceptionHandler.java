@@ -36,19 +36,19 @@ public class ProjectExceptionHandler {
     }
 
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ResponseException> illegalArgumentExceptionHandler( IllegalArgumentException exception) {
+    @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
+    public ResponseEntity<ResponseException> illegalArgumentExceptionHandler(IllegalArgumentException exception) {
         return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IOException.class)
-    public ResponseEntity<ResponseException> failIOExceptionHandler( IOException exception) {
+    public ResponseEntity<ResponseException> failIOExceptionHandler(IOException exception) {
         return new ResponseEntity<ResponseException>(new ResponseException("Failed input-output: " + exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(CraftWineNotFoundException.class)
     public ResponseEntity<ResponseException> couldNotFoundCraftWine(CraftWineNotFoundException exception) {
-        return new ResponseEntity<ResponseException>(new ResponseException( exception.getMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
 

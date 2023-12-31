@@ -52,12 +52,12 @@ public class RegistrationService {
 
         // Check if the user's password and confirmation password do not match during the registration process.
         if (!Objects.equals(requestDTO.getPassword(), requestDTO.getConfirmationThePassword())) {
-            throw new InvalidConfirmationPasswordException("password didn't confirm");
+            throw new InvalidConfirmationPasswordException("password don't match");
         }
 
         // Check if the user already exists based on the provided email.
         boolean userExists = userRepository
-                .findUserByEmail(requestDTO.getEmail())
+                .findUserByEmail(requestDTO.getEmail().toLowerCase())
                 .isPresent();
         // The link to be included in the confirmation email.
         String link = "http://localhost:8080/api/v1/reg/confirm?token=";
@@ -69,16 +69,16 @@ public class RegistrationService {
          */
         if (userExists) {
 
-            User user = userRepository.findUserByEmail(requestDTO.getEmail()).orElseThrow(
-                    () -> new EmailProblemException("Could not find account with email " + requestDTO.getEmail()));
+            User user = userRepository.findUserByEmail(requestDTO.getEmail().toLowerCase()).orElseThrow(
+                    () -> new EmailProblemException("Could not find account with email " + requestDTO.getEmail().toLowerCase()));
 
             return user.getEnabled()
                     ? ResponseEntity.status(HttpStatus.CONFLICT).body("This account has already been enabled")
-                    : ResponseEntity.status(HttpStatus.OK).body(sendConfirmationLetterAgain(requestDTO.getEmail(), requestDTO.getFirstName(), user.getId(), link));
+                    : ResponseEntity.status(HttpStatus.OK).body(sendConfirmationLetterAgain(requestDTO.getEmail().toLowerCase(), requestDTO.getFirstName(), user.getId(), link));
         }
 
         User user = new User(
-                requestDTO.getEmail(),
+                requestDTO.getEmail().toLowerCase(),
                 requestDTO.getPassword(),
                 requestDTO.getPhoneNumber(),
                 SwitchCaseToCapitalize.switchCaseToCapitalize(requestDTO.getFirstName()),
@@ -89,7 +89,7 @@ public class RegistrationService {
         String token = userRegisterAndAuthenticationService.signUpUser(user);
 
         // Return the token associated with the registration process.
-        emailSender.send(user.getEmail(),
+        emailSender.send(user.getEmail().toLowerCase(),
                 EmailBuilder.emailRegistrationBuilder(user.getFirstName(), link + token),
                 "Confirm your email");
 
