@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum SugarConsistency {
-    SWEET("Sweet"), SEMI_SWEET("Semi sweet"), SEMI_DRY("Semi dry"), DRY("Dry");
+    SWEET("Sweet"), SEMI_SWEET("Semi sweet"), DRY("Dry"), SEMI_DRY("Semi dry");
 
     private final String name;
 

@@ -19,11 +19,10 @@ public interface CraftWineRepository extends JpaRepository<CraftWine, Long> {
     List<CraftWine> findAllByBottlesSoldCounter();
 
 
-
     @Query("select cw.imageUrl from CraftWine cw where cw.id=:id ")
     String findImagePathById(@Param("id") Long id);
 
-
-
+    @Query("select MAX(cw.id) from CraftWine cw")
+    Optional<Long> getLastId();
 
 }
