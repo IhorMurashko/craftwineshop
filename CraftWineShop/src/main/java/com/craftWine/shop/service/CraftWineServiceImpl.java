@@ -3,6 +3,7 @@ package com.craftWine.shop.service;
 import com.craftWine.shop.dto.wineDTO.CraftWineDTO;
 import com.craftWine.shop.enumTypes.SugarConsistency;
 import com.craftWine.shop.enumTypes.WineColor;
+import com.craftWine.shop.mapper.CraftWineMapper;
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.repositories.CraftWineRepository;
 import com.craftWine.shop.repositories.WineStarsRepository;
@@ -24,41 +25,44 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class CraftWineServiceImpl implements CraftWineService {
-    private final CraftWineRepository craftWineRepository;
 
+    private final CraftWineRepository craftWineRepository;
     private final WineStarsRepository wineStarsRepository;
+    private final CraftWineMapper craftWineMapper;
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
-    public boolean save( CraftWineDTO craftWineDTO, String imagePath) {
+    public CraftWine save(CraftWineDTO craftWineDTO, String imagePath) {
 
 
-        WineColor wineColor = Arrays.stream(WineColor.values())
-                .filter(wine -> wine.getName().equals(craftWineDTO.getWineColor()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Could not find color of wine"));
+//        WineColor wineColor = Arrays.stream(WineColor.values())
+//                .filter(wine -> wine.getName().equals(craftWineDTO.getWineColor()))
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalArgumentException("Could not find color of wine"));
+//
+//        SugarConsistency sugarConsistency = Arrays.stream(SugarConsistency.values())
+//                .filter(color -> color.getName().equals(craftWineDTO.getSugarConsistency()))
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalArgumentException("Could not find sugar consistency of wine"));
+//
+//
+//        CraftWine craftWine = new CraftWine(
+//                craftWineDTO.getWineName(), craftWineDTO.getPrice(), craftWineDTO.getWineDescription(),
+//                craftWineDTO.getQuantity(), craftWineDTO.getBottleCapacity(), craftWineDTO.getAlcohol(),
+//                craftWineDTO.isNewCollection(), craftWineDTO.isBestSeller(), craftWineDTO.isSale(),
+//                craftWineDTO.getWinemaking(), craftWineDTO.getGrapeVarieties(), craftWineDTO.getTastingNotes(), craftWineDTO.getStoreAndServeAdvices(),
+//                craftWineDTO.getFoodPairing(), craftWineDTO.getReviewsAndAwards(),
+//
+//                wineColor, sugarConsistency,
+//
+//                craftWineDTO.getCountry(), craftWineDTO.getRegion(),
+//                imagePath);
 
-        SugarConsistency sugarConsistency = Arrays.stream(SugarConsistency.values())
-                .filter(color -> color.getName().equals(craftWineDTO.getSugarConsistency()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Could not find sugar consistency of wine"));
-
-
-        CraftWine craftWine = new CraftWine(
-                craftWineDTO.getWineName(), craftWineDTO.getPrice(), craftWineDTO.getWineDescription(),
-                craftWineDTO.getQuantity(), craftWineDTO.getBottleCapacity(), craftWineDTO.getAlcohol(),
-                craftWineDTO.isNewCollection(), craftWineDTO.isBestSeller(), craftWineDTO.isSale(),
-                craftWineDTO.getWinemaking(), craftWineDTO.getGrapeVarieties(), craftWineDTO.getTastingNotes(), craftWineDTO.getStoreAndServeAdvices(),
-                craftWineDTO.getFoodPairing(), craftWineDTO.getReviewsAndAwards(),
-
-                wineColor, sugarConsistency,
-
-                craftWineDTO.getCountry(), craftWineDTO.getRegion(),
-                imagePath);
-
+        CraftWine craftWine = craftWineMapper.toEntityCraftWine(craftWineDTO);
+        craftWine.setImageUrl(imagePath);
 
         craftWineRepository.save(craftWine);
-        return true;
+        return craftWine;
 
     }
 
@@ -113,6 +117,14 @@ public class CraftWineServiceImpl implements CraftWineService {
 //TODO
         return 3;
 
+    }
+
+    @Override
+    public Long getLastCraftWineId() {
+
+        Optional<Long> longOptionalCraftWineId = craftWineRepository.getLastId();
+
+        return longOptionalCraftWineId.orElse(1L);
     }
 
 }
