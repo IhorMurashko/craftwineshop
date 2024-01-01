@@ -80,7 +80,7 @@ class RegistrationServiceTest {
                 () -> registrationService.register(registerDto));
 
 
-        assertEquals("password didn't confirm", exception.getMessage());
+        assertEquals("password don't match", exception.getMessage());
 
         assertEquals(InvalidConfirmationPasswordException.class, exception.getClass());
 
