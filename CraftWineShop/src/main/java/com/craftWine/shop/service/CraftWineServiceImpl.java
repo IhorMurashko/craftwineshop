@@ -1,8 +1,7 @@
 package com.craftWine.shop.service;
 
 import com.craftWine.shop.dto.wineDTO.CraftWineDTO;
-import com.craftWine.shop.enumTypes.SugarConsistency;
-import com.craftWine.shop.enumTypes.WineColor;
+import com.craftWine.shop.exceptions.NotFoundException;
 import com.craftWine.shop.mapper.CraftWineMapper;
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.repositories.CraftWineRepository;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +31,12 @@ public class CraftWineServiceImpl implements CraftWineService {
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
     public CraftWine save(CraftWineDTO craftWineDTO, String imagePath) {
+
+        CraftWine craftWine = craftWineMapper.toEntityCraftWine(craftWineDTO);
+        craftWine.setImageUrl(imagePath);
+
+        craftWineRepository.save(craftWine);
+        return craftWine;
 
 
 //        WineColor wineColor = Arrays.stream(WineColor.values())
@@ -58,18 +62,14 @@ public class CraftWineServiceImpl implements CraftWineService {
 //                craftWineDTO.getCountry(), craftWineDTO.getRegion(),
 //                imagePath);
 
-        CraftWine craftWine = craftWineMapper.toEntityCraftWine(craftWineDTO);
-        craftWine.setImageUrl(imagePath);
 
-        craftWineRepository.save(craftWine);
-        return craftWine;
     }
 
 
     @Override
     public boolean save(CraftWine craftWine) {
 
-        craftWineRepository.save(craftWine);
+        craftWineRepository.saveAndFlush(craftWine);
 
         return true;
     }
@@ -86,7 +86,7 @@ public class CraftWineServiceImpl implements CraftWineService {
 
 
         return optionalCraftWine.orElseThrow(
-                () -> new IllegalArgumentException("Could not find wine with id: " + id));
+                () -> new NotFoundException("Could not find wine with id: " + id));
     }
 
 
@@ -106,7 +106,7 @@ public class CraftWineServiceImpl implements CraftWineService {
 
             return true;
         } else {
-            return false;
+            throw new NotFoundException("Could not find wine with id: " + id);
         }
     }
 
@@ -119,11 +119,13 @@ public class CraftWineServiceImpl implements CraftWineService {
     }
 
     @Override
+    @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
     public Long getLastCraftWineId() {
 
         Optional<Long> longOptionalCraftWineId = craftWineRepository.getLastId();
 
-        return longOptionalCraftWineId.orElse(1L);
+
+        return longOptionalCraftWineId.orElse(0L);
     }
 
 }
