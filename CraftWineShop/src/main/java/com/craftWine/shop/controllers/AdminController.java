@@ -1,10 +1,14 @@
 package com.craftWine.shop.controllers;
 
-import com.craftWine.shop.dto.ProducedCountryDTO;
 import com.craftWine.shop.dto.UpdateWineRateDTO;
+import com.craftWine.shop.dto.producedCountryDTO.ProducedCountryResponseWithSetRegionsDTO;
 import com.craftWine.shop.dto.wineDTO.CraftWineDTO;
+import com.craftWine.shop.dto.wineDTO.CraftWineDTOResponse;
 import com.craftWine.shop.enumTypes.SugarConsistency;
 import com.craftWine.shop.enumTypes.WineColor;
+import com.craftWine.shop.mapper.CraftWineMapper;
+import com.craftWine.shop.mapper.ProducedCountryMapper;
+import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.models.ProducedCountry;
 import com.craftWine.shop.service.CraftWineService;
 import com.craftWine.shop.service.ProducedCountryService;
@@ -16,8 +20,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.header.Header;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,34 +44,12 @@ public class AdminController {
     private final CraftWineService craftWineService;
     private final ProducedCountryService producedCountryService;
     private final WineStarService wineStarService;
+    private final CraftWineMapper craftWineMapper;
+    private final ProducedCountryMapper producedCountryMapper;
 
     @Hidden
-    @PostMapping(value = "/save_a_new_wine")
-    public ResponseEntity<?> saveNewWine(
-            @Valid CraftWineDTO craftWineDTO,
-             MultipartFile wineImage
-
-    ) throws IOException {
-        String imagePath;
-
-
-        if (!wineImage.isEmpty()) {
-            imagePath = ImagineHandler.saveImageIntoServerAndReturnPath(wineImage, craftWineDTO.getWineArticle());
-        } else {
-            throw new IllegalArgumentException("Wine image cant be empty");
-        }
-
-
-        if (craftWineService.save(craftWineDTO, imagePath)) {
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
-    @Hidden
-    @GetMapping(value = "/add_new_wine", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> addNewWine() {
+    @GetMapping(value = "/attributes_for_add_new_wine", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> attributes_for_add_new_wine() {
 
         List<String> sugarConsistencyList = Arrays.stream(SugarConsistency.values())
                 .map(SugarConsistency::getName).collect(Collectors.toList());
@@ -76,10 +60,10 @@ public class AdminController {
         List<ProducedCountry> producedCountryList = producedCountryService.findAll();
 
 
-        List<ProducedCountryDTO> producedCountryDTOList =
+        List<ProducedCountryResponseWithSetRegionsDTO> producedCountryDTOList =
                 producedCountryList.stream()
-                        .map(producedCountry -> new ProducedCountryDTO(producedCountry.getId(), producedCountry.getName())
-                        )
+                        .map(producedCountryMapper::toProducedCountryResponseDTO)
+
                         .collect(Collectors.toList());
 
 
@@ -88,41 +72,77 @@ public class AdminController {
         responseList.add(wineColorList);
         responseList.add(producedCountryDTOList);
 
-        return ResponseEntity.ok(responseList);
+        return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
-//    @Hidden
-//    @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<CraftWineForUserResponseDTO> getCraftWineDTOById(@PathVariable("id") long id) {
-//
-//        CraftWine craftWine = craftWineService.findById(id);
-//
-//        CraftWineForUserResponseDTO craftWineDTO = new CraftWineForUserResponseDTO(
-//                craftWine.getId(),
-//                 craftWine.getWineName(), craftWine.getPrice(),
-//                craftWine.getDiscount(), craftWine.getPriceWithDiscount(),
-//                craftWine.getWineDescription(), craftWine.getQuantity(), craftWine.getBottleCapacity(),
-//                craftWine.getAlcohol(), craftWine.isNewCollection(), craftWine.isBestSeller(), craftWine.isSale(),
-//                craftWine.getWinemaking(), craftWine.getGrapeVarieties(), craftWine.getTastingNotes(), craftWine.getStoreAndServeAdvices(),
-//                craftWine.getFoodPairing(), craftWine.getReviewsAndAwards(), craftWine.getWineColor().getName(),
-//                craftWine.getSugarConsistency().getName(), craftWine.getCountry(), craftWine.getRegion(),
-//                craftWine.getRate(), craftWine.getWineComments(), craftWine.getBottlesSoldCounter(),
-//                craftWine.getAddedDateTime(), craftWine.getImageUrl());
-//
-//
-//        return ResponseEntity.ok(craftWineDTO);
-//
-//
-//    }
+
+    @Hidden
+    @PostMapping(value = "/save_a_new_wine", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CraftWineDTOResponse> saveNewWine(@Valid CraftWineDTO craftWineDTO,
+                                                            MultipartFile wineImage) throws IOException {
+        String imagePath;
+
+
+        if (!wineImage.isEmpty()) {
+            Long lastCraftWineId = craftWineService.getLastCraftWineId() + 1;
+
+            imagePath = ImagineHandler.saveImageIntoServerAndReturnPath(wineImage,
+                    String.valueOf(lastCraftWineId));
+        } else {
+            throw new IllegalArgumentException("Wine image can't be empty");
+        }
+
+        CraftWine craftWine = craftWineService.save(craftWineDTO, imagePath);
+
+        CraftWineDTOResponse dtoResponse = craftWineMapper.toDTOResponse(craftWine);
+
+        return new ResponseEntity<>(dtoResponse, HttpStatus.CREATED);
+    }
+
+
+    @Hidden
+    @GetMapping(value = "/get/{id}")
+    public ResponseEntity<CraftWineDTOResponse> getWineById(@PathVariable("id") Long id) {
+        CraftWine craftWine = craftWineService.findById(id);
+
+        CraftWineDTOResponse craftWineDTOResponse = craftWineMapper.toDTOResponse(craftWine);
+
+        return new ResponseEntity<CraftWineDTOResponse>(craftWineDTOResponse, HttpStatus.OK);
+    }
+
     @Hidden
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<HttpStatus> deleteWineFromShop(@PathVariable("id") Long id) throws IOException {
 
-        if (craftWineService.deleteCraftWineById(id)) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        craftWineService.deleteCraftWineById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+
+    @Hidden
+    @PostMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CraftWineDTOResponse> updateWine(@PathVariable("id") Long id,
+                                                           @Valid CraftWineDTO craftWineDTO,
+                                                           @Nullable MultipartFile wineImage) throws IOException {
+
+        CraftWine craftWine = craftWineService.findById(id);
+
+        String imagePath = craftWine.getImageUrl();
+
+        if (wineImage != null) {
+            imagePath = ImagineHandler.saveImageIntoServerAndReturnPath(wineImage, String.valueOf(id));
+        }
+
+        craftWine = craftWineMapper.toEntityCraftWine(craftWineDTO);
+        craftWine.setImageUrl(imagePath);
+
+        craftWineService.save(craftWine);
+
+
+        CraftWineDTOResponse craftWineDTOResponse = craftWineMapper.toDTOResponse(craftWine);
+
+        return new ResponseEntity<CraftWineDTOResponse>(craftWineDTOResponse, HttpStatus.OK);
+    }
+
 
     @Hidden
     @PostMapping(value = "/updateRate", consumes = MediaType.APPLICATION_JSON_VALUE)
