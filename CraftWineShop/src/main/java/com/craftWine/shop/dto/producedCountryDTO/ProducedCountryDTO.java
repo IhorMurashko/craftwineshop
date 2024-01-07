@@ -1,4 +1,4 @@
-package com.craftWine.shop.dto;
+package com.craftWine.shop.dto.producedCountryDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,5 +9,8 @@ import java.io.Serializable;
 /**
  * DTO for {@link com.craftWine.shop.models.ProducedCountry}
  */
-public record ProducedCountryDTO(long id, String name) implements Serializable {
+public record ProducedCountryDTO(
+        long id
+        , String name
+) implements Serializable {
 }

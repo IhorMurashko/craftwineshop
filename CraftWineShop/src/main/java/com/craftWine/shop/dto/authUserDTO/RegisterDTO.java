@@ -41,8 +41,8 @@ public class RegisterDTO implements Serializable {
     /**
      * The email address of the user.
      */
-    @NotBlank
-    @Email(message = "Email pattern is not correct")
+    @NotBlank(message = "Email field can't be blank")
+    @Email(message = "Email pattern is not correct", regexp = ".+@.+\\..+")
     @Schema(title = "емайл користовача", description = "має відповідати паттерну стандартного адресу для емайлу", examples = {"correct: test@example.com", " wrong: test@example"})
     String email;
 
