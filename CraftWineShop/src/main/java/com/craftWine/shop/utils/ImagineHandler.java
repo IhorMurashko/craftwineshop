@@ -33,10 +33,10 @@ public class ImagineHandler {
     }
 
 
-    public static boolean deleteWineImageFromServer(String path) throws IOException {
+    public static void deleteWineImageFromServer(String path) throws IOException {
 
         Path destination = Paths.get(path);
 
-        return Files.deleteIfExists(destination);
+        Files.deleteIfExists(destination);
     }
 }
