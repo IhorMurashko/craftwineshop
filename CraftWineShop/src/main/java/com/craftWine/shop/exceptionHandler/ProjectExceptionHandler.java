@@ -3,14 +3,17 @@ package com.craftWine.shop.exceptionHandler;
 import com.craftWine.shop.exceptions.CraftWineNotFoundException;
 import com.craftWine.shop.exceptions.EmailProblemException;
 import com.craftWine.shop.exceptions.InvalidConfirmationPasswordException;
+import com.craftWine.shop.exceptions.NotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 @ControllerAdvice
 public class ProjectExceptionHandler {
@@ -29,7 +32,12 @@ public class ProjectExceptionHandler {
     @ExceptionHandler(SQLException.class)
     public ResponseEntity<ResponseException> duplicateUniqueConstraintExceptionHandler(DataIntegrityViolationException exception) {
         if (exception.getMessage().contains("duplicate key")) {
-            return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.CONFLICT);
+
+            String exceptionMessage = exception.getMessage().replaceAll("_", " ");
+            String response = exceptionMessage.substring(exceptionMessage.indexOf("(") + 1, exceptionMessage.indexOf(")"));
+
+
+            return new ResponseEntity<ResponseException>(new ResponseException("Duplicate: " + response + ". Please, enter new:"), HttpStatus.CONFLICT);
         } else {
             return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.BAD_REQUEST);
         }
@@ -49,6 +57,18 @@ public class ProjectExceptionHandler {
     @ExceptionHandler(CraftWineNotFoundException.class)
     public ResponseEntity<ResponseException> couldNotFoundCraftWine(CraftWineNotFoundException exception) {
         return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ResponseException> couldNotFound(NotFoundException exception) {
+        return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ResponseException> validationFormException(
+            MethodArgumentNotValidException exception) {
+        return new ResponseEntity<ResponseException>(new ResponseException(Objects.requireNonNull(exception.getFieldError()).getDefaultMessage()), HttpStatus.BAD_REQUEST);
     }
 
 
