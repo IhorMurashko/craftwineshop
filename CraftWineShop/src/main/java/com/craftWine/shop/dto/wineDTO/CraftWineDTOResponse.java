@@ -2,7 +2,7 @@ package com.craftWine.shop.dto.wineDTO;
 
 import com.craftWine.shop.dto.producedCountryDTO.ProducedCountryDTO;
 import com.craftWine.shop.dto.RegionDTO;
-import com.craftWine.shop.dto.wineCommentDTO.WineCommentDTO;
+import com.craftWine.shop.dto.wineCommentDTO.WineCommentResponseDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
@@ -58,7 +58,7 @@ public record CraftWineDTOResponse(
         @Schema(description = "може містити тільки ціле число від нуля (якщо ще жодної оцінки не було) до пяти", type = "short", example = "4")
         short rate,
         @Schema(description = "список коментарів для данного вина відсортированих за датою додавання (від більш нових, до старіших))", type = "ArrayList")
-        List<WineCommentDTO> wineComments,
+        List<WineCommentResponseDTO> wineComments,
         @Schema(description = "ціле число, що репрезентує кількість проданих бутилок", type = "long", example = "4")
         long bottlesSoldCounter,
         LocalDateTime addedDateTime,
