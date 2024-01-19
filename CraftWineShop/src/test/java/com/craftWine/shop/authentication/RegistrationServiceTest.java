@@ -10,8 +10,8 @@ import com.craftWine.shop.security.token.ConfirmationToken;
 import com.craftWine.shop.security.token.ConfirmationTokenService;
 import com.craftWine.shop.utils.SwitchCaseToCapitalize;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -53,16 +54,21 @@ class RegistrationServiceTest {
     @Captor
     private ArgumentCaptor<String> stringArgumentCaptor;
 
+    private User user;
     private RegisterDTO registerDTO;
+    private String token;
 
     @BeforeEach
-    void initRegisterDTo() {
+    void initRegisterDTO() {
         this.registerDTO = new RegisterDTO("eamil@gmail.com", "password",
                 "password", "0123456789012", "name", "surname");
+        this.token = UUID.randomUUID().toString();
+        this.user = new User("test@email.com", "password", "012345678912", "name", "surname");
     }
 
 
     @Test
+    @Tag("registration")
     @DisplayName("user's password and confirmation password do not match during the registration process")
     void throwInvalidConfirmationPasswordExceptionWhen_userPasswordAndConfirmationPasswordIsDifferent() {
 
@@ -74,7 +80,7 @@ class RegistrationServiceTest {
                 () -> registrationService.register(registerDto));
 
 
-        assertEquals("password didn't confirm", exception.getMessage());
+        assertEquals("password don't match", exception.getMessage());
 
         assertEquals(InvalidConfirmationPasswordException.class, exception.getClass());
 
@@ -82,6 +88,7 @@ class RegistrationServiceTest {
     }
 
     @Test
+    @Tag("registration")
     @DisplayName("EmailProblemException when User email not found")
     void throwEmailProblemWhen_userEmailNotFound() {
 
@@ -105,6 +112,7 @@ class RegistrationServiceTest {
 
 
     @Test
+    @Tag("registration")
     @DisplayName("return status OK when user hasn't enabled account")
     void statusOKWhen_userIsNotEnabled() {
 
@@ -129,7 +137,7 @@ class RegistrationServiceTest {
 
 
         verify(userRepository, times(2)).findUserByEmail(any());
-        verify(emailSender, times(1)).send(anyString(), anyString(),anyString());
+        verify(emailSender, times(1)).send(anyString(), anyString(), anyString());
 
         assertEquals(registerDTO.getEmail(), stringArgumentCaptor.getValue());
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -141,6 +149,7 @@ class RegistrationServiceTest {
 
 
     @Test
+    @Tag("registration")
     @DisplayName("return status CONFLICT when user has already enabled")
     void statusCONFLICTWhen_userIsAlreadyRegistered() {
 
@@ -175,6 +184,146 @@ class RegistrationServiceTest {
 
 
     @Test
-    void confirmToken() {
+    @Tag("registration")
+    @DisplayName("return status created when user register first time")
+    void returnStatusCreatedWhen_userRegisterFirstTime() {
+
+        doReturn(Optional.empty()).when(userRepository).findUserByEmail(registerDTO.getEmail());
+
+        doReturn(UUID.randomUUID().toString()).when
+                (userRegisterAndAuthenticationService).signUpUser(any());
+
+        doNothing().when(emailSender).send(anyString(), anyString(), anyString());
+
+        ResponseEntity<String> response = registrationService.register(registerDTO);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals("created", response.getBody());
+
+        verify(userRepository, times(1)).findUserByEmail(any());
+
+        verify(userRegisterAndAuthenticationService, times(1)).signUpUser(any());
+        verify(emailSender, times(1)).send(anyString(), anyString(), anyString());
+
+
+        verifyNoMoreInteractions(userRepository, userRegisterAndAuthenticationService, emailSender);
+
+
     }
+
+
+    @Test
+    @Tag("confirmationToken")
+    @DisplayName("get IllegalArgumentException when token not found by user email")
+    void tokenNotFound() {
+
+//        String token = UUID.randomUUID().toString();
+
+        doReturn(Optional.empty()).when(confirmationTokenService).getToken(token);
+
+
+        RuntimeException exception = assertThrows(IllegalStateException.class, () ->
+                registrationService.confirmToken(token));
+
+
+        assertEquals(IllegalStateException.class, exception.getClass());
+        assertEquals("Token not found", exception.getMessage());
+
+        verify(confirmationTokenService, times(1)).getToken(token);
+        verify(confirmationTokenService, times(1)).getToken(anyString());
+        verifyNoMoreInteractions(confirmationTokenService);
+        verifyNoInteractions(userRegisterAndAuthenticationService);
+    }
+
+    @Test
+    @Tag("confirmationToken")
+    @DisplayName("get EmailProblemException when user by the email has been confirmed")
+    void confirmedAtNotNull() {
+
+//        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now().minusHours(12),
+                LocalDateTime.now().plusHours(12), new User());
+
+        confirmationToken.setConfirmedAt(LocalDateTime.now());
+
+
+        doReturn(Optional.of(confirmationToken)).when(confirmationTokenService).getToken(token);
+
+
+        RuntimeException exception = assertThrows(EmailProblemException.class, () ->
+                registrationService.confirmToken(token));
+        verify(confirmationTokenService).getToken(stringArgumentCaptor.capture());
+
+
+        assertEquals(token, stringArgumentCaptor.getValue());
+
+        assertEquals(EmailProblemException.class, exception.getClass());
+        assertEquals("Email already confirmed", exception.getMessage());
+
+        verify(confirmationTokenService, times(1)).getToken(anyString());
+        verifyNoMoreInteractions(confirmationTokenService);
+        verifyNoInteractions(userRegisterAndAuthenticationService);
+
+    }
+
+
+    @Test
+    @Tag("confirmationToken")
+    @DisplayName("get IllegalStateException when token expired")
+    void tokenExpired() {
+
+//        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now().minusHours(48),
+                LocalDateTime.now().minusHours(24), new User());
+
+        doReturn(Optional.of(confirmationToken)).when(confirmationTokenService).getToken(token);
+
+
+        RuntimeException exception = assertThrows(IllegalStateException.class, () ->
+                registrationService.confirmToken(token));
+        verify(confirmationTokenService).getToken(stringArgumentCaptor.capture());
+
+
+        assertEquals(IllegalStateException.class, exception.getClass());
+        assertEquals("Token expired", exception.getMessage());
+        assertEquals(token, stringArgumentCaptor.getValue());
+
+        verify(confirmationTokenService, times(1)).getToken(anyString());
+        verifyNoMoreInteractions(confirmationTokenService);
+        verifyNoInteractions(userRegisterAndAuthenticationService);
+
+    }
+
+
+    @Test
+    @Tag("confirmationToken")
+    @DisplayName("success confirmed token")
+    void successConfirmedToken() {
+
+        ConfirmationToken confirmationToken = new ConfirmationToken(token, LocalDateTime.now().minusHours(12),
+                LocalDateTime.now().plusHours(12), user);
+
+        doReturn(Optional.of(confirmationToken)).when(confirmationTokenService).getToken(token);
+
+        doReturn(1).when(confirmationTokenService).setConfirmedAt(token);
+
+        doReturn(1).when(userRegisterAndAuthenticationService).enableUser(user.getEmail());
+
+        ResponseEntity<HttpStatus> response = registrationService.confirmToken(token);
+        verify(userRegisterAndAuthenticationService).enableUser(stringArgumentCaptor.capture());
+
+        assertEquals(HttpStatus.SEE_OTHER, response.getStatusCode());
+        assertEquals(user.getEmail(), confirmationToken.getUser().getEmail());
+        assertEquals(confirmationToken.getUser().getEmail(), stringArgumentCaptor.getValue());
+
+        verify(confirmationTokenService, times(1)).getToken(anyString());
+        verify(confirmationTokenService, times(1)).setConfirmedAt(anyString());
+        verifyNoMoreInteractions(confirmationTokenService);
+
+        verify(userRegisterAndAuthenticationService, times(1)).enableUser(anyString());
+
+
+    }
+
+
 }

@@ -1,67 +1,67 @@
 package com.craftWine.shop.service;
 
 import com.craftWine.shop.dto.wineDTO.CraftWineDTO;
-import com.craftWine.shop.enumTypes.SugarConsistency;
-import com.craftWine.shop.enumTypes.WineColor;
+import com.craftWine.shop.exceptions.NotFoundException;
+import com.craftWine.shop.mapper.CraftWineMapper;
 import com.craftWine.shop.models.CraftWine;
-import com.craftWine.shop.models.WineStar;
 import com.craftWine.shop.repositories.CraftWineRepository;
 import com.craftWine.shop.repositories.WineStarsRepository;
 import com.craftWine.shop.utils.ImagineHandler;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
 @Service
 public class CraftWineServiceImpl implements CraftWineService {
-    private final CraftWineRepository craftWineRepository;
 
+    private final CraftWineRepository craftWineRepository;
     private final WineStarsRepository wineStarsRepository;
+    private final CraftWineMapper craftWineMapper;
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
-    public boolean save(@NotNull CraftWineDTO craftWineDTO, String imagePath) {
+    public CraftWine save(CraftWineDTO craftWineDTO, String imagePath) {
 
-
-        WineColor wineColor = Arrays.stream(WineColor.values())
-                .filter(wine -> wine.getName().equals(craftWineDTO.getWineColor()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Could not find color of wine"));
-
-        SugarConsistency sugarConsistency = Arrays.stream(SugarConsistency.values())
-                .filter(color -> color.getName().equals(craftWineDTO.getSugarConsistency()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Could not find sugar consistency of wine"));
-
-
-        CraftWine craftWine = new CraftWine(
-                craftWineDTO.getWineName(), craftWineDTO.getPrice(), craftWineDTO.getWineDescription(),
-                craftWineDTO.getQuantity(), craftWineDTO.getBottleCapacity(), craftWineDTO.getAlcohol(),
-                craftWineDTO.isNewCollection(), craftWineDTO.isBestSeller(), craftWineDTO.isSale(),
-                craftWineDTO.getWinemaking(), craftWineDTO.getGrapeVarieties(), craftWineDTO.getTastingNotes(), craftWineDTO.getStoreAndServeAdvices(),
-                craftWineDTO.getFoodPairing(), craftWineDTO.getReviewsAndAwards(),
-
-                wineColor, sugarConsistency,
-
-                craftWineDTO.getCountry(), craftWineDTO.getRegion(),
-                imagePath);
-
+        CraftWine craftWine = craftWineMapper.toEntityCraftWine(craftWineDTO);
+        craftWine.setImageUrl(imagePath);
 
         craftWineRepository.save(craftWine);
-        return true;
+        return craftWine;
+
+
+//        WineColor wineColor = Arrays.stream(WineColor.values())
+//                .filter(wine -> wine.getName().equals(craftWineDTO.getWineColor()))
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalArgumentException("Could not find color of wine"));
+//
+//        SugarConsistency sugarConsistency = Arrays.stream(SugarConsistency.values())
+//                .filter(color -> color.getName().equals(craftWineDTO.getSugarConsistency()))
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalArgumentException("Could not find sugar consistency of wine"));
+//
+//
+//        CraftWine craftWine = new CraftWine(
+//                craftWineDTO.getWineName(), craftWineDTO.getPrice(), craftWineDTO.getWineDescription(),
+//                craftWineDTO.getQuantity(), craftWineDTO.getBottleCapacity(), craftWineDTO.getAlcohol(),
+//                craftWineDTO.isNewCollection(), craftWineDTO.isBestSeller(), craftWineDTO.isSale(),
+//                craftWineDTO.getWinemaking(), craftWineDTO.getGrapeVarieties(), craftWineDTO.getTastingNotes(), craftWineDTO.getStoreAndServeAdvices(),
+//                craftWineDTO.getFoodPairing(), craftWineDTO.getReviewsAndAwards(),
+//
+//                wineColor, sugarConsistency,
+//
+//                craftWineDTO.getCountry(), craftWineDTO.getRegion(),
+//                imagePath);
+
 
     }
 
@@ -69,7 +69,7 @@ public class CraftWineServiceImpl implements CraftWineService {
     @Override
     public boolean save(CraftWine craftWine) {
 
-        craftWineRepository.save(craftWine);
+        craftWineRepository.saveAndFlush(craftWine);
 
         return true;
     }
@@ -86,7 +86,7 @@ public class CraftWineServiceImpl implements CraftWineService {
 
 
         return optionalCraftWine.orElseThrow(
-                () -> new IllegalArgumentException("Could not find wine with id: " + id));
+                () -> new NotFoundException("Could not find wine with id: " + id));
     }
 
 
@@ -106,7 +106,7 @@ public class CraftWineServiceImpl implements CraftWineService {
 
             return true;
         } else {
-            return false;
+            throw new NotFoundException("Could not find wine with id: " + id);
         }
     }
 
@@ -116,6 +116,16 @@ public class CraftWineServiceImpl implements CraftWineService {
 //TODO
         return 3;
 
+    }
+
+    @Override
+    @Transactional(readOnly = true, isolation = Isolation.READ_COMMITTED)
+    public Long getLastCraftWineId() {
+
+        Optional<Long> longOptionalCraftWineId = craftWineRepository.getLastId();
+
+
+        return longOptionalCraftWineId.orElse(0L);
     }
 
 }

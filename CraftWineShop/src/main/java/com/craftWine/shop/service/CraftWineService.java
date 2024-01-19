@@ -5,11 +5,10 @@ import com.craftWine.shop.models.CraftWine;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 public interface CraftWineService {
 
-    boolean save(CraftWineDTO craftWineDTO, String imagePath);
+    CraftWine save(CraftWineDTO craftWineDTO, String imagePath);
 
     boolean save(CraftWine craftWine);
 
@@ -19,9 +18,10 @@ public interface CraftWineService {
     CraftWine findById(long id);
 
 
-
     boolean deleteCraftWineById(long id) throws IOException;
 
     short setAverageRateForTheCraftWine(long id, short rate);
+
+    Long getLastCraftWineId();
 
 }

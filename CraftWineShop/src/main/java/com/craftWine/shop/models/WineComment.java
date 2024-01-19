@@ -24,9 +24,9 @@ public class WineComment {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "wine_comments_sequence_generator")
     private long id;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private User user;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private CraftWine craftWine;
 
     private String comment;

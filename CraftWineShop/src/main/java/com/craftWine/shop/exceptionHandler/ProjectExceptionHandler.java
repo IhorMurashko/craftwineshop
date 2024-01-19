@@ -3,53 +3,72 @@ package com.craftWine.shop.exceptionHandler;
 import com.craftWine.shop.exceptions.CraftWineNotFoundException;
 import com.craftWine.shop.exceptions.EmailProblemException;
 import com.craftWine.shop.exceptions.InvalidConfirmationPasswordException;
-import org.jetbrains.annotations.NotNull;
+import com.craftWine.shop.exceptions.NotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 @ControllerAdvice
 public class ProjectExceptionHandler {
 
     @ExceptionHandler(InvalidConfirmationPasswordException.class)
-    public ResponseEntity<ResponseException> invalidConfirmationPasswordExceptionHandler(@NotNull InvalidConfirmationPasswordException exception) {
+    public ResponseEntity<ResponseException> invalidConfirmationPasswordExceptionHandler(InvalidConfirmationPasswordException exception) {
         return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(EmailProblemException.class)
-    public ResponseEntity<ResponseException> invalidConfirmationPasswordExceptionHandler(@NotNull EmailProblemException exception) {
+    public ResponseEntity<ResponseException> invalidConfirmationPasswordExceptionHandler(EmailProblemException exception) {
         return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.CONFLICT);
     }
 
 
     @ExceptionHandler(SQLException.class)
-    public ResponseEntity<ResponseException> duplicateUniqueConstraintExceptionHandler(@NotNull DataIntegrityViolationException exception) {
+    public ResponseEntity<ResponseException> duplicateUniqueConstraintExceptionHandler(DataIntegrityViolationException exception) {
         if (exception.getMessage().contains("duplicate key")) {
-            return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.CONFLICT);
+
+            String exceptionMessage = exception.getMessage().replaceAll("_", " ");
+            String response = exceptionMessage.substring(exceptionMessage.indexOf("(") + 1, exceptionMessage.indexOf(")"));
+
+
+            return new ResponseEntity<ResponseException>(new ResponseException("Duplicate: " + response + ". Please, enter new:"), HttpStatus.CONFLICT);
         } else {
             return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ResponseException> illegalArgumentExceptionHandler(@NotNull IllegalArgumentException exception) {
+    @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
+    public ResponseEntity<ResponseException> illegalArgumentExceptionHandler(IllegalArgumentException exception) {
         return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(IOException.class)
-    public ResponseEntity<ResponseException> failIOExceptionHandler(@NotNull IOException exception) {
+    public ResponseEntity<ResponseException> failIOExceptionHandler(IOException exception) {
         return new ResponseEntity<ResponseException>(new ResponseException("Failed input-output: " + exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(CraftWineNotFoundException.class)
-    public ResponseEntity<ResponseException> couldNotFoundCraftWine(@NotNull CraftWineNotFoundException exception) {
-        return new ResponseEntity<ResponseException>(new ResponseException( exception.getMessage()), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ResponseException> couldNotFoundCraftWine(CraftWineNotFoundException exception) {
+        return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ResponseException> couldNotFound(NotFoundException exception) {
+        return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ResponseException> validationFormException(
+            MethodArgumentNotValidException exception) {
+        return new ResponseEntity<ResponseException>(new ResponseException(Objects.requireNonNull(exception.getFieldError()).getDefaultMessage()), HttpStatus.BAD_REQUEST);
     }
 
 

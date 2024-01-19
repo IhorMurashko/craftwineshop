@@ -1,247 +1,184 @@
-//package com.craftWine.shop.service;
-//
-//import com.craftWine.shop.enumTypes.SugarConsistency;
-//import com.craftWine.shop.enumTypes.WineColor;
-//import com.craftWine.shop.exceptions.CraftWineNotFoundException;
-//import com.craftWine.shop.exceptions.EmailProblemException;
-//import com.craftWine.shop.models.*;
-//import com.craftWine.shop.repositories.WineStarsRepository;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.ArgumentCaptor;
-//import org.mockito.Captor;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//import org.springframework.test.context.TestPropertySource;
-//
-//import java.math.BigDecimal;
-//import java.util.Optional;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//import static org.mockito.Mockito.*;
-//
-//@ExtendWith(MockitoExtension.class)
-//class WineStarServiceImplTest {
-//    @Mock
-//    private UserServiceImpl userService;
-//    @Mock
-//    private CraftWineServiceImpl craftWineService;
-//    @Mock
-//    private WineStarsRepository wineStarsRepository;
-//    @InjectMocks
-//    private WineStarServiceImpl wineStarService;
-//    @Captor
-//    private ArgumentCaptor<String> stringArgumentCaptor;
-//    @Captor
-//    private ArgumentCaptor<Long> longArgumentCaptor;
-//    @Captor
-//    private ArgumentCaptor<Short> shortArgumentCaptor;
-//    @Captor
-//    private ArgumentCaptor<User> userArgumentCaptor;
-//    @Captor
-//    private ArgumentCaptor<CraftWine> craftWineArgumentCaptor;
-//
-//    private User user;
-//    private String userEmail;
-//    private String emptyUserEmail;
-//    private long craftWineIdPresent;
-//    private long emptyCraftWineId;
-//
-//    private short wineRate;
-//    private CraftWine craftWine;
-//
-//    @BeforeEach
-//    void initUser() {
-//        this.user = new User("user@example.com", "password", "123", "first name", "last name");
-//        this.userEmail = "user@example.com";
-//        this.emptyUserEmail = "test@gmail.com";
-//        this.craftWineIdPresent = 1L;
-//        this.emptyCraftWineId = 2L;
-//        this.wineRate = 3;
-//        this.craftWine = new CraftWine(craftWineIdPresent, "4444", "Blandithabitasse", new BigDecimal("262.32"), "Potentinon", (short) 7, "0.7",
-//                "13", false, true, false, "wine making", "grape varieties", "tasting notes", "store and serve advices", "food pairing",
-//                "reviews and awards", WineColor.RED, SugarConsistency.SWEET, new ProducedCountry("United Kingdom"),
-//                new Region("Manchester"), "url");
-//    }
-//
-//
-//    @Test
-//    @DisplayName("EmailProblemException when Optional<User> is empty because user email not found")
-//    void getEmailProblemExceptionWhen_optionUserIsEmptyBecauseEmailNotFound() {
-//
-//        when(userService.findUserByEmail(emptyUserEmail)).thenReturn(Optional.empty());
-//
-//        Optional<User> optionalUser = userService.findUserByEmail(emptyUserEmail);
-//
-//        verify(userService).findUserByEmail(stringArgumentCaptor.capture());
-//
-//        RuntimeException exception = assertThrows(EmailProblemException.class, () -> {
-//                    wineStarService.addRateForTheWine(emptyUserEmail, craftWineIdPresent, wineRate);
-//                }
-//        );
-//
-//
-//        assertEquals(EmailProblemException.class, exception.getClass());
-//        assertEquals("Could not find user with email " + emptyUserEmail, exception.getMessage());
-//
-//        assertEquals(emptyUserEmail, stringArgumentCaptor.getValue());
-//
-//
-//        verify(userService, times(2)).findUserByEmail(emptyUserEmail);
-//        assertFalse(optionalUser.isPresent());
-//
-//        verifyNoMoreInteractions(userService);
-//        verifyNoInteractions(craftWineService, wineStarsRepository);
-//    }
-//
-//
-//    @Test
-//    @DisplayName("IllegalArgumentException when craftWine isn't available")
-//    void getIllegalArgumentExceptionWhen_craftWineIdIsNotPresent() {
-//        when(userService.findUserByEmail(userEmail)).thenReturn(Optional.of(user));
-//        when(craftWineService.findById(emptyCraftWineId)).thenThrow(new IllegalArgumentException("Could not find wine with id: " + emptyCraftWineId));
-//
-//        Optional<User> optionalUser = userService.findUserByEmail(userEmail);
-//        verify(userService).findUserByEmail(stringArgumentCaptor.capture());
-//
-//
-//        RuntimeException runtimeException = assertThrows(IllegalArgumentException.class, () ->
-//        {
-//            wineStarService.addRateForTheWine(userEmail, emptyCraftWineId, wineRate);
-//        });
-//
-//
-//        assertTrue(optionalUser.isPresent());
-//        assertEquals(user, optionalUser.get());
-//
-//        verify(userService, times(2)).findUserByEmail(userEmail);
-//        verifyNoMoreInteractions(userService);
-//
-//        assertEquals(userEmail, stringArgumentCaptor.getValue());
-//        verifyNoInteractions(wineStarsRepository);
-//
-//
-//        assertEquals(IllegalArgumentException.class, runtimeException.getClass());
-//        assertEquals("Could not find wine with id: " + emptyCraftWineId, runtimeException.getMessage());
-//    }
-//
-//
-//    @Test
-//    @DisplayName("find user if user email is available")
-//    void getUserByEmailWhen_userEmailIsAvailable() {
-//
-//        when(userService.findUserByEmail(userEmail)).thenReturn(Optional.of(user));
-//        when(craftWineService.findById(craftWineIdPresent)).thenReturn(craftWine);
-//
-//
-//        wineStarService.addRateForTheWine(userEmail, craftWineIdPresent, wineRate);
-//        verify(userService).findUserByEmail(stringArgumentCaptor.capture());
-//        assertEquals(userEmail, stringArgumentCaptor.getValue());
-//        Optional<User> optionalUser = userService.findUserByEmail(userEmail);
-//
-//        assertTrue(optionalUser.isPresent());
-//        assertEquals(user, optionalUser.get());
-//        verifyNoMoreInteractions(userService);
-//        assertEquals(userEmail, stringArgumentCaptor.getValue());
-//    }
-//
-//
-//    @Test
-//    @DisplayName("isn't present a rate from the user for the wine")
-//    void existStarForTheWineByUserIsNullWhen_userHasNotRatedTheWine() {
-//        when(userService.findUserByEmail(userEmail)).thenReturn(Optional.of(user));
-//        when(craftWineService.findById(craftWineIdPresent)).thenReturn(craftWine);
-//        when(wineStarsRepository.isExistStarForTheWineByUser(user, craftWine)).thenReturn(null);
-//
-//
-//        wineStarService.addRateForTheWine(userEmail, craftWineIdPresent, wineRate);
-//        verify(userService).findUserByEmail(stringArgumentCaptor.capture());
-//        verify(craftWineService).findById(longArgumentCaptor.capture());
-//        verify(wineStarsRepository).isExistStarForTheWineByUser(userArgumentCaptor.capture(), craftWineArgumentCaptor.capture());
-//
-//        Long existStarForTheWineByUser = wineStarsRepository.isExistStarForTheWineByUser(user, craftWine);
-//
-//        assertEquals(userEmail, stringArgumentCaptor.getValue());
-//        assertEquals(craftWineIdPresent, longArgumentCaptor.getValue());
-//        assertEquals(user, userArgumentCaptor.getValue());
-//        assertEquals(craftWine, craftWineArgumentCaptor.getValue());
-//
-//        assertNull(existStarForTheWineByUser);
-//
-//        verify(userService, times(1)).findUserByEmail(anyString());
-//        verify(craftWineService, times(1)).findById(anyLong());
-//        verify(wineStarsRepository, times(2)).isExistStarForTheWineByUser(any(User.class), any(CraftWine.class));
-//        verify(wineStarsRepository, times(2)).isExistStarForTheWineByUser(any(), any());
-//    }
-//
-//
-//    @Test
-//    @DisplayName("rate by user is present")
-//    void wineRateByUserIsPresent() {
-//        when(userService.findUserByEmail(userEmail)).thenReturn(Optional.of(user));
-//        when(craftWineService.findById(craftWineIdPresent)).thenReturn(craftWine);
-//        when(wineStarsRepository.isExistStarForTheWineByUser(user, craftWine)).thenReturn(craftWineIdPresent);
-//
-//
-//        wineStarService.addRateForTheWine(userEmail, craftWineIdPresent, wineRate);
-//        verify(wineStarsRepository).isExistStarForTheWineByUser(userArgumentCaptor.capture(), craftWineArgumentCaptor.capture());
-//        verify(userService).findUserByEmail(stringArgumentCaptor.capture());
-//        verify(craftWineService).findById(longArgumentCaptor.capture());
-//        verify(wineStarsRepository).isExistStarForTheWineByUser(userArgumentCaptor.capture(), craftWineArgumentCaptor.capture());
-//
-//        Long existStarForTheWineByUser = wineStarsRepository.isExistStarForTheWineByUser(user, craftWine);
-//
-//
-//        assertEquals(userEmail, stringArgumentCaptor.getValue());
-//        assertEquals(craftWineIdPresent, longArgumentCaptor.getValue());
-//        assertEquals(user, userArgumentCaptor.getValue());
-//        assertEquals(craftWine, craftWineArgumentCaptor.getValue());
-//        assertEquals(craftWineIdPresent, existStarForTheWineByUser);
-//
-//
-//        verify(userService, times(1)).findUserByEmail(anyString());
-//        verifyNoMoreInteractions(userService);
-//
-//        verify(craftWineService, times(1)).findById(craftWineIdPresent);
-//
-//        verify(wineStarsRepository, times(2)).isExistStarForTheWineByUser(any(), any());
-//
-//        verify(wineStarsRepository, times(2)).isExistStarForTheWineByUser(any(), any());
-//
-//        verify(wineStarsRepository, times(1)).save(any(WineStar.class));
-//        verify(craftWineService, times(1)).save(any(CraftWine.class));
-//
-//    }
-//
-//
-//    @Test
-//    @DisplayName("")
-//    void averageRateForTheWineIsNull() {
-//        when(userService.findUserByEmail(userEmail)).thenReturn(Optional.of(user));
-//        when(craftWineService.findById(craftWineIdPresent)).thenReturn(craftWine);
-//        when(wineStarsRepository.isExistStarForTheWineByUser(user, craftWine)).thenReturn(craftWineIdPresent);
-//        when(wineStarsRepository.getAverageRateForTheWine(craftWine)).thenReturn(null);
-//
-//
-//        wineStarService.addRateForTheWine(userEmail, craftWineIdPresent, wineRate);
-//        verify(wineStarsRepository).isExistStarForTheWineByUser(userArgumentCaptor.capture(), craftWineArgumentCaptor.capture());
-//        verify(userService).findUserByEmail(stringArgumentCaptor.capture());
-//        verify(craftWineService).findById(longArgumentCaptor.capture());
-//        verify(wineStarsRepository).isExistStarForTheWineByUser(userArgumentCaptor.capture(), craftWineArgumentCaptor.capture());
-//
-//
-//        Short averageRateForTheWine = wineStarsRepository.getAverageRateForTheWine(craftWine);
-//
-//        assertNull(averageRateForTheWine);
-//
-//
-//
-//
-//
-//    }
-//
-//
-//}
+package com.craftWine.shop.service;
+
+import com.craftWine.shop.enumTypes.SugarConsistency;
+import com.craftWine.shop.enumTypes.WineColor;
+import com.craftWine.shop.exceptions.EmailProblemException;
+import com.craftWine.shop.models.*;
+import com.craftWine.shop.repositories.WineStarsRepository;
+import com.craftWine.shop.security.TokenProvider;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+class WineStarServiceImplTest {
+
+
+    @Mock
+    private UserService userService;
+    @Mock
+    private CraftWineService craftWineService;
+    @Mock
+    private WineStarsRepository wineStarsRepository;
+    @Mock
+    private TokenProvider tokenProvider;
+
+    @InjectMocks
+    private WineStarServiceImpl wineStarServiceImpl;
+
+
+    private String email;
+    private User user;
+    private CraftWine craftWine;
+    private String token;
+
+    private ProducedCountry countryFrance;
+    private Region regionOfFrance;
+    private long wineId;
+
+    private WineStar wineStar;
+    private short rate;
+
+
+    @Captor
+    private ArgumentCaptor<Long> longArgumentCaptor;
+
+    @Captor
+    private ArgumentCaptor<String> stringArgumentCaptor;
+
+    @Captor
+    private ArgumentCaptor<CraftWine> craftWineArgumentCaptor;
+
+
+    @Captor
+    private ArgumentCaptor<User> userArgumentCaptor;
+    @Captor
+    private ArgumentCaptor<Short> shortArgumentCaptor;
+
+
+    @BeforeEach
+    void setup() {
+
+        this.wineId = 1;
+        this.rate = 3;
+
+        this.email = "email@gmail.com";
+        this.user = new User(email, "password", "012345678901", "name",
+                "last_name");
+        user.setId(1);
+
+        this.token = UUID.randomUUID().toString();
+
+        this.countryFrance = new ProducedCountry("France");
+        countryFrance.setId(1L);
+        countryFrance.setRegions(new HashSet<>());
+
+        this.regionOfFrance = new Region();
+        regionOfFrance.setProducedCountry(countryFrance);
+        regionOfFrance.setName("region of France");
+        regionOfFrance.setId(1);
+
+
+        craftWine = new CraftWine();
+        craftWine.setId(wineId);
+        craftWine.setWineName("wine name");
+        craftWine.setPrice(new BigDecimal("120.0"));
+        craftWine.setDiscount(0.0f);
+        craftWine.setWineDescription("description");
+        craftWine.setQuantity((short) 5);
+        craftWine.setBottleCapacity("0.7");
+        craftWine.setAlcohol("12");
+        craftWine.setNewCollection(true);
+        craftWine.setBestSeller(false);
+        craftWine.setSale(false);
+        craftWine.setWinemaking("winemaking");
+        craftWine.setGrapeVarieties("grapeVarieties");
+        craftWine.setTastingNotes("testingNotes");
+        craftWine.setStoreAndServeAdvices("storeAndServeAdvices");
+        craftWine.setFoodPairing("foodPairing");
+        craftWine.setReviewsAndAwards("reviewsAndAwards");
+        craftWine.setWineColor(WineColor.RED);
+        craftWine.setSugarConsistency(SugarConsistency.DRY);
+        craftWine.setRegion(regionOfFrance);
+        craftWine.setRate((short) 0);
+
+    }
+
+
+    @Test
+    @DisplayName("EmailProblemException user email not found")
+    void emailNotFound() {
+
+        doReturn(email).when(tokenProvider).extractUsername(token);
+        doReturn(Optional.empty()).when(userService).findUserByEmail(email);
+
+        RuntimeException exception = assertThrows(RuntimeException.class, ()
+                -> wineStarServiceImpl.addRateForTheWine(token, wineId, rate));
+
+
+        assertEquals(EmailProblemException.class, exception.getClass());
+
+
+        verify(userService, times(1)).findUserByEmail(any());
+        verifyNoMoreInteractions(userService);
+        verifyNoInteractions(craftWineService, wineStarsRepository);
+
+    }
+
+
+    @Test
+    @DisplayName("wine rate isn't present for the wine from the user")
+    void wineStartIsNotExistForTheWineFromTheUser() {
+        wineStar = new WineStar(user, craftWine, rate);
+
+        short avgRate = (short) ((craftWine.getRate() + rate) / 2);
+
+        doReturn(email).when(tokenProvider).extractUsername(token);
+        doReturn(Optional.of(user)).when(userService).findUserByEmail(email);
+        doReturn(craftWine).when(craftWineService).findById(wineId);
+        doReturn(Optional.empty()).when(wineStarsRepository).isExistStarForTheWineByUser(
+                user, craftWine);
+        doReturn(wineStar).when(wineStarsRepository).save(wineStar);
+        doReturn(true).when(craftWineService).save(craftWine);
+        doReturn(avgRate).when(wineStarsRepository).getAverageRateForTheWine(craftWine);
+
+        wineStarServiceImpl.addRateForTheWine(token, wineId, rate);
+
+        verify(userService).findUserByEmail(stringArgumentCaptor.capture());
+        verify(craftWineService).findById(longArgumentCaptor.capture());
+        verify(wineStarsRepository).isExistStarForTheWineByUser(userArgumentCaptor.capture(),
+                craftWineArgumentCaptor.capture());
+
+
+        assertEquals(avgRate, craftWine.getRate());
+        assertEquals(user.getEmail(), stringArgumentCaptor.getValue());
+        assertEquals(wineId, longArgumentCaptor.getValue());
+        assertEquals(user, userArgumentCaptor.getValue());
+        assertEquals(craftWine, craftWineArgumentCaptor.getValue());
+
+
+        verify(userService, times(1)).findUserByEmail(any());
+        verify(craftWineService, times(1)).findById(wineId);
+        verify(craftWineService, times(1)).save(any());
+        verify(wineStarsRepository, times(1)).isExistStarForTheWineByUser(any(User.class),
+                any(CraftWine.class));
+        verify(wineStarsRepository, times(1)).save(any());
+        verify(wineStarsRepository, times(1)).getAverageRateForTheWine(any());
+    }
+
+
+}

@@ -60,8 +60,8 @@ public class UserRegisterAndAuthenticationService {
         try {
 
 
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentialsDTO.getEmail(), credentialsDTO.getPassword()));
-            return tokenProvider.provideToken((User) userDetailsService.loadUserByUsername(credentialsDTO.getEmail()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentialsDTO.email().toLowerCase(), credentialsDTO.password()));
+            return tokenProvider.provideToken((User) userDetailsService.loadUserByUsername(credentialsDTO.email().toLowerCase()));
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
@@ -116,7 +116,7 @@ public class UserRegisterAndAuthenticationService {
      */
     public int enableUser(String email) {
         // Call the repository method to enable the user based on the provided email
-        return userRepository.enableUser(email);
+        return userRepository.enableUser(email.toLowerCase());
     }
 
 

@@ -62,13 +62,13 @@ public class SecurityConfig {
         http.exceptionHandling((exceptions) -> exceptions.authenticationEntryPoint(jwtAuthEntryPoint).accessDeniedHandler(myAccessDeniedHandler));
         http.authorizeHttpRequests((authorize) ->
                         authorize
-                                .requestMatchers("/reg/login").permitAll()
-                                .requestMatchers("reg/register").permitAll()
-//                                .requestMatchers("/admin/**").hasAuthority("ADMIN")
-//                                .requestMatchers("/admin/**").hasAnyRole("ADMIN", "USER")
-                                .requestMatchers("/admin/**").hasAnyAuthority("ADMIN", "USER")
-                                .requestMatchers("/user/**").hasAuthority("USER")
-                                .requestMatchers("/user/**").hasAnyRole("ADMIN", "USER")
+//                                .requestMatchers("/reg/login").permitAll()
+//                                .requestMatchers("reg/register").permitAll()
+////                                .requestMatchers("/admin/**").hasAuthority("ADMIN")
+////                                .requestMatchers("/admin/**").hasAnyRole("ADMIN", "USER")
+//                                .requestMatchers("/admin/**").hasAnyAuthority("ADMIN", "USER")
+//                                .requestMatchers("/user/**").hasAuthority("USER")
+//                                .requestMatchers("/user/**").hasAnyRole("ADMIN", "USER")
                                 .anyRequest().permitAll()
 //                        .anyRequest().authenticated()
 
