@@ -5,6 +5,7 @@ import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.models.User;
 import com.craftWine.shop.models.WineStar;
 import com.craftWine.shop.repositories.WineStarsRepository;
+import com.craftWine.shop.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -19,6 +20,7 @@ public class WineStarServiceImpl implements WineStarService {
     private final UserService userService;
     private final CraftWineService craftWineService;
     private final WineStarsRepository wineStarsRepository;
+    private final TokenProvider tokenProvider;
 
 
     /**
@@ -35,7 +37,7 @@ public class WineStarServiceImpl implements WineStarService {
      * The method also calculates a new average grade for the wine and updates it in the database for the wine.
      * </p>
      *
-     * @param userEmail   The unique email of the user who wants to assign a grade to the wine.
+     * @param token       The user token from Authorization header
      * @param craftWineId The unique identifier of the wine in the database.
      * @param rate        The grade given by the user for the wine.
      * @return {@code true} if the update was successful.
@@ -45,7 +47,10 @@ public class WineStarServiceImpl implements WineStarService {
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
-    public boolean addRateForTheWine(String userEmail, long craftWineId, short rate) {
+    public boolean addRateForTheWine(String token, long craftWineId, short rate) {
+
+        String userEmail = tokenProvider.extractUsername(token);
+
 
         // get user by user's email
         Optional<User> optionalUser = userService.findUserByEmail(userEmail);
@@ -61,14 +66,16 @@ public class WineStarServiceImpl implements WineStarService {
 
 
         //looking for a grade by the user for the wine
-        Long existStarForTheWineByUser = wineStarsRepository.isExistStarForTheWineByUser(user, craftWine);
+        Optional<Long> existStarForTheWineByUser = wineStarsRepository.isExistStarForTheWineByUser(
+                user, craftWine);
 
-        WineStar wineStar = null;
+        WineStar wineStar;
 
         //if user has already added grade for this wine
-        if (existStarForTheWineByUser != null && existStarForTheWineByUser > 0) {
+        if (existStarForTheWineByUser.isPresent() && existStarForTheWineByUser.get() > 0) {
             //update a grade by user for the wine
-            wineStar = new WineStar(existStarForTheWineByUser, user, craftWine, rate);
+            Long star = existStarForTheWineByUser.get();
+            wineStar = new WineStar(star, user, craftWine, rate);
         } else {
             //or create a new wine star
             wineStar = new WineStar(user, craftWine, rate);

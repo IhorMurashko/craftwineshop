@@ -1,6 +1,5 @@
 package com.craftWine.shop.controllers;
 
-import com.craftWine.shop.dto.UpdateWineRateDTO;
 import com.craftWine.shop.dto.producedCountryDTO.ProducedCountryResponseWithSetRegionsDTO;
 import com.craftWine.shop.dto.wineDTO.CraftWineDTO;
 import com.craftWine.shop.dto.wineDTO.CraftWineDTOResponse;
@@ -21,8 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -141,22 +138,4 @@ public class AdminController {
 
         return new ResponseEntity<CraftWineDTOResponse>(craftWineDTOResponse, HttpStatus.OK);
     }
-
-
-    @Hidden
-    @PostMapping(value = "/updateRate", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> updateWineRate(@RequestBody UpdateWineRateDTO updateWineRateDTO) {
-
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-
-        if (wineStarService.addRateForTheWine(email, updateWineRateDTO.getWineId(), updateWineRateDTO.getRate())) {
-            return ResponseEntity.status(HttpStatus.OK).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
-
 }

@@ -6,10 +6,8 @@ import com.craftWine.shop.models.WineStar;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -18,11 +16,11 @@ import java.util.Optional;
 public interface WineStarsRepository extends JpaRepository<WineStar, Long> {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    @Query("SELECT  AVG (ws.star) FROM WineStar ws WHERE ws.craftWine = ?1")
+    @Query("SELECT  FUNCTION('ROUND', AVG(ws.star)) FROM WineStar ws WHERE ws.craftWine = ?1")
     Short getAverageRateForTheWine(CraftWine craftWine);
 
     @Query("SELECT ws.id FROM WineStar ws WHERE ws.user=?1 AND ws.craftWine=?2 ")
-    Long isExistStarForTheWineByUser(User user, CraftWine craftWine);
+    Optional<Long> isExistStarForTheWineByUser(User user, CraftWine craftWine);
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Modifying
