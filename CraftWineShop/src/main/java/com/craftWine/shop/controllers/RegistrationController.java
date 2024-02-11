@@ -1,10 +1,10 @@
 package com.craftWine.shop.controllers;
 
-import com.craftWine.shop.authentication.RegistrationService;
-import com.craftWine.shop.authentication.ResetPasswordService;
 import com.craftWine.shop.dto.authUserDTO.RegisterDTO;
 import com.craftWine.shop.exceptions.EmailProblemException;
 import com.craftWine.shop.exceptions.InvalidConfirmationPasswordException;
+import com.craftWine.shop.service.authentication.RegistrationService;
+import com.craftWine.shop.service.authentication.ResetPasswordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,13 +25,12 @@ import org.springframework.web.bind.annotation.*;
  * @version 1.0
  * @since 2023-12-17
  */
+@Tag(name = "реєстрація",
+        description = "реєстрація, підтвердження реєстрації, відновлення паролю")
 @Slf4j
 @RequiredArgsConstructor
-@CrossOrigin
 @Validated
 @RestController
-@Tag(name = "авторизація та аутентифікація", description = "реєстрація, підтвердження реєстрації," +
-        "авторизація, відновлення паролю")
 @RequestMapping("/api/v1/reg")
 public class RegistrationController {
 
@@ -40,9 +39,9 @@ public class RegistrationController {
 
     /**
      * Handles the POST request for the "/registration" endpoint.
-     * Creates a new user account or resends an email letter to confirm an account.
+     * Creates a new user account or resend an email letter to confirm an account.
      *
-     * @param registerDTO Represents information about the registering user, including:
+     * @param registerDTO Represents information about the registering user, including
      *                    - email
      *                    - password
      *                    - confirmationPassword
@@ -54,8 +53,8 @@ public class RegistrationController {
      * @throws InvalidConfirmationPasswordException If the user's password and confirmation password do not match.
      * @throws EmailProblemException                If the user's email has already been confirmed and is ready for use.
      */
-    @Operation(summary = "руєстрація нового кристовича",
-            description = "отримує інформацію для валідації і у разі успішної валідації реєструє нового кристовича",
+    @Operation(summary = "реєстрація нового кристовича",
+            description = "отримання інформації для валідації і у разі успішної валідації реєструє нового кристовича",
             method = "POST",
             responses = {
                     @ApiResponse(responseCode = "201", description = "created"),
@@ -65,7 +64,10 @@ public class RegistrationController {
             })
     @PostMapping(value = "/registration"
     )
-    public ResponseEntity<String> register(@Valid @RequestBody RegisterDTO registerDTO) {
+    public ResponseEntity<String> register(@Parameter(
+            description = "сутність передач данних для реєстрації",
+            required = true)
+                                           @Valid @RequestBody RegisterDTO registerDTO) {
         return registrationService.register(registerDTO);
     }
 
@@ -79,18 +81,19 @@ public class RegistrationController {
      * @throws IllegalArgumentException if the user is trying to reset the password more than once of 23 hours.
      */
     @Operation(method = "GET",
-            description = "відновлення пароля користувача",
+            summary = "відновлення паролю",
+            description = "відновлення забутого пароля користувача",
             responses = {
                     @ApiResponse(responseCode = "200", description = "та повідомлення про успішне відправлення листа " +
                             "на електронну адресу з новим паролем"),
                     @ApiResponse(responseCode = "409", description = "якщо електронної адреси не було знайдено в БД"),
                     @ApiResponse(responseCode = "400", description = "якщо користувач намагається відновити пароль частіше, " +
-                            "ніж один раз на 23 години")
+                            "ніж один раз в 23 години")
             })
 
     @GetMapping("/reset_password")
     public ResponseEntity<String> rememberThePassword(@Parameter(description = "не може бути порожнім та має відповідати " +
-            "паттерну електронної адреси") @Valid @RequestParam("email") String userEmail) {
+            "паттерну електронної адреси", required = true) @Valid @RequestParam("email") String userEmail) {
         // Delegates the password reset operation to the ResetPasswordService.
         return resetPasswordService.resetUserPassword(userEmail);
     }
@@ -118,3 +121,4 @@ public class RegistrationController {
         return registrationService.confirmToken(token);
     }
 }
+

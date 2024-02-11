@@ -1,11 +1,11 @@
-insert into produced_country (id, name)
-values (nextval('produced_country_sequence_generator'), 'Ukraine');
+insert into produced_country (id, name, capitallat, capitallng)
+values (nextval('produced_country_sequence_generator'), 'Ukraine', 50.43, 30.52);
 
-insert into produced_country (id, name)
-values (nextval('produced_country_sequence_generator'), 'Italy');
+insert into produced_country (id, name, capitallat, capitallng)
+values (nextval('produced_country_sequence_generator'), 'Italy', 41.9, 12.48);
 
-insert into produced_country (id, name)
-values (nextval('produced_country_sequence_generator'), 'Spain');
+insert into produced_country (id, name, capitallat, capitallng)
+values (nextval('produced_country_sequence_generator'), 'Spain', 40.4, -3.68);
 
 insert into regions (id, produced_country_id, name)
 VALUES (nextval('country_region_sequence_generator'),

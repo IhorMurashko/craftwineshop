@@ -1,6 +1,6 @@
 package com.craftWine.shop.mapper;
 
-import com.craftWine.shop.dto.RegionDTO;
+import com.craftWine.shop.dto.regionDTO.RegionDTO;
 import com.craftWine.shop.dto.producedCountryDTO.ProducedCountryDTO;
 import com.craftWine.shop.dto.producedCountryDTO.ProducedCountryResponseWithSetRegionsDTO;
 import com.craftWine.shop.models.ProducedCountry;

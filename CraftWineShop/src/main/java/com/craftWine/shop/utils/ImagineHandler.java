@@ -22,7 +22,7 @@ public class ImagineHandler {
      */
     public static String saveImageIntoServerAndReturnPath(MultipartFile imageFile, String wineId) throws IOException {
         // Define the destination path for saving the image
-        Path destination = Paths.get("/home/developer/my folder/java_projects/craftWineShop/CraftWineShop/src/main/wine_images/"
+        Path destination = Paths.get("CraftWineShop/src/main/wine_images/"
                 + "wine-" + wineId + ".jpg");
 
         // Copy the image file to the specified destination path, replacing existing files

@@ -1,12 +1,11 @@
 package com.craftWine.shop.repositories;
 
 import com.craftWine.shop.models.CraftWine;
+import com.craftWine.shop.models.ProducedCountry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,5 +25,16 @@ public interface CraftWineRepository extends JpaRepository<CraftWine, Long> {
 
     @Query("select MAX(cw.id) from CraftWine cw")
     Optional<Long> getLastId();
+
+
+    @Query("SELECT cw FROM CraftWine cw WHERE cw.country=:producedCountry")
+    List<CraftWine> getCraftWinesByCountry(@Param("producedCountry") ProducedCountry producedCountry);
+
+
+    @Override
+    <S extends CraftWine> List<S> saveAllAndFlush(Iterable<S> entities);
+
+    @Query("SELECT cw FROM CraftWine cw WHERE cw.isWineTimePromotion=:promotion")
+    List<CraftWine> findCraftWineByWineTimePromotion(@Param("promotion") boolean promotion);
 
 }

@@ -1,16 +1,17 @@
 package com.craftWine.shop.dto.producedCountryDTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Value;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.io.Serializable;
 
 /**
  * DTO for {@link com.craftWine.shop.models.ProducedCountry}
  */
+@Schema(description = "Країна виробник вина")
 public record ProducedCountryDTO(
-        long id
-        , String name
+        @Schema(description = "унікальний ідентифікатор країни", examples = {"1", "74"})
+        long id,
+        @Schema(description = "Ім'я країни", examples = {"Ukraine", "Poland"})
+        String name
 ) implements Serializable {
 }
