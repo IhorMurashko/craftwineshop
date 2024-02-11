@@ -2,11 +2,12 @@ You can download a file or use URL to the file:
 
 <==========================USE URL==========================>
 first step:
-select a file form this directory and copy url;
-
-second step:
 open in bowser:
 https://editor.swagger.io/
+
+second step:
+select a file from this directory and copy url;
+https://github.com/allLifeForJava/craftwineshop/blob/wineTimePromotion/CraftWineShop/openAIgenerate/api-docs.yaml
 
 third step:
 use navigation of the site:
