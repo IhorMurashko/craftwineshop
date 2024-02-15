@@ -1,6 +1,6 @@
 package com.craftWine.shop.dto.producedCountryDTO;
 
-import com.craftWine.shop.dto.RegionDTO;
+import com.craftWine.shop.dto.regionDTO.RegionDTO;
 
 import java.util.Set;
 

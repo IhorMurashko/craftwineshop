@@ -2,7 +2,6 @@ package com.craftWine.shop.models;
 
 import com.craftWine.shop.enumTypes.UserRole;
 import com.craftWine.shop.models.abstracts.AbstractUserClass;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -71,7 +70,7 @@ public class User extends AbstractUserClass implements UserDetails {
     private Set<WineComment> wineComments;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private Set<WineStar> wineStars;
+    private Set<WineEvaluation> wineEvaluations;
 
     public User() {
         super();

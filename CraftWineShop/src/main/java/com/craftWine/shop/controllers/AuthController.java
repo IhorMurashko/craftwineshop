@@ -1,8 +1,8 @@
 package com.craftWine.shop.controllers;
 
-import com.craftWine.shop.authentication.UserRegisterAndAuthenticationService;
 import com.craftWine.shop.dto.authUserDTO.CredentialsDTO;
 import com.craftWine.shop.security.TokenProvider;
+import com.craftWine.shop.service.authentication.UserRegisterAndAuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.headers.Header;
@@ -18,12 +18,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "аутентифікація та авторизація")
 @RestController
 @CrossOrigin
 @Validated
 @Slf4j
 @RequiredArgsConstructor
-@Tag(name = "login")
 @RequestMapping("api/v1/auth")
 public class AuthController {
 
@@ -33,6 +33,7 @@ public class AuthController {
     @Operation(
             summary = "авторизація та аутентифікація користувача",
             description = "авторизація та аутентифікація користувача на порталі, перевірка прав доступу",
+            method = "POST",
             responses = {
                     @ApiResponse(responseCode = "400", description = "якщо користувач намагається повторно пройти авторизацію," +
                             "але вже має дійсний токен; " +
@@ -43,12 +44,14 @@ public class AuthController {
             }
     )
     @PostMapping("/login")
-    public ResponseEntity<String> loginController(@Parameter(name = "сутність для передачі данних дял аутентифікації", required = true, description = "дані для проведення авторизації, " +
+    public ResponseEntity<String> loginController(@Parameter(name = "сутність для передачі даних для аутентифікації",
+            required = true, description = "дані для проведення авторизації, " +
             "які попередньо валідуються на відповідність обмеженням")
                                                   @Valid @RequestBody CredentialsDTO credentialsDTO,
-                                                  @Parameter(name = "header Authorization", description = "перевіряє заголовок Authorization на наявність токена",
-                                                          required = false) @RequestHeader(name = "Authorization", required = false) String headerToken
-    ) {
+                                                  @Parameter(name = "header Authorization",
+                                                          description = "перевіряє заголовок Authorization на наявність токена",
+                                                          required = false)
+                                                  @RequestHeader(name = "Authorization", required = false) String headerToken) {
         try {
 
             if (headerToken != null &&
@@ -62,7 +65,6 @@ public class AuthController {
 
             String token = userService.authenticate(credentialsDTO);
 
-            log.info("new token: {}", token);
 
             HttpHeaders header = new HttpHeaders();
             header.setBearerAuth(token);

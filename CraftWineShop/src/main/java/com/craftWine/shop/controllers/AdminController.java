@@ -1,28 +1,31 @@
 package com.craftWine.shop.controllers;
 
-import com.craftWine.shop.dto.UpdateWineRateDTO;
 import com.craftWine.shop.dto.producedCountryDTO.ProducedCountryResponseWithSetRegionsDTO;
-import com.craftWine.shop.dto.wineDTO.CraftWineDTO;
+import com.craftWine.shop.dto.regionDTO.NewRegionDTO;
 import com.craftWine.shop.dto.wineDTO.CraftWineDTOResponse;
+import com.craftWine.shop.dto.wineDTO.CraftWineRegistrationDTO;
 import com.craftWine.shop.enumTypes.SugarConsistency;
 import com.craftWine.shop.enumTypes.WineColor;
 import com.craftWine.shop.mapper.CraftWineMapper;
 import com.craftWine.shop.mapper.ProducedCountryMapper;
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.models.ProducedCountry;
-import com.craftWine.shop.service.CraftWineService;
-import com.craftWine.shop.service.ProducedCountryService;
-import com.craftWine.shop.service.WineStarService;
+import com.craftWine.shop.models.Region;
+import com.craftWine.shop.service.crafWineServices.CraftWineService;
+import com.craftWine.shop.service.imagineHandlerService.ImageHandlerService;
+import com.craftWine.shop.service.producedCountryServices.ProducedCountryService;
+import com.craftWine.shop.service.promotionServices.CheckInformationAboutTheCountry;
+import com.craftWine.shop.service.regionServices.RegionService;
 import com.craftWine.shop.utils.ImagineHandler;
+import com.craftWine.shop.utils.SwitchCaseToCapitalize;
 import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,22 +34,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Hidden
+@Tag(name = "адмін сторінка",
+        description = "навігація для адміністратора")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("api/v1/admin")
 @Validated
 public class AdminController {
 
 
     private final CraftWineService craftWineService;
     private final ProducedCountryService producedCountryService;
-    private final WineStarService wineStarService;
     private final CraftWineMapper craftWineMapper;
     private final ProducedCountryMapper producedCountryMapper;
+    private final CheckInformationAboutTheCountry checkInformationAboutTheCountry;
+    private final RegionService regionService;
+    private final ImageHandlerService imageHandlerService;
 
-    @Hidden
     @GetMapping(value = "/attributes_for_add_new_wine", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> attributes_for_add_new_wine() {
 
@@ -74,23 +82,17 @@ public class AdminController {
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
-    @Hidden
     @PostMapping(value = "/save_a_new_wine", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CraftWineDTOResponse> saveNewWine(@Valid CraftWineDTO craftWineDTO,
+    public ResponseEntity<CraftWineDTOResponse> saveNewWine(@Valid CraftWineRegistrationDTO craftWineRegistrationDTO,
                                                             MultipartFile wineImage) throws IOException {
-        String imagePath;
 
 
-        if (!wineImage.isEmpty()) {
-            Long lastCraftWineId = craftWineService.getLastCraftWineId() + 1;
+        Long lastCraftWineId = craftWineService.getLastCraftWineId() + 1;
 
-            imagePath = ImagineHandler.saveImageIntoServerAndReturnPath(wineImage,
-                    String.valueOf(lastCraftWineId));
-        } else {
-            throw new IllegalArgumentException("Wine image can't be empty");
-        }
+        String imagePath = imageHandlerService.saveImageIntoServerAndReturnPath(wineImage, String.valueOf(lastCraftWineId));
 
-        CraftWine craftWine = craftWineService.save(craftWineDTO, imagePath);
+
+        CraftWine craftWine = craftWineService.save(craftWineRegistrationDTO, imagePath);
 
         CraftWineDTOResponse dtoResponse = craftWineMapper.toDTOResponse(craftWine);
 
@@ -98,7 +100,6 @@ public class AdminController {
     }
 
 
-    @Hidden
     @GetMapping(value = "/get/{id}")
     public ResponseEntity<CraftWineDTOResponse> getWineById(@PathVariable("id") Long id) {
         CraftWine craftWine = craftWineService.findById(id);
@@ -108,7 +109,6 @@ public class AdminController {
         return new ResponseEntity<CraftWineDTOResponse>(craftWineDTOResponse, HttpStatus.OK);
     }
 
-    @Hidden
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<HttpStatus> deleteWineFromShop(@PathVariable("id") Long id) throws IOException {
 
@@ -117,10 +117,9 @@ public class AdminController {
     }
 
 
-    @Hidden
     @PostMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CraftWineDTOResponse> updateWine(@PathVariable("id") Long id,
-                                                           @Valid CraftWineDTO craftWineDTO,
+                                                           @Valid CraftWineRegistrationDTO craftWineRegistrationDTO,
                                                            @Nullable MultipartFile wineImage) throws IOException {
 
         CraftWine craftWine = craftWineService.findById(id);
@@ -131,7 +130,7 @@ public class AdminController {
             imagePath = ImagineHandler.saveImageIntoServerAndReturnPath(wineImage, String.valueOf(id));
         }
 
-        craftWine = craftWineMapper.toEntityCraftWine(craftWineDTO);
+        craftWine = craftWineMapper.toEntityCraftWine(craftWineRegistrationDTO);
         craftWine.setImageUrl(imagePath);
 
         craftWineService.save(craftWine);
@@ -142,21 +141,57 @@ public class AdminController {
         return new ResponseEntity<CraftWineDTOResponse>(craftWineDTOResponse, HttpStatus.OK);
     }
 
+    @GetMapping("/add_new_country/{countryName}")
+    public ResponseEntity<List<ProducedCountryResponseWithSetRegionsDTO>> addNewCountry(@PathVariable("countryName") String countryName) throws IOException {
 
-    @Hidden
-    @PostMapping(value = "/updateRate", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> updateWineRate(@RequestBody UpdateWineRateDTO updateWineRateDTO) {
+        ProducedCountry producedCountry = checkInformationAboutTheCountry.findTheCountryAndCoordinatesOfTheCapitalByItsName(countryName);
 
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = authentication.getName();
-
-        if (wineStarService.addRateForTheWine(email, updateWineRateDTO.getWineId(), updateWineRateDTO.getRate())) {
-            return ResponseEntity.status(HttpStatus.OK).build();
+        if (producedCountry == null) {
+            throw new IllegalArgumentException("Name of country " + countryName + " isn't correct");
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+            List<ProducedCountry> producedCountryList = producedCountryService.findAll();
+
+            List<ProducedCountryResponseWithSetRegionsDTO> producedCountryDTOList =
+                    producedCountryList.stream()
+                            .map(producedCountryMapper::toProducedCountryResponseDTO)
+
+                            .collect(Collectors.toList());
+
+            return new ResponseEntity<>(producedCountryDTOList, HttpStatus.CREATED);
         }
     }
 
 
+    @PostMapping("/add_new_region")
+    public ResponseEntity<List<ProducedCountryResponseWithSetRegionsDTO>> addNewRegion(@RequestBody NewRegionDTO regionDTO) {
+
+        Optional<ProducedCountry> optionalProducedCountry
+                = producedCountryService.findById(regionDTO.producedCountryId());
+
+        if (optionalProducedCountry.isEmpty()) {
+            throw new IllegalArgumentException("wrong country id");
+        }
+
+        if (regionService.findByName(regionDTO.name()).isPresent()) {
+            throw new IllegalArgumentException("region with name " + regionDTO.name() + " has already exist");
+        }
+
+        ProducedCountry producedCountry = optionalProducedCountry.get();
+
+        Region region = new Region(SwitchCaseToCapitalize.switchCaseToCapitalize(regionDTO.name()));
+        region.setProducedCountry(producedCountry);
+
+        regionService.save(region);
+
+        List<ProducedCountry> producedCountryList = producedCountryService.findAll();
+
+        List<ProducedCountryResponseWithSetRegionsDTO> producedCountryDTOList =
+                producedCountryList.stream()
+                        .map(producedCountryMapper::toProducedCountryResponseDTO)
+
+                        .collect(Collectors.toList());
+
+        return new ResponseEntity<>(producedCountryDTOList, HttpStatus.CREATED);
+    }
 }

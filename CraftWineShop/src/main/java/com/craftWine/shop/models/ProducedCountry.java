@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.util.Objects;
 import java.util.Set;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,13 +28,25 @@ public class ProducedCountry {
     @Column(unique = true)
     private String name;
 
+    private float capitalLAT;
+    private float capitalLNG;
+
+    private boolean isPromotionTime;
+
+
     @JsonIgnore
-    @OneToMany(mappedBy = "producedCountry", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "producedCountry", fetch = FetchType.LAZY)
     private Set<Region> regions;
 
 
     public ProducedCountry(String name) {
         this.name = name;
+    }
+
+    public ProducedCountry(String name, float capitalLAT, float capitalLNG) {
+        this.name = name;
+        this.capitalLAT = capitalLAT;
+        this.capitalLNG = capitalLNG;
     }
 
     @Override

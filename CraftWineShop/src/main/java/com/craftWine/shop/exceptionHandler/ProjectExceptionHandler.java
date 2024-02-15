@@ -1,9 +1,6 @@
 package com.craftWine.shop.exceptionHandler;
 
-import com.craftWine.shop.exceptions.CraftWineNotFoundException;
-import com.craftWine.shop.exceptions.EmailProblemException;
-import com.craftWine.shop.exceptions.InvalidConfirmationPasswordException;
-import com.craftWine.shop.exceptions.NotFoundException;
+import com.craftWine.shop.exceptions.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,6 +66,12 @@ public class ProjectExceptionHandler {
     public ResponseEntity<ResponseException> validationFormException(
             MethodArgumentNotValidException exception) {
         return new ResponseEntity<ResponseException>(new ResponseException(Objects.requireNonNull(exception.getFieldError()).getDefaultMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(MultipartFileException.class)
+    public ResponseEntity<ResponseException> multipartFileException(MultipartFileException exception) {
+        return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
 

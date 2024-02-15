@@ -7,18 +7,19 @@ info:
     email: i.murashko0911@gmail.com
   version: "1.0"
 servers:
-- url: http://localhost:8080
-  description: Generated server url
+- url: https://craft-wine-shop.onrender.com
 tags:
-- name: Головна сторінка
-  description: представлення вина
+- name: реєстрація
+  description: "реєстрація, підтвердження реєстрації, відновлення паролю"
+- name: акція "час вина"
+  description: "вина та країни, на які діє акція час вина"
 paths:
   /api/v1/reg/registration:
     post:
       tags:
-      - registration
-      summary: руєстрація нового кристовича
-      description: отримує інформацію для валідації і у випадку успішної валідації
+      - реєстрація
+      summary: реєстрація нового кристовича
+      description: отримання інформації для валідації і у разі успішної валідації
         реєструє нового кристовича
       operationId: register
       requestBody:
@@ -46,10 +47,357 @@ paths:
             '*/*':
               schema:
                 type: string
+  /api/v1/evaluation/new_evaluation:
+    post:
+      tags:
+      - оцінка користувача для вина
+      description: нова оцінка для вина від авторизованого користувача або оновлення
+        існуючої
+      operationId: updateWineEvaluation
+      parameters:
+      - name: Authorization
+        in: header
+        description: "jwt token авторизованого користувача, який знаходить в header\
+          \ Authorization"
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateWineEvaluationDTO'
+        required: true
+      responses:
+        "200":
+          description: при успішній операції
+          content:
+            '*/*':
+              schema:
+                type: string
+                enum:
+                - 100 CONTINUE
+                - 101 SWITCHING_PROTOCOLS
+                - 102 PROCESSING
+                - 103 EARLY_HINTS
+                - 103 CHECKPOINT
+                - 200 OK
+                - 201 CREATED
+                - 202 ACCEPTED
+                - 203 NON_AUTHORITATIVE_INFORMATION
+                - 204 NO_CONTENT
+                - 205 RESET_CONTENT
+                - 206 PARTIAL_CONTENT
+                - 207 MULTI_STATUS
+                - 208 ALREADY_REPORTED
+                - 226 IM_USED
+                - 300 MULTIPLE_CHOICES
+                - 301 MOVED_PERMANENTLY
+                - 302 FOUND
+                - 302 MOVED_TEMPORARILY
+                - 303 SEE_OTHER
+                - 304 NOT_MODIFIED
+                - 305 USE_PROXY
+                - 307 TEMPORARY_REDIRECT
+                - 308 PERMANENT_REDIRECT
+                - 400 BAD_REQUEST
+                - 401 UNAUTHORIZED
+                - 402 PAYMENT_REQUIRED
+                - 403 FORBIDDEN
+                - 404 NOT_FOUND
+                - 405 METHOD_NOT_ALLOWED
+                - 406 NOT_ACCEPTABLE
+                - 407 PROXY_AUTHENTICATION_REQUIRED
+                - 408 REQUEST_TIMEOUT
+                - 409 CONFLICT
+                - 410 GONE
+                - 411 LENGTH_REQUIRED
+                - 412 PRECONDITION_FAILED
+                - 413 PAYLOAD_TOO_LARGE
+                - 413 REQUEST_ENTITY_TOO_LARGE
+                - 414 URI_TOO_LONG
+                - 414 REQUEST_URI_TOO_LONG
+                - 415 UNSUPPORTED_MEDIA_TYPE
+                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                - 417 EXPECTATION_FAILED
+                - 418 I_AM_A_TEAPOT
+                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                - 420 METHOD_FAILURE
+                - 421 DESTINATION_LOCKED
+                - 422 UNPROCESSABLE_ENTITY
+                - 423 LOCKED
+                - 424 FAILED_DEPENDENCY
+                - 425 TOO_EARLY
+                - 426 UPGRADE_REQUIRED
+                - 428 PRECONDITION_REQUIRED
+                - 429 TOO_MANY_REQUESTS
+                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                - 500 INTERNAL_SERVER_ERROR
+                - 501 NOT_IMPLEMENTED
+                - 502 BAD_GATEWAY
+                - 503 SERVICE_UNAVAILABLE
+                - 504 GATEWAY_TIMEOUT
+                - 505 HTTP_VERSION_NOT_SUPPORTED
+                - 506 VARIANT_ALSO_NEGOTIATES
+                - 507 INSUFFICIENT_STORAGE
+                - 508 LOOP_DETECTED
+                - 509 BANDWIDTH_LIMIT_EXCEEDED
+                - 510 NOT_EXTENDED
+                - 511 NETWORK_AUTHENTICATION_REQUIRED
+        "400":
+          description: при неудачі
+          content:
+            '*/*':
+              schema:
+                type: string
+                enum:
+                - 100 CONTINUE
+                - 101 SWITCHING_PROTOCOLS
+                - 102 PROCESSING
+                - 103 EARLY_HINTS
+                - 103 CHECKPOINT
+                - 200 OK
+                - 201 CREATED
+                - 202 ACCEPTED
+                - 203 NON_AUTHORITATIVE_INFORMATION
+                - 204 NO_CONTENT
+                - 205 RESET_CONTENT
+                - 206 PARTIAL_CONTENT
+                - 207 MULTI_STATUS
+                - 208 ALREADY_REPORTED
+                - 226 IM_USED
+                - 300 MULTIPLE_CHOICES
+                - 301 MOVED_PERMANENTLY
+                - 302 FOUND
+                - 302 MOVED_TEMPORARILY
+                - 303 SEE_OTHER
+                - 304 NOT_MODIFIED
+                - 305 USE_PROXY
+                - 307 TEMPORARY_REDIRECT
+                - 308 PERMANENT_REDIRECT
+                - 400 BAD_REQUEST
+                - 401 UNAUTHORIZED
+                - 402 PAYMENT_REQUIRED
+                - 403 FORBIDDEN
+                - 404 NOT_FOUND
+                - 405 METHOD_NOT_ALLOWED
+                - 406 NOT_ACCEPTABLE
+                - 407 PROXY_AUTHENTICATION_REQUIRED
+                - 408 REQUEST_TIMEOUT
+                - 409 CONFLICT
+                - 410 GONE
+                - 411 LENGTH_REQUIRED
+                - 412 PRECONDITION_FAILED
+                - 413 PAYLOAD_TOO_LARGE
+                - 413 REQUEST_ENTITY_TOO_LARGE
+                - 414 URI_TOO_LONG
+                - 414 REQUEST_URI_TOO_LONG
+                - 415 UNSUPPORTED_MEDIA_TYPE
+                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                - 417 EXPECTATION_FAILED
+                - 418 I_AM_A_TEAPOT
+                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                - 420 METHOD_FAILURE
+                - 421 DESTINATION_LOCKED
+                - 422 UNPROCESSABLE_ENTITY
+                - 423 LOCKED
+                - 424 FAILED_DEPENDENCY
+                - 425 TOO_EARLY
+                - 426 UPGRADE_REQUIRED
+                - 428 PRECONDITION_REQUIRED
+                - 429 TOO_MANY_REQUESTS
+                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                - 500 INTERNAL_SERVER_ERROR
+                - 501 NOT_IMPLEMENTED
+                - 502 BAD_GATEWAY
+                - 503 SERVICE_UNAVAILABLE
+                - 504 GATEWAY_TIMEOUT
+                - 505 HTTP_VERSION_NOT_SUPPORTED
+                - 506 VARIANT_ALSO_NEGOTIATES
+                - 507 INSUFFICIENT_STORAGE
+                - 508 LOOP_DETECTED
+                - 509 BANDWIDTH_LIMIT_EXCEEDED
+                - 510 NOT_EXTENDED
+                - 511 NETWORK_AUTHENTICATION_REQUIRED
+  /api/v1/comments/new_comment:
+    post:
+      tags:
+      - комментар
+      description: додати новий або оновити існуючий коментар
+      operationId: newUserComment
+      parameters:
+      - name: Authorization
+        in: header
+        description: "jwt token авторизованого користувача, який знаходить в header\
+          \ Authorization"
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WineCommentRequestDTO'
+        required: true
+      responses:
+        "200":
+          description: при вдалій операції
+          content:
+            '*/*':
+              schema:
+                type: string
+                enum:
+                - 100 CONTINUE
+                - 101 SWITCHING_PROTOCOLS
+                - 102 PROCESSING
+                - 103 EARLY_HINTS
+                - 103 CHECKPOINT
+                - 200 OK
+                - 201 CREATED
+                - 202 ACCEPTED
+                - 203 NON_AUTHORITATIVE_INFORMATION
+                - 204 NO_CONTENT
+                - 205 RESET_CONTENT
+                - 206 PARTIAL_CONTENT
+                - 207 MULTI_STATUS
+                - 208 ALREADY_REPORTED
+                - 226 IM_USED
+                - 300 MULTIPLE_CHOICES
+                - 301 MOVED_PERMANENTLY
+                - 302 FOUND
+                - 302 MOVED_TEMPORARILY
+                - 303 SEE_OTHER
+                - 304 NOT_MODIFIED
+                - 305 USE_PROXY
+                - 307 TEMPORARY_REDIRECT
+                - 308 PERMANENT_REDIRECT
+                - 400 BAD_REQUEST
+                - 401 UNAUTHORIZED
+                - 402 PAYMENT_REQUIRED
+                - 403 FORBIDDEN
+                - 404 NOT_FOUND
+                - 405 METHOD_NOT_ALLOWED
+                - 406 NOT_ACCEPTABLE
+                - 407 PROXY_AUTHENTICATION_REQUIRED
+                - 408 REQUEST_TIMEOUT
+                - 409 CONFLICT
+                - 410 GONE
+                - 411 LENGTH_REQUIRED
+                - 412 PRECONDITION_FAILED
+                - 413 PAYLOAD_TOO_LARGE
+                - 413 REQUEST_ENTITY_TOO_LARGE
+                - 414 URI_TOO_LONG
+                - 414 REQUEST_URI_TOO_LONG
+                - 415 UNSUPPORTED_MEDIA_TYPE
+                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                - 417 EXPECTATION_FAILED
+                - 418 I_AM_A_TEAPOT
+                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                - 420 METHOD_FAILURE
+                - 421 DESTINATION_LOCKED
+                - 422 UNPROCESSABLE_ENTITY
+                - 423 LOCKED
+                - 424 FAILED_DEPENDENCY
+                - 425 TOO_EARLY
+                - 426 UPGRADE_REQUIRED
+                - 428 PRECONDITION_REQUIRED
+                - 429 TOO_MANY_REQUESTS
+                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                - 500 INTERNAL_SERVER_ERROR
+                - 501 NOT_IMPLEMENTED
+                - 502 BAD_GATEWAY
+                - 503 SERVICE_UNAVAILABLE
+                - 504 GATEWAY_TIMEOUT
+                - 505 HTTP_VERSION_NOT_SUPPORTED
+                - 506 VARIANT_ALSO_NEGOTIATES
+                - 507 INSUFFICIENT_STORAGE
+                - 508 LOOP_DETECTED
+                - 509 BANDWIDTH_LIMIT_EXCEEDED
+                - 510 NOT_EXTENDED
+                - 511 NETWORK_AUTHENTICATION_REQUIRED
+        "400":
+          description: якщо щось пішло не так
+          content:
+            '*/*':
+              schema:
+                type: string
+                enum:
+                - 100 CONTINUE
+                - 101 SWITCHING_PROTOCOLS
+                - 102 PROCESSING
+                - 103 EARLY_HINTS
+                - 103 CHECKPOINT
+                - 200 OK
+                - 201 CREATED
+                - 202 ACCEPTED
+                - 203 NON_AUTHORITATIVE_INFORMATION
+                - 204 NO_CONTENT
+                - 205 RESET_CONTENT
+                - 206 PARTIAL_CONTENT
+                - 207 MULTI_STATUS
+                - 208 ALREADY_REPORTED
+                - 226 IM_USED
+                - 300 MULTIPLE_CHOICES
+                - 301 MOVED_PERMANENTLY
+                - 302 FOUND
+                - 302 MOVED_TEMPORARILY
+                - 303 SEE_OTHER
+                - 304 NOT_MODIFIED
+                - 305 USE_PROXY
+                - 307 TEMPORARY_REDIRECT
+                - 308 PERMANENT_REDIRECT
+                - 400 BAD_REQUEST
+                - 401 UNAUTHORIZED
+                - 402 PAYMENT_REQUIRED
+                - 403 FORBIDDEN
+                - 404 NOT_FOUND
+                - 405 METHOD_NOT_ALLOWED
+                - 406 NOT_ACCEPTABLE
+                - 407 PROXY_AUTHENTICATION_REQUIRED
+                - 408 REQUEST_TIMEOUT
+                - 409 CONFLICT
+                - 410 GONE
+                - 411 LENGTH_REQUIRED
+                - 412 PRECONDITION_FAILED
+                - 413 PAYLOAD_TOO_LARGE
+                - 413 REQUEST_ENTITY_TOO_LARGE
+                - 414 URI_TOO_LONG
+                - 414 REQUEST_URI_TOO_LONG
+                - 415 UNSUPPORTED_MEDIA_TYPE
+                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                - 417 EXPECTATION_FAILED
+                - 418 I_AM_A_TEAPOT
+                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                - 420 METHOD_FAILURE
+                - 421 DESTINATION_LOCKED
+                - 422 UNPROCESSABLE_ENTITY
+                - 423 LOCKED
+                - 424 FAILED_DEPENDENCY
+                - 425 TOO_EARLY
+                - 426 UPGRADE_REQUIRED
+                - 428 PRECONDITION_REQUIRED
+                - 429 TOO_MANY_REQUESTS
+                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                - 500 INTERNAL_SERVER_ERROR
+                - 501 NOT_IMPLEMENTED
+                - 502 BAD_GATEWAY
+                - 503 SERVICE_UNAVAILABLE
+                - 504 GATEWAY_TIMEOUT
+                - 505 HTTP_VERSION_NOT_SUPPORTED
+                - 506 VARIANT_ALSO_NEGOTIATES
+                - 507 INSUFFICIENT_STORAGE
+                - 508 LOOP_DETECTED
+                - 509 BANDWIDTH_LIMIT_EXCEEDED
+                - 510 NOT_EXTENDED
+                - 511 NETWORK_AUTHENTICATION_REQUIRED
   /api/v1/auth/login:
     post:
       tags:
-      - login
+      - аутентифікація та авторизація
       summary: авторизація та аутентифікація користувача
       description: "авторизація та аутентифікація користувача на порталі, перевірк\
         а прав доступу"
@@ -88,17 +436,315 @@ paths:
             '*/*':
               schema:
                 type: string
-  /main/craft_wines:
+  /api/v1/wine_time_promotion/get_promotion:
     get:
       tags:
-      - Головна сторінка
-      summary: контроллер повертає колекцію вин
-      description: "кожний обєкт репрезунтує вино, яке є на даний момент в магазин\
+      - акція "час вина"
+      summary: Час вина
+      description: "країни та вина, на які зараз діє акція \"час вина\""
+      operationId: getPromotionCountries
+      responses:
+        "200":
+          description: "массив, який містить массив країн та массив вин, на які за\
+            раз діє акція"
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  type: object
+  /api/v1/reg/reset_password:
+    get:
+      tags:
+      - реєстрація
+      summary: відновлення паролю
+      description: відновлення забутого пароля користувача
+      operationId: rememberThePassword
+      parameters:
+      - name: email
+        in: query
+        description: не може бути порожнім та має відповідати паттерну електронної
+          адреси
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: та повідомлення про успішне відправлення листа на електронну
+            адресу з новим паролем
+          content:
+            '*/*':
+              schema:
+                type: string
+        "409":
+          description: якщо електронної адреси не було знайдено в БД
+          content:
+            '*/*':
+              schema:
+                type: string
+        "400":
+          description: "якщо користувач намагається відновити пароль частіше, ніж\
+            \ один раз в 23 години"
+          content:
+            '*/*':
+              schema:
+                type: string
+  /api/v1/reg/confirm:
+    get:
+      tags:
+      - реєстрація
+      description: "посилання, яке буде присутнє у електронному листі, для підтвер\
+        дження реєстрації"
+      operationId: confirm
+      parameters:
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "303":
+          description: при успішному підтвердженні реєстрації перенаправляє на головну
+            сторінку
+          content:
+            '*/*':
+              schema:
+                type: string
+                enum:
+                - 100 CONTINUE
+                - 101 SWITCHING_PROTOCOLS
+                - 102 PROCESSING
+                - 103 EARLY_HINTS
+                - 103 CHECKPOINT
+                - 200 OK
+                - 201 CREATED
+                - 202 ACCEPTED
+                - 203 NON_AUTHORITATIVE_INFORMATION
+                - 204 NO_CONTENT
+                - 205 RESET_CONTENT
+                - 206 PARTIAL_CONTENT
+                - 207 MULTI_STATUS
+                - 208 ALREADY_REPORTED
+                - 226 IM_USED
+                - 300 MULTIPLE_CHOICES
+                - 301 MOVED_PERMANENTLY
+                - 302 FOUND
+                - 302 MOVED_TEMPORARILY
+                - 303 SEE_OTHER
+                - 304 NOT_MODIFIED
+                - 305 USE_PROXY
+                - 307 TEMPORARY_REDIRECT
+                - 308 PERMANENT_REDIRECT
+                - 400 BAD_REQUEST
+                - 401 UNAUTHORIZED
+                - 402 PAYMENT_REQUIRED
+                - 403 FORBIDDEN
+                - 404 NOT_FOUND
+                - 405 METHOD_NOT_ALLOWED
+                - 406 NOT_ACCEPTABLE
+                - 407 PROXY_AUTHENTICATION_REQUIRED
+                - 408 REQUEST_TIMEOUT
+                - 409 CONFLICT
+                - 410 GONE
+                - 411 LENGTH_REQUIRED
+                - 412 PRECONDITION_FAILED
+                - 413 PAYLOAD_TOO_LARGE
+                - 413 REQUEST_ENTITY_TOO_LARGE
+                - 414 URI_TOO_LONG
+                - 414 REQUEST_URI_TOO_LONG
+                - 415 UNSUPPORTED_MEDIA_TYPE
+                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                - 417 EXPECTATION_FAILED
+                - 418 I_AM_A_TEAPOT
+                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                - 420 METHOD_FAILURE
+                - 421 DESTINATION_LOCKED
+                - 422 UNPROCESSABLE_ENTITY
+                - 423 LOCKED
+                - 424 FAILED_DEPENDENCY
+                - 425 TOO_EARLY
+                - 426 UPGRADE_REQUIRED
+                - 428 PRECONDITION_REQUIRED
+                - 429 TOO_MANY_REQUESTS
+                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                - 500 INTERNAL_SERVER_ERROR
+                - 501 NOT_IMPLEMENTED
+                - 502 BAD_GATEWAY
+                - 503 SERVICE_UNAVAILABLE
+                - 504 GATEWAY_TIMEOUT
+                - 505 HTTP_VERSION_NOT_SUPPORTED
+                - 506 VARIANT_ALSO_NEGOTIATES
+                - 507 INSUFFICIENT_STORAGE
+                - 508 LOOP_DETECTED
+                - 509 BANDWIDTH_LIMIT_EXCEEDED
+                - 510 NOT_EXTENDED
+                - 511 NETWORK_AUTHENTICATION_REQUIRED
+        "400":
+          description: якщо електронна адреса уже підтверджена
+          content:
+            '*/*':
+              schema:
+                type: string
+                enum:
+                - 100 CONTINUE
+                - 101 SWITCHING_PROTOCOLS
+                - 102 PROCESSING
+                - 103 EARLY_HINTS
+                - 103 CHECKPOINT
+                - 200 OK
+                - 201 CREATED
+                - 202 ACCEPTED
+                - 203 NON_AUTHORITATIVE_INFORMATION
+                - 204 NO_CONTENT
+                - 205 RESET_CONTENT
+                - 206 PARTIAL_CONTENT
+                - 207 MULTI_STATUS
+                - 208 ALREADY_REPORTED
+                - 226 IM_USED
+                - 300 MULTIPLE_CHOICES
+                - 301 MOVED_PERMANENTLY
+                - 302 FOUND
+                - 302 MOVED_TEMPORARILY
+                - 303 SEE_OTHER
+                - 304 NOT_MODIFIED
+                - 305 USE_PROXY
+                - 307 TEMPORARY_REDIRECT
+                - 308 PERMANENT_REDIRECT
+                - 400 BAD_REQUEST
+                - 401 UNAUTHORIZED
+                - 402 PAYMENT_REQUIRED
+                - 403 FORBIDDEN
+                - 404 NOT_FOUND
+                - 405 METHOD_NOT_ALLOWED
+                - 406 NOT_ACCEPTABLE
+                - 407 PROXY_AUTHENTICATION_REQUIRED
+                - 408 REQUEST_TIMEOUT
+                - 409 CONFLICT
+                - 410 GONE
+                - 411 LENGTH_REQUIRED
+                - 412 PRECONDITION_FAILED
+                - 413 PAYLOAD_TOO_LARGE
+                - 413 REQUEST_ENTITY_TOO_LARGE
+                - 414 URI_TOO_LONG
+                - 414 REQUEST_URI_TOO_LONG
+                - 415 UNSUPPORTED_MEDIA_TYPE
+                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                - 417 EXPECTATION_FAILED
+                - 418 I_AM_A_TEAPOT
+                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                - 420 METHOD_FAILURE
+                - 421 DESTINATION_LOCKED
+                - 422 UNPROCESSABLE_ENTITY
+                - 423 LOCKED
+                - 424 FAILED_DEPENDENCY
+                - 425 TOO_EARLY
+                - 426 UPGRADE_REQUIRED
+                - 428 PRECONDITION_REQUIRED
+                - 429 TOO_MANY_REQUESTS
+                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                - 500 INTERNAL_SERVER_ERROR
+                - 501 NOT_IMPLEMENTED
+                - 502 BAD_GATEWAY
+                - 503 SERVICE_UNAVAILABLE
+                - 504 GATEWAY_TIMEOUT
+                - 505 HTTP_VERSION_NOT_SUPPORTED
+                - 506 VARIANT_ALSO_NEGOTIATES
+                - 507 INSUFFICIENT_STORAGE
+                - 508 LOOP_DETECTED
+                - 509 BANDWIDTH_LIMIT_EXCEEDED
+                - 510 NOT_EXTENDED
+                - 511 NETWORK_AUTHENTICATION_REQUIRED
+        "409":
+          description: якщо термії підтвердження електронної адреси минув (більше
+            24 годин)
+          content:
+            '*/*':
+              schema:
+                type: string
+                enum:
+                - 100 CONTINUE
+                - 101 SWITCHING_PROTOCOLS
+                - 102 PROCESSING
+                - 103 EARLY_HINTS
+                - 103 CHECKPOINT
+                - 200 OK
+                - 201 CREATED
+                - 202 ACCEPTED
+                - 203 NON_AUTHORITATIVE_INFORMATION
+                - 204 NO_CONTENT
+                - 205 RESET_CONTENT
+                - 206 PARTIAL_CONTENT
+                - 207 MULTI_STATUS
+                - 208 ALREADY_REPORTED
+                - 226 IM_USED
+                - 300 MULTIPLE_CHOICES
+                - 301 MOVED_PERMANENTLY
+                - 302 FOUND
+                - 302 MOVED_TEMPORARILY
+                - 303 SEE_OTHER
+                - 304 NOT_MODIFIED
+                - 305 USE_PROXY
+                - 307 TEMPORARY_REDIRECT
+                - 308 PERMANENT_REDIRECT
+                - 400 BAD_REQUEST
+                - 401 UNAUTHORIZED
+                - 402 PAYMENT_REQUIRED
+                - 403 FORBIDDEN
+                - 404 NOT_FOUND
+                - 405 METHOD_NOT_ALLOWED
+                - 406 NOT_ACCEPTABLE
+                - 407 PROXY_AUTHENTICATION_REQUIRED
+                - 408 REQUEST_TIMEOUT
+                - 409 CONFLICT
+                - 410 GONE
+                - 411 LENGTH_REQUIRED
+                - 412 PRECONDITION_FAILED
+                - 413 PAYLOAD_TOO_LARGE
+                - 413 REQUEST_ENTITY_TOO_LARGE
+                - 414 URI_TOO_LONG
+                - 414 REQUEST_URI_TOO_LONG
+                - 415 UNSUPPORTED_MEDIA_TYPE
+                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                - 417 EXPECTATION_FAILED
+                - 418 I_AM_A_TEAPOT
+                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                - 420 METHOD_FAILURE
+                - 421 DESTINATION_LOCKED
+                - 422 UNPROCESSABLE_ENTITY
+                - 423 LOCKED
+                - 424 FAILED_DEPENDENCY
+                - 425 TOO_EARLY
+                - 426 UPGRADE_REQUIRED
+                - 428 PRECONDITION_REQUIRED
+                - 429 TOO_MANY_REQUESTS
+                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                - 500 INTERNAL_SERVER_ERROR
+                - 501 NOT_IMPLEMENTED
+                - 502 BAD_GATEWAY
+                - 503 SERVICE_UNAVAILABLE
+                - 504 GATEWAY_TIMEOUT
+                - 505 HTTP_VERSION_NOT_SUPPORTED
+                - 506 VARIANT_ALSO_NEGOTIATES
+                - 507 INSUFFICIENT_STORAGE
+                - 508 LOOP_DETECTED
+                - 509 BANDWIDTH_LIMIT_EXCEEDED
+                - 510 NOT_EXTENDED
+                - 511 NETWORK_AUTHENTICATION_REQUIRED
+  /api/v1/craft_wines:
+    get:
+      tags:
+      - Всі вина
+      summary: колекція всіх вин
+      description: "кожен об'єкт репрезунтує вино, яке є на даний момент в магазин\
         і"
       operationId: allCraftWines
       responses:
         "200":
-          description: статус ОК (200) та колекцію (массив) репрезентуючу вино
+          description: "статус ОК (200) та колекція (массив) об'єктів, де кожен ре\
+            презунтує вино"
           content:
             application/json:
               schema:
@@ -128,7 +774,6 @@ components:
           description: "пароль може буди будь-яким, але містити більше 3 символів\
             \ і менше 36"
         confirmationThePassword:
-          title: підтвердження паролю користувача
           type: string
           description: підтвердження паролю користувача
         phoneNumber:
@@ -151,7 +796,37 @@ components:
           description: "має відповідати паттерну: містити тільки символи літер з т\
             аблиці ЮНІКОД і довжиною від двух літер"
           example: Кириленко
-      description: сутність для реєстрації
+      description: сутність передач данних для реєстрації
+    UpdateWineEvaluationDTO:
+      type: object
+      properties:
+        wineId:
+          type: integer
+          description: унікальний ідентифікатор вина
+          format: int64
+        evaluation:
+          title: оцінка від користовача для вина
+          maximum: 5
+          minimum: 1
+          type: integer
+          description: оцінка може бути не менше одиниці та не більше п'яти
+          format: int32
+      description: "сутність для оцінки, яка містить інформацію про ідентифікатор\
+        \ вина та саму оцінку, і проходить валідацію"
+    WineCommentRequestDTO:
+      required:
+      - userComment
+      type: object
+      properties:
+        wineId:
+          type: integer
+          description: унікальний ідентифікатор вина
+          format: int64
+        userComment:
+          type: string
+          description: коментар від авторизованого користовача; не може бути порожнім
+      description: "сутність для передачі коментаря в тілі запиту, яка містить нео\
+        бхідну інформацію та проходить валідацію"
     CredentialsDTO:
       required:
       - email
@@ -176,25 +851,21 @@ components:
       properties:
         id:
           type: integer
-          description: уникальний цифровий ідентифікатор вина
+          description: унікальний цифровий ідентифікатор вина
           format: int64
           example: 5
         wineName:
           type: string
-          description: імя
+          description: ім'я
         price:
           type: number
-          description: ціна
+          description: актуальна ціна вина з урахуванням поточних діючих знижок (акцій)
           example: 184.85
-        discount:
+        adminDiscountPercentage:
           type: number
-          description: знижка
+          description: знижка від адміністратора (у відсотках)
           format: float
           example: 22.5
-        priceWithDiscount:
-          type: number
-          description: ціна зі знижкою
-          example: 165.03
         wineDescription:
           type: string
           description: опис вина
@@ -202,15 +873,26 @@ components:
           type: integer
           description: залишок бутилок в магазині
           format: int32
-          example: 41
         bottleCapacity:
           type: string
-          description: обєм бутилки
+          description: об'єм бутилки
           example: "0.7"
         alcohol:
           type: string
           description: відсоток алкоголю
           example: "7.5"
+        isNewCollection:
+          type: boolean
+          description: чи відноситься вино до нової колекції
+        isBestSeller:
+          type: boolean
+          description: чи відноситься вино до бестселлерів
+        isSale:
+          type: boolean
+          description: чи є вино зі знижкою
+        isWineTimePromotion:
+          type: boolean
+          description: 'чи діє зараз акція "час вина" на даний товар '
         winemaking:
           type: string
         grapeVarieties:
@@ -231,10 +913,10 @@ components:
           $ref: '#/components/schemas/ProducedCountryDTO'
         region:
           $ref: '#/components/schemas/RegionDTO'
-        rate:
+        evaluation:
           type: integer
           description: може містити тільки ціле число від нуля (якщо ще жодної оцінки
-            не було) до пяти
+            не було) до п'яти
           format: int32
           example: 4
         wineComments:
@@ -242,65 +924,67 @@ components:
           description: "список коментарів для данного вина відсортированих за дато\
             ю додавання (від більш нових, до старіших))"
           items:
-            $ref: '#/components/schemas/WineCommentDTO'
+            $ref: '#/components/schemas/WineCommentResponseDTO'
         bottlesSoldCounter:
           type: integer
           description: "ціле число, що репрезентує кількість проданих бутилок"
           format: int64
-          example: 4
+          example: 11
         addedDateTime:
           type: string
+          description: дата та час коли товар був доданий у магазин
           format: date-time
         imageUrl:
           type: string
-          description: "посилання на зображення вина, що зберігається на сервері"
-          example: /home/developer/my folder/java_projects/craftWineShop/CraftWineShop/src/main/wine_images/wine-4.jpg
-        newCollection:
-          type: boolean
-        bestSeller:
-          type: boolean
-        sale:
-          type: boolean
+          description: посилання на зображення вина
+          example: https://res.cloudinary.com/dtfnirefg/image/upload/v1707609852/craft-wine-shop/wine-2.png
       description: репрезентація сутності вина
     ProducedCountryDTO:
       type: object
       properties:
         id:
           type: integer
+          description: унікальний ідентифікатор країни
           format: int64
         name:
           type: string
-      description: "країна виробник, яка в своїй сітності містить унікальний цифро\
-        вий ідентифікатор та саме імя країни"
+          description: Ім'я країни
+      description: Країна виробник вина
     RegionDTO:
       type: object
       properties:
         id:
           type: integer
+          description: унікальний ідентифікатор регіону
           format: int64
         name:
           type: string
-      description: "регіон країни виробника, яка в своїй сітності містить унікальн\
-        ий цифровий ідентифікатор та саме імя країни"
-    WineCommentDTO:
+          description: Ім'я регіону
+      description: Регіон виробництва вина
+    WineCommentResponseDTO:
       type: object
       properties:
         id:
           type: integer
+          description: унікальний ідентифікатор коментаря
           format: int64
         userFirstName:
           type: string
+          description: "ім'я користувача, який залишив коментар"
         userLastName:
           type: string
+          description: "прізвище користувача, який залишив коментар"
         comment:
           type: string
+          description: коментар
         addedCommentTime:
           type: string
+          description: дата додавання коментаря
           format: date-time
-      description: "список коментарів для данного вина відсортированих за датою до\
-        давання (від більш нових, до старіших))"
+      description: Сутність для кожного коментаря
   securitySchemes:
     JWT:
       type: http
       scheme: bearer
       bearerFormat: JWT
+#

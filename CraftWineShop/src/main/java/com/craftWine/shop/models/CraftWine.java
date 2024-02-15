@@ -18,13 +18,14 @@ import java.util.List;
 public class CraftWine extends AbstractWineClass {
 
 //block 1: AUTO order by added wine time DESC
-//block 2: BestSellers - AUTO sold counter DESC
-//block 3: SALES - make an adin
+//block 2: BestSellers - AUTO sold counter-DESC
+//block 3: SALES - make an admin
 
     private String wineName;
+
+    private BigDecimal originalPrice;
     private BigDecimal price;
-    private float discount;
-    private BigDecimal priceWithDiscount;
+    private float adminDiscountPercentage;
 
 
     private String wineDescription;
@@ -35,6 +36,7 @@ public class CraftWine extends AbstractWineClass {
     private boolean isNewCollection;
     private boolean isBestSeller;
     private boolean isSale;
+    private boolean isWineTimePromotion;
 
 
     private String winemaking;
@@ -59,9 +61,9 @@ public class CraftWine extends AbstractWineClass {
 
 
     @OneToMany(mappedBy = "craftWine")
-    private List<WineStar> stars;
+    private List<WineEvaluation> stars;
 
-    private short rate = 0;
+    private short evaluation = 0;
 
     @OneToMany(mappedBy = "craftWine")
     private List<WineComment> wineComments;
@@ -75,73 +77,5 @@ public class CraftWine extends AbstractWineClass {
     public CraftWine() {
         super();
     }
-
-//    public CraftWine(Long id, String wineName, BigDecimal price, String wineDescription,
-//                     short quantity, String bottleCapacity, String alcohol, boolean isNewCollection,
-//                     boolean isBestSeller, boolean isSale, String winemaking, String grapeVarieties,
-//                     String tastingNotes, String storeAndServeAdvices, String foodPairing, String reviewsAndAwards,
-//                     WineColor wineColor, SugarConsistency sugarConsistency, ProducedCountry country, Region region, String imageUrl) {
-//        super(id);
-//        this.wineName = wineName;
-//        this.price = price;
-//        this.wineDescription = wineDescription;
-//        this.quantity = quantity;
-//        this.bottleCapacity = bottleCapacity;
-//        this.alcohol = alcohol;
-//        this.isNewCollection = isNewCollection;
-//        this.isBestSeller = isBestSeller;
-//        this.isSale = isSale;
-//        this.winemaking = winemaking;
-//        this.grapeVarieties = grapeVarieties;
-//        this.tastingNotes = tastingNotes;
-//        this.storeAndServeAdvices = storeAndServeAdvices;
-//        this.foodPairing = foodPairing;
-//        this.reviewsAndAwards = reviewsAndAwards;
-//        this.wineColor = wineColor;
-//        this.sugarConsistency = sugarConsistency;
-//        this.country = country;
-//        this.region = region;
-//
-//        this.rate = 0;
-//        this.bottlesSoldCounter = 0;
-//
-//        this.addedDateTime = LocalDateTime.now();
-//        this.imageUrl = imageUrl;
-//    }
-//
-//    public CraftWine(String wineName, BigDecimal price, String wineDescription,
-//                     short quantity, String bottleCapacity, String alcohol, boolean isNewCollection,
-//                     boolean isBestSeller, boolean isSale, String winemaking, String grapeVarieties,
-//                     String tastingNotes, String storeAndServeAdvices, String foodPairing, String reviewsAndAwards,
-//                     WineColor wineColor, SugarConsistency sugarConsistency, ProducedCountry country, Region region,
-//                     String imageUrl) {
-//        super();
-//        this.wineName = wineName;
-//        this.price = price;
-//        this.wineDescription = wineDescription;
-//        this.quantity = quantity;
-//        this.bottleCapacity = bottleCapacity;
-//        this.alcohol = alcohol;
-//        this.isNewCollection = isNewCollection;
-//        this.isBestSeller = isBestSeller;
-//        this.isSale = isSale;
-//        this.winemaking = winemaking;
-//        this.grapeVarieties = grapeVarieties;
-//        this.tastingNotes = tastingNotes;
-//        this.storeAndServeAdvices = storeAndServeAdvices;
-//        this.foodPairing = foodPairing;
-//        this.reviewsAndAwards = reviewsAndAwards;
-//        this.wineColor = wineColor;
-//        this.sugarConsistency = sugarConsistency;
-//        this.country = country;
-//        this.region = region;
-//
-//        this.rate = 0;
-//        this.bottlesSoldCounter = 0;
-//
-//        this.addedDateTime = LocalDateTime.now();
-//        this.imageUrl = imageUrl;
-//    }
-
 
 }
