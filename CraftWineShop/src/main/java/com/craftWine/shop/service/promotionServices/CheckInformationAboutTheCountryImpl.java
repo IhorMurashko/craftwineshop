@@ -6,9 +6,7 @@ import com.craftWine.shop.service.producedCountryServices.ProducedCountryService
 import com.craftWine.shop.utils.SwitchCaseToCapitalize;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
@@ -24,8 +22,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Getter
-@Setter
 @Slf4j
 public class CheckInformationAboutTheCountryImpl implements CheckInformationAboutTheCountry {
 

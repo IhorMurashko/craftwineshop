@@ -36,6 +36,7 @@ public class CraftWineServiceImpl implements CraftWineService {
         if (craftWine.getAdminDiscountPercentage() > 0) {
             price = PercentageHandler.getPercentageFromPrice(craftWineRegistrationDTO.originalPrice(),
                     craftWineRegistrationDTO.adminDiscountPercentage());
+            craftWine.setSale(true);
         }
 
 

@@ -17,6 +17,7 @@ import com.craftWine.shop.service.producedCountryServices.ProducedCountryService
 import com.craftWine.shop.service.promotionServices.CheckInformationAboutTheCountry;
 import com.craftWine.shop.service.regionServices.RegionService;
 import com.craftWine.shop.utils.ImagineHandler;
+import com.craftWine.shop.utils.SwitchCaseToCapitalize;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -52,7 +53,6 @@ public class AdminController {
     private final ProducedCountryMapper producedCountryMapper;
     private final CheckInformationAboutTheCountry checkInformationAboutTheCountry;
     private final RegionService regionService;
-
     private final ImageHandlerService imageHandlerService;
 
     @GetMapping(value = "/attributes_for_add_new_wine", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -179,7 +179,7 @@ public class AdminController {
 
         ProducedCountry producedCountry = optionalProducedCountry.get();
 
-        Region region = new Region(regionDTO.name());
+        Region region = new Region(SwitchCaseToCapitalize.switchCaseToCapitalize(regionDTO.name()));
         region.setProducedCountry(producedCountry);
 
         regionService.save(region);
@@ -193,7 +193,5 @@ public class AdminController {
                         .collect(Collectors.toList());
 
         return new ResponseEntity<>(producedCountryDTOList, HttpStatus.CREATED);
-
-
     }
 }

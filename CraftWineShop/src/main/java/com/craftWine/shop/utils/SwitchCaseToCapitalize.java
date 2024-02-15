@@ -14,24 +14,30 @@ public class SwitchCaseToCapitalize {
      * If the input word is empty, it is returned as it is.
      * @throws NullPointerException If the input word is {@code null}.
      */
+
+
     public static String switchCaseToCapitalize(String word) {
         if (word.isEmpty()) {
             // If the input word is empty, return it as is
             return word;
         }
 
-        char[] chars = word.toCharArray();
+        // Split the input string into words using Unicode non-letter characters as delimiters
+        String[] words = word.split("[^\\p{L}]");
 
-        // Capitalize the first character
-        chars[0] = Character.toUpperCase(chars[0]);
+        StringBuilder result = new StringBuilder();
 
-        // Convert the remaining characters to lowercase
-        for (int i = 1; i < chars.length; i++) {
-            chars[i] = Character.toLowerCase(chars[i]);
+        for (String w : words) {
+            if (!w.isEmpty()) {
+                // Capitalize the first character of each word and convert the rest to lowercase
+                result.append(Character.toUpperCase(w.charAt(0)))
+                        .append(w.substring(1).toLowerCase())
+                        .append(" "); // Add a space after each word
+            }
         }
 
-        // Return the modified string
-        return String.valueOf(chars);
+        // Remove the trailing space and return the modified string
+        return result.toString().trim();
     }
 }
 

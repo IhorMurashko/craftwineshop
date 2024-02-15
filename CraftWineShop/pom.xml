@@ -20,7 +20,6 @@
         <org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
-
     </properties>
 
 
@@ -60,7 +59,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -154,10 +152,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <!--                    <imageName>upagge/spring-boot-docker:spring-plugin</imageName>-->
-                    <!--                    <image>-->
-                    <!--                        <name>docker.io/craft-wine-shop</name>-->
-                    <!--                    </image>-->
                     <excludeDockerCompose>true</excludeDockerCompose>
                     <excludes>
                         <exclude>

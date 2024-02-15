@@ -182,7 +182,8 @@ public class WineTimePromotionHandlerImpl implements WineTimePromotionHandler {
                     continue;
                 }
 
-                BigDecimal percentageFromPrice = PercentageHandler.getPercentageFromPrice(craftWine.getOriginalPrice(), percentageWineTimeDiscount);
+                BigDecimal percentageFromPrice = PercentageHandler.getPercentageFromPrice(craftWine.getOriginalPrice(),
+                        percentageWineTimeDiscount);
 
                 craftWine.setPrice(percentageFromPrice);
             }
