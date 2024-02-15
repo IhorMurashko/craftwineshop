@@ -38,7 +38,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Hidden
-@Tag(name = "адмін сторінка",
+@Tag(name = "адмін контроллер",
         description = "навігація для адміністратора")
 @RequiredArgsConstructor
 @RestController

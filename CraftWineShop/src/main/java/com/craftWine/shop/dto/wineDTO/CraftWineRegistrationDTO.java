@@ -46,10 +46,7 @@ public record CraftWineRegistrationDTO(
         @NotBlank(message = "The field reviews and awards can't be blank") String reviewsAndAwards,
         @NotBlank(message = "The field wine color can't be blank") String wineColor,
         @NotBlank(message = "The field sugar consistency can't be blank") String sugarConsistency,
-//        @NotNull ProducedCountry country,
-//        @NotNull ProducedCountryDTO country,
         @NotNull(message = "The field region can't be blank") Region region,
-//        @NotNull RegionDTO region,
         @Nullable Long id,
         @Nullable String imageUrl) implements Serializable {
 
