@@ -1,12 +1,12 @@
 package com.craftWine.shop.service.crafWineServices;
 
-import com.craftWine.shop.dto.wineDTO.CraftWineRegistrationDTO;
+import com.craftWine.shop.dto.wineDTO.NewCraftWineDTO;
 import com.craftWine.shop.exceptions.NotFoundException;
 import com.craftWine.shop.mapper.CraftWineMapper;
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.models.ProducedCountry;
 import com.craftWine.shop.repositories.CraftWineRepository;
-import com.craftWine.shop.utils.ImagineHandler;
+import com.craftWine.shop.service.imagineHandlerService.ImageHandlerService;
 import com.craftWine.shop.utils.PercentageHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,18 +24,19 @@ public class CraftWineServiceImpl implements CraftWineService {
 
     private final CraftWineRepository craftWineRepository;
     private final CraftWineMapper craftWineMapper;
+    private final ImageHandlerService imageHandlerService;
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
-    public CraftWine save(CraftWineRegistrationDTO craftWineRegistrationDTO, String imagePath) {
+    public CraftWine save(NewCraftWineDTO newCraftWineDTO, String imagePath) {
 
-        CraftWine craftWine = craftWineMapper.toEntityCraftWine(craftWineRegistrationDTO);
+        CraftWine craftWine = craftWineMapper.toEntityCraftWine(newCraftWineDTO);
 
-        BigDecimal price = craftWineRegistrationDTO.originalPrice();
+        BigDecimal price = newCraftWineDTO.originalPrice();
 
         if (craftWine.getAdminDiscountPercentage() > 0) {
-            price = PercentageHandler.getPercentageFromPrice(craftWineRegistrationDTO.originalPrice(),
-                    craftWineRegistrationDTO.adminDiscountPercentage());
+            price = PercentageHandler.getPercentageFromPrice(newCraftWineDTO.originalPrice(),
+                    newCraftWineDTO.adminDiscountPercentage());
             craftWine.setSale(true);
         }
 
@@ -82,11 +83,17 @@ public class CraftWineServiceImpl implements CraftWineService {
         if (optionalCraftWine.isPresent()) {
             CraftWine craftWine = optionalCraftWine.get();
 
-            ImagineHandler.deleteWineImageFromServer(craftWine.getImageUrl());
+            boolean deleteWineImage = imageHandlerService.deleteWineImage(String.valueOf(craftWine.getId()));
 
-            craftWineRepository.delete(craftWine);
+            if (deleteWineImage) {
+                craftWineRepository.delete(craftWine);
 
-            return true;
+                return true;
+            } else {
+                throw new IllegalStateException("Could not find image");
+            }
+
+
         } else {
             throw new NotFoundException("Could not find wine with id: " + id);
         }

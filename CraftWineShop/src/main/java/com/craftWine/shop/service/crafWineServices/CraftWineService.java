@@ -1,6 +1,6 @@
 package com.craftWine.shop.service.crafWineServices;
 
-import com.craftWine.shop.dto.wineDTO.CraftWineRegistrationDTO;
+import com.craftWine.shop.dto.wineDTO.NewCraftWineDTO;
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.models.ProducedCountry;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CraftWineService {
 
-    CraftWine save(CraftWineRegistrationDTO craftWineRegistrationDTO, String imagePath);
+    CraftWine save(NewCraftWineDTO newCraftWineDTO, String imagePath);
 
     boolean save(CraftWine craftWine);
 

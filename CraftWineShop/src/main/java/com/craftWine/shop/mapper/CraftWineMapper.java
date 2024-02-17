@@ -1,6 +1,6 @@
 package com.craftWine.shop.mapper;
 
-import com.craftWine.shop.dto.wineDTO.CraftWineRegistrationDTO;
+import com.craftWine.shop.dto.wineDTO.NewCraftWineDTO;
 import com.craftWine.shop.dto.wineDTO.CraftWineDTOResponse;
 import com.craftWine.shop.enumTypes.SugarConsistency;
 import com.craftWine.shop.enumTypes.WineColor;
@@ -65,6 +65,6 @@ public interface CraftWineMapper {
     @Mapping(source = "isNewCollection", target = "newCollection")
     @Mapping(source = "isBestSeller", target = "bestSeller")
     @Mapping(source = "isSale", target = "sale")
-    CraftWine toEntityCraftWine(CraftWineRegistrationDTO craftWineRegistrationDTO);
+    CraftWine toEntityCraftWine(NewCraftWineDTO newCraftWineDTO);
 
 }

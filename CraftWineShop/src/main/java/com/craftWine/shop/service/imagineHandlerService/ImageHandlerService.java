@@ -9,4 +9,7 @@ public interface ImageHandlerService {
             throws IOException;
 
 
+    boolean deleteWineImage(String publicId) throws IOException;
+
+
 }

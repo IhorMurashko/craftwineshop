@@ -38,5 +38,18 @@ public class ImageHandlerServiceImpl implements ImageHandlerService {
         return (String) upload.get("url");
     }
 
+    @Override
+    public boolean deleteWineImage(String publicId) throws IOException {
+
+        final String imagePublicId = "wine-" + publicId;
+
+        Map destroyImage = cloudinary.uploader().destroy(imagePublicId, ObjectUtils.emptyMap());
+
+
+        String result = (String) destroyImage.get("result");
+
+        return result.equalsIgnoreCase("ok");
+    }
+
 
 }

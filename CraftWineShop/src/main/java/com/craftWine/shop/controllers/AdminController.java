@@ -3,7 +3,7 @@ package com.craftWine.shop.controllers;
 import com.craftWine.shop.dto.producedCountryDTO.ProducedCountryResponseWithSetRegionsDTO;
 import com.craftWine.shop.dto.regionDTO.NewRegionDTO;
 import com.craftWine.shop.dto.wineDTO.CraftWineDTOResponse;
-import com.craftWine.shop.dto.wineDTO.CraftWineRegistrationDTO;
+import com.craftWine.shop.dto.wineDTO.NewCraftWineDTO;
 import com.craftWine.shop.enumTypes.SugarConsistency;
 import com.craftWine.shop.enumTypes.WineColor;
 import com.craftWine.shop.mapper.CraftWineMapper;
@@ -16,7 +16,6 @@ import com.craftWine.shop.service.imagineHandlerService.ImageHandlerService;
 import com.craftWine.shop.service.producedCountryServices.ProducedCountryService;
 import com.craftWine.shop.service.promotionServices.CheckInformationAboutTheCountry;
 import com.craftWine.shop.service.regionServices.RegionService;
-import com.craftWine.shop.utils.ImagineHandler;
 import com.craftWine.shop.utils.SwitchCaseToCapitalize;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -83,7 +82,7 @@ public class AdminController {
     }
 
     @PostMapping(value = "/save_a_new_wine", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CraftWineDTOResponse> saveNewWine(@Valid CraftWineRegistrationDTO craftWineRegistrationDTO,
+    public ResponseEntity<CraftWineDTOResponse> saveNewWine(@Valid NewCraftWineDTO newCraftWineDTO,
                                                             MultipartFile wineImage) throws IOException {
 
 
@@ -92,7 +91,7 @@ public class AdminController {
         String imagePath = imageHandlerService.saveImageIntoServerAndReturnPath(wineImage, String.valueOf(lastCraftWineId));
 
 
-        CraftWine craftWine = craftWineService.save(craftWineRegistrationDTO, imagePath);
+        CraftWine craftWine = craftWineService.save(newCraftWineDTO, imagePath);
 
         CraftWineDTOResponse dtoResponse = craftWineMapper.toDTOResponse(craftWine);
 
@@ -119,7 +118,7 @@ public class AdminController {
 
     @PostMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CraftWineDTOResponse> updateWine(@PathVariable("id") Long id,
-                                                           @Valid CraftWineRegistrationDTO craftWineRegistrationDTO,
+                                                           @Valid NewCraftWineDTO newCraftWineDTO,
                                                            @Nullable MultipartFile wineImage) throws IOException {
 
         CraftWine craftWine = craftWineService.findById(id);
@@ -127,10 +126,10 @@ public class AdminController {
         String imagePath = craftWine.getImageUrl();
 
         if (wineImage != null) {
-            imagePath = ImagineHandler.saveImageIntoServerAndReturnPath(wineImage, String.valueOf(id));
+            imagePath = imageHandlerService.saveImageIntoServerAndReturnPath(wineImage, String.valueOf(newCraftWineDTO.id()));
         }
 
-        craftWine = craftWineMapper.toEntityCraftWine(craftWineRegistrationDTO);
+        craftWine = craftWineMapper.toEntityCraftWine(newCraftWineDTO);
         craftWine.setImageUrl(imagePath);
 
         craftWineService.save(craftWine);
