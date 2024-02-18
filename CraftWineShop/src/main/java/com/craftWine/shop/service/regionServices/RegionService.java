@@ -8,4 +8,7 @@ public interface RegionService {
     void save (Region region);
 
     Optional<Region> findByName (String name);
+
+
+    void deleteById(long id);
 }

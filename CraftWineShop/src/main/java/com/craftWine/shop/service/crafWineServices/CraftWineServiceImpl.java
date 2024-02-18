@@ -1,6 +1,6 @@
 package com.craftWine.shop.service.crafWineServices;
 
-import com.craftWine.shop.dto.wineDTO.NewCraftWineDTO;
+import com.craftWine.shop.dto.wineDTO.UpdateCraftWineDTO;
 import com.craftWine.shop.exceptions.NotFoundException;
 import com.craftWine.shop.mapper.CraftWineMapper;
 import com.craftWine.shop.models.CraftWine;
@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -28,15 +29,42 @@ public class CraftWineServiceImpl implements CraftWineService {
 
     @Transactional(isolation = Isolation.SERIALIZABLE)
     @Override
-    public CraftWine save(NewCraftWineDTO newCraftWineDTO, String imagePath) {
+    public CraftWine save(UpdateCraftWineDTO updateCraftWineDTO, MultipartFile wineImage) throws IOException {
 
-        CraftWine craftWine = craftWineMapper.toEntityCraftWine(newCraftWineDTO);
+        CraftWine craftWine;
+        Long wineId = updateCraftWineDTO.id();
+        String imagePath = null;
 
-        BigDecimal price = newCraftWineDTO.originalPrice();
+
+        if (wineId != null && craftWineRepository.existsById(wineId)) {
+            craftWine = craftWineRepository.findById(updateCraftWineDTO.id()).orElseThrow(() ->
+                    new NotFoundException("Could not find wine with id: " + updateCraftWineDTO.id()));
+
+            imagePath =
+                    wineImage == null
+                            ? craftWine.getImageUrl()
+                            : imageHandlerService.saveImageIntoServerAndReturnPath(wineImage, String.valueOf(wineId));
+
+
+        } else {
+            wineId = getLastCraftWineId() + 1;
+            imagePath = imageHandlerService.saveImageIntoServerAndReturnPath(wineImage, String.valueOf(wineId));
+        }
+
+
+//        if (wineImage != null && !wineImage.isEmpty()) {
+//            imagePath = imageHandlerService.saveImageIntoServerAndReturnPath(wineImage, String.valueOf(wineId));
+//        }
+
+
+        craftWine = craftWineMapper.toEntityCraftWine(updateCraftWineDTO);
+
+
+        BigDecimal price = updateCraftWineDTO.originalPrice();
 
         if (craftWine.getAdminDiscountPercentage() > 0) {
-            price = PercentageHandler.getPercentageFromPrice(newCraftWineDTO.originalPrice(),
-                    newCraftWineDTO.adminDiscountPercentage());
+            price = PercentageHandler.getPercentageFromPrice(updateCraftWineDTO.originalPrice(),
+                    updateCraftWineDTO.adminDiscountPercentage());
             craftWine.setSale(true);
         }
 
@@ -44,10 +72,7 @@ public class CraftWineServiceImpl implements CraftWineService {
         craftWine.setImageUrl(imagePath);
         craftWine.setPrice(price);
 
-        craftWineRepository.save(craftWine);
-        return craftWine;
-
-
+        return craftWineRepository.save(craftWine);
     }
 
 

@@ -22,5 +22,6 @@ public interface ProducedCountryService {
 
     void updateFieldTimePromotion(ProducedCountry producedCountry, boolean isPromotionTime);
 
+    void deleteCountryById(long id);
 
 }

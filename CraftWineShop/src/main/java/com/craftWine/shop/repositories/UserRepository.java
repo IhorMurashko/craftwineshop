@@ -15,11 +15,11 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
 
-    boolean existsUserByEmail(String email);
+    boolean existsUserByEmail(@Param("email") String email);
 
-    boolean existsUserById(Long id);
+    boolean existsUserById(@Param("id") Long id);
 
-    Optional<User> findUserByEmail(String email);
+    Optional<User> findUserByEmail(@Param("email") String email);
 
     @Query("SELECT us.lastTimeResetPassword FROM User us WHERE us.email=:email")
     Optional<LocalDateTime> lastTimeResetPassword(@Param("email") String email);

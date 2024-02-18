@@ -1,15 +1,16 @@
 package com.craftWine.shop.service.crafWineServices;
 
-import com.craftWine.shop.dto.wineDTO.NewCraftWineDTO;
+import com.craftWine.shop.dto.wineDTO.UpdateCraftWineDTO;
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.models.ProducedCountry;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 
 public interface CraftWineService {
 
-    CraftWine save(NewCraftWineDTO newCraftWineDTO, String imagePath);
+    CraftWine save(UpdateCraftWineDTO updateCraftWineDTO, MultipartFile wineImage) throws IOException;
 
     boolean save(CraftWine craftWine);
 

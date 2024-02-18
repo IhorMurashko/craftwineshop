@@ -1,5 +1,6 @@
 package com.craftWine.shop.service.producedCountryServices;
 
+import com.craftWine.shop.exceptions.NotFoundException;
 import com.craftWine.shop.models.ProducedCountry;
 import com.craftWine.shop.repositories.ProducedCountryRepository;
 import lombok.Getter;
@@ -59,5 +60,15 @@ public class ProducedCountryServiceImpl implements ProducedCountryService {
             throw new IllegalArgumentException("produced country cannot be null");
         }
         producedCountryRepository.updateFieldTimePromotion(producedCountry, isPromotionTime);
+    }
+
+    @Override
+    public void deleteCountryById(long id) {
+
+        if (producedCountryRepository.existsById(id)) {
+            producedCountryRepository.deleteById(id);
+        } else {
+            throw new NotFoundException("Could not find country with id: " + id);
+        }
     }
 }

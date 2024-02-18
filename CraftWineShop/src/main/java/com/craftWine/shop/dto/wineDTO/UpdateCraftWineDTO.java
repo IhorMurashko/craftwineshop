@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 /**
  * DTO for {@link com.craftWine.shop.models.CraftWine}
  */
-public record NewCraftWineDTO(
+public record UpdateCraftWineDTO(
         @NotBlank(message = "The field name of the wine can't be blank") String wineName,
         @Digits(integer = 10, fraction = 2,
                 message = "The field price can't contains more than 10 numbers," +

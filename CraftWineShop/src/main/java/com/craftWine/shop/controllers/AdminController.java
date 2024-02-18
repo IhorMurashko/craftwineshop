@@ -3,7 +3,7 @@ package com.craftWine.shop.controllers;
 import com.craftWine.shop.dto.producedCountryDTO.ProducedCountryResponseWithSetRegionsDTO;
 import com.craftWine.shop.dto.regionDTO.NewRegionDTO;
 import com.craftWine.shop.dto.wineDTO.CraftWineDTOResponse;
-import com.craftWine.shop.dto.wineDTO.NewCraftWineDTO;
+import com.craftWine.shop.dto.wineDTO.UpdateCraftWineDTO;
 import com.craftWine.shop.enumTypes.SugarConsistency;
 import com.craftWine.shop.enumTypes.WineColor;
 import com.craftWine.shop.mapper.CraftWineMapper;
@@ -81,17 +81,12 @@ public class AdminController {
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/save_a_new_wine", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CraftWineDTOResponse> saveNewWine(@Valid NewCraftWineDTO newCraftWineDTO,
-                                                            MultipartFile wineImage) throws IOException {
+    @PostMapping(value = "/save_wine", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CraftWineDTOResponse> saveNewWine(@Valid UpdateCraftWineDTO updateCraftWineDTO,
+                                                            @Nullable MultipartFile wineImage) throws IOException {
 
 
-        Long lastCraftWineId = craftWineService.getLastCraftWineId() + 1;
-
-        String imagePath = imageHandlerService.saveImageIntoServerAndReturnPath(wineImage, String.valueOf(lastCraftWineId));
-
-
-        CraftWine craftWine = craftWineService.save(newCraftWineDTO, imagePath);
+        CraftWine craftWine = craftWineService.save(updateCraftWineDTO, wineImage);
 
         CraftWineDTOResponse dtoResponse = craftWineMapper.toDTOResponse(craftWine);
 
@@ -115,10 +110,9 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-
     @PostMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CraftWineDTOResponse> updateWine(@PathVariable("id") Long id,
-                                                           @Valid NewCraftWineDTO newCraftWineDTO,
+                                                           @Valid UpdateCraftWineDTO updateCraftWineDTO,
                                                            @Nullable MultipartFile wineImage) throws IOException {
 
         CraftWine craftWine = craftWineService.findById(id);
@@ -126,10 +120,10 @@ public class AdminController {
         String imagePath = craftWine.getImageUrl();
 
         if (wineImage != null) {
-            imagePath = imageHandlerService.saveImageIntoServerAndReturnPath(wineImage, String.valueOf(newCraftWineDTO.id()));
+            imagePath = imageHandlerService.saveImageIntoServerAndReturnPath(wineImage, String.valueOf(updateCraftWineDTO.id()));
         }
 
-        craftWine = craftWineMapper.toEntityCraftWine(newCraftWineDTO);
+        craftWine = craftWineMapper.toEntityCraftWine(updateCraftWineDTO);
         craftWine.setImageUrl(imagePath);
 
         craftWineService.save(craftWine);
@@ -159,6 +153,13 @@ public class AdminController {
 
             return new ResponseEntity<>(producedCountryDTOList, HttpStatus.CREATED);
         }
+    }
+
+    @DeleteMapping("/delete_country/{id}")
+    public ResponseEntity<HttpStatus> deleteCountry(@PathVariable("id") long id) {
+
+        producedCountryService.deleteCountryById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 
@@ -192,5 +193,12 @@ public class AdminController {
                         .collect(Collectors.toList());
 
         return new ResponseEntity<>(producedCountryDTOList, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/delete_region/{id}")
+    public ResponseEntity<HttpStatus> deleteRegion(@PathVariable("id") long id) {
+
+        regionService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
