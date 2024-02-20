@@ -33,7 +33,7 @@ public class CraftWineServiceImpl implements CraftWineService {
 
         CraftWine craftWine;
         Long wineId = updateCraftWineDTO.id();
-        String imagePath = null;
+        String imagePath;
 
 
         if (wineId != null && craftWineRepository.existsById(wineId)) {

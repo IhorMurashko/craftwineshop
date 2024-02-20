@@ -18,6 +18,7 @@ import java.util.List;
 @RequestMapping("api/v1/wine_time_promotion")
 @RequiredArgsConstructor
 public class PromotionTimeController {
+
     private final WineTimePromotionHandler wineTimePromotionHandler;
 
     @Operation(

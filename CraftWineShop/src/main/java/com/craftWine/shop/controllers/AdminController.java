@@ -18,6 +18,9 @@ import com.craftWine.shop.service.promotionServices.CheckInformationAboutTheCoun
 import com.craftWine.shop.service.regionServices.RegionService;
 import com.craftWine.shop.utils.SwitchCaseToCapitalize;
 import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +39,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Hidden
 @Tag(name = "адмін контроллер",
         description = "навігація для адміністратора")
 @RequiredArgsConstructor
@@ -54,6 +56,21 @@ public class AdminController {
     private final RegionService regionService;
     private final ImageHandlerService imageHandlerService;
 
+
+    @Operation(
+            description = "отримати масив із загальними властивостями для вина",
+            method = "GET",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = """
+                            Доступні масиви властивостей:
+                            - вміст цукру (sugarConsistency);
+                            - колір вина (wineColor);
+                            - країна-виробник (producedCountry);
+                            - регіони для кожної з країн (regions);
+                            """
+                    )
+            }
+    )
     @GetMapping(value = "/attributes_for_add_new_wine", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> attributes_for_add_new_wine() {
 
@@ -81,9 +98,22 @@ public class AdminController {
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
+
+    @Operation(
+            description = "додати нове вино або оновити існуюче",
+            method = "POST",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "репрезентація збереженого вина"),
+            }
+    )
+
     @PostMapping(value = "/save_wine", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CraftWineDTOResponse> saveNewWine(@Valid UpdateCraftWineDTO updateCraftWineDTO,
-                                                            @Nullable MultipartFile wineImage) throws IOException {
+    public ResponseEntity<CraftWineDTOResponse> saveNewWine(
+            @Parameter(description = "зберегти новий або оновити існуючий об'єкт вина, поля якого проходять валідацію")
+            @Valid UpdateCraftWineDTO updateCraftWineDTO,
+            @Parameter(description = "зображення вина",
+                    required = false)
+            @Nullable MultipartFile wineImage) throws IOException {
 
 
         CraftWine craftWine = craftWineService.save(updateCraftWineDTO, wineImage);
@@ -93,9 +123,17 @@ public class AdminController {
         return new ResponseEntity<>(dtoResponse, HttpStatus.CREATED);
     }
 
-
+    @Operation(
+            description = "отримати вино по унікальному ідентифікатору",
+            method = "GET",
+            responses = {@ApiResponse(responseCode = "200", description = "репрезентація вина")}
+    )
     @GetMapping(value = "/get/{id}")
-    public ResponseEntity<CraftWineDTOResponse> getWineById(@PathVariable("id") Long id) {
+    public ResponseEntity<CraftWineDTOResponse> getWineById(@Parameter(name = "id",
+            description = "унікальний ідентифікатор для вина",
+            example = "5"
+    )
+                                                            @PathVariable("id") Long id) {
         CraftWine craftWine = craftWineService.findById(id);
 
         CraftWineDTOResponse craftWineDTOResponse = craftWineMapper.toDTOResponse(craftWine);
@@ -103,39 +141,58 @@ public class AdminController {
         return new ResponseEntity<CraftWineDTOResponse>(craftWineDTOResponse, HttpStatus.OK);
     }
 
+    @Operation(
+            description = "видалити вино по унікальному ідентифікатору",
+            method = "delete",
+            responses = {@ApiResponse(responseCode = "204")}
+    )
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteWineFromShop(@PathVariable("id") Long id) throws IOException {
-
+    public ResponseEntity<HttpStatus> deleteWineFromShop(
+            @Parameter(name = "id", description = "унікальний ідентифікатор для вина", example = "5")
+            @PathVariable("id") Long id) throws IOException {
         craftWineService.deleteCraftWineById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PostMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CraftWineDTOResponse> updateWine(@PathVariable("id") Long id,
-                                                           @Valid UpdateCraftWineDTO updateCraftWineDTO,
-                                                           @Nullable MultipartFile wineImage) throws IOException {
+//    @PostMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<CraftWineDTOResponse> updateWine(@PathVariable("id") Long id,
+//                                                           @Valid UpdateCraftWineDTO updateCraftWineDTO,
+//                                                           @Nullable MultipartFile wineImage) throws IOException {
+//
+//        CraftWine craftWine = craftWineService.findById(id);
+//
+//        String imagePath = craftWine.getImageUrl();
+//
+//        if (wineImage != null) {
+//            imagePath = imageHandlerService.saveImageIntoServerAndReturnPath(wineImage, String.valueOf(updateCraftWineDTO.id()));
+//        }
+//
+//        craftWine = craftWineMapper.toEntityCraftWine(updateCraftWineDTO);
+//        craftWine.setImageUrl(imagePath);
+//
+//        craftWineService.save(craftWine);
+//
+//
+//        CraftWineDTOResponse craftWineDTOResponse = craftWineMapper.toDTOResponse(craftWine);
+//
+//        return new ResponseEntity<CraftWineDTOResponse>(craftWineDTOResponse, HttpStatus.OK);
+//    }
 
-        CraftWine craftWine = craftWineService.findById(id);
-
-        String imagePath = craftWine.getImageUrl();
-
-        if (wineImage != null) {
-            imagePath = imageHandlerService.saveImageIntoServerAndReturnPath(wineImage, String.valueOf(updateCraftWineDTO.id()));
-        }
-
-        craftWine = craftWineMapper.toEntityCraftWine(updateCraftWineDTO);
-        craftWine.setImageUrl(imagePath);
-
-        craftWineService.save(craftWine);
-
-
-        CraftWineDTOResponse craftWineDTOResponse = craftWineMapper.toDTOResponse(craftWine);
-
-        return new ResponseEntity<CraftWineDTOResponse>(craftWineDTOResponse, HttpStatus.OK);
-    }
-
+    @Operation(
+            summary = "додати нову країну-виробник",
+            description = "при додаванні нової країни здійснюється запит на інші ресурси, " +
+                    "для корректної роботи акціїї \"час вина\";" +
+                    "запит може займати не значний час, а ім'я країни має бути корректним;",
+            method = "GET",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "массив доступних країн з унікальними ідентифікаторами" +
+                            "та регіонама для кожної з країни"),
+                    @ApiResponse(responseCode = "400", description = "якщо ім'я країни введено не корректно")}
+    )
     @GetMapping("/add_new_country/{countryName}")
-    public ResponseEntity<List<ProducedCountryResponseWithSetRegionsDTO>> addNewCountry(@PathVariable("countryName") String countryName) throws IOException {
+    public ResponseEntity<List<ProducedCountryResponseWithSetRegionsDTO>> addNewCountry(
+            @Parameter(name = "countryName", description = "ім'я країни", example = "ukraine")
+            @PathVariable("countryName") String countryName) throws IOException {
 
         ProducedCountry producedCountry = checkInformationAboutTheCountry.findTheCountryAndCoordinatesOfTheCapitalByItsName(countryName);
 
@@ -155,16 +212,35 @@ public class AdminController {
         }
     }
 
+    @Operation(
+            description = "видалити країну по унікальному ідентифікатору",
+            method = "delete",
+            responses = {@ApiResponse(responseCode = "204")}
+    )
     @DeleteMapping("/delete_country/{id}")
-    public ResponseEntity<HttpStatus> deleteCountry(@PathVariable("id") long id) {
+    public ResponseEntity<HttpStatus> deleteCountry(
+            @Parameter(name = "id", description = "унікальний ідентифікатор країни", example = "7")
+            @PathVariable("id") long id) {
 
         producedCountryService.deleteCountryById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 
+    @Operation(
+            description = "додатий новий регіон для країни",
+            method = "POST",
+            responses = {
+                    @ApiResponse(responseCode = "201"),
+                    @ApiResponse(responseCode = "400")
+            }
+    )
+
     @PostMapping("/add_new_region")
-    public ResponseEntity<List<ProducedCountryResponseWithSetRegionsDTO>> addNewRegion(@RequestBody NewRegionDTO regionDTO) {
+    public ResponseEntity<List<ProducedCountryResponseWithSetRegionsDTO>> addNewRegion(
+            @Parameter(description = "об'єкт, який містить інформацію про країну," +
+                    "до якої відноситься даний регіон, та назва регіону", required = true)
+            @RequestBody NewRegionDTO regionDTO) {
 
         Optional<ProducedCountry> optionalProducedCountry
                 = producedCountryService.findById(regionDTO.producedCountryId());
@@ -195,8 +271,16 @@ public class AdminController {
         return new ResponseEntity<>(producedCountryDTOList, HttpStatus.CREATED);
     }
 
+
+    @Operation(
+            description = "видалити регіон по унікальному ідентифікатору",
+            method = "delete",
+            responses = {@ApiResponse(responseCode = "204")}
+    )
     @DeleteMapping("/delete_region/{id}")
-    public ResponseEntity<HttpStatus> deleteRegion(@PathVariable("id") long id) {
+    public ResponseEntity<HttpStatus> deleteRegion(
+            @Parameter(name = "id", description = "унікальний ідентифікатор регіону", example = "2")
+            @PathVariable("id") long id) {
 
         regionService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
