@@ -62,13 +62,13 @@ public class CraftWineServiceImpl implements CraftWineService {
     }
 
     @Override
-    public CraftWine findById(long id) {
+    public Optional<CraftWine> findById(long id) {
 
-        Optional<CraftWine> optionalCraftWine = craftWineRepository.findById(id);
+        return craftWineRepository.findById(id);
 
 
-        return optionalCraftWine.orElseThrow(
-                () -> new NotFoundException("Could not find wine with id: " + id));
+//        return optionalCraftWine.orElseThrow(
+//                () -> new NotFoundException("Could not find wine with id: " + id));
     }
 
 

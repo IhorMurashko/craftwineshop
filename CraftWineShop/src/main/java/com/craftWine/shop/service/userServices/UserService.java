@@ -2,7 +2,6 @@ package com.craftWine.shop.service.userServices;
 
 import com.craftWine.shop.models.User;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 public interface UserService {
@@ -14,6 +13,8 @@ public interface UserService {
     Optional<User> findUserByEmail(String email);
 
     Optional<User> findUserById(Long id);
+
+    Optional<User> extractUserFromToken(String token);
 
 
 }

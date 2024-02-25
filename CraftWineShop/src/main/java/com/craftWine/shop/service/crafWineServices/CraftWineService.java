@@ -6,6 +6,7 @@ import com.craftWine.shop.models.ProducedCountry;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public interface CraftWineService {
 
@@ -16,7 +17,7 @@ public interface CraftWineService {
 
     List<CraftWine> findAll();
 
-    CraftWine findById(long id);
+    Optional<CraftWine> findById(long id);
 
 
     boolean deleteCraftWineById(long id) throws IOException;

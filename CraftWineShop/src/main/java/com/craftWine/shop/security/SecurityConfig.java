@@ -3,7 +3,6 @@ package com.craftWine.shop.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -62,6 +61,10 @@ public class SecurityConfig {
         http.exceptionHandling((exceptions) -> exceptions.authenticationEntryPoint(jwtAuthEntryPoint).accessDeniedHandler(myAccessDeniedHandler));
         http.authorizeHttpRequests((authorize) ->
                         authorize
+                                .requestMatchers("/api/v1/user_cart/**").hasRole("USER")
+                                .requestMatchers("/api/v1/user_favorite/**").hasRole("USER")
+                                .requestMatchers("/api/v1/comments/**").hasRole("USER")
+                                .requestMatchers("/api/v1/evaluation/**").hasRole("USER")
 //                                .requestMatchers("/reg/login").permitAll()
 //                                .requestMatchers("reg/register").permitAll()
 ////                                .requestMatchers("/admin/**").hasAuthority("ADMIN")

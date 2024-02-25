@@ -2,8 +2,8 @@ package com.craftWine.shop.service.userServices;
 
 import com.craftWine.shop.models.User;
 import com.craftWine.shop.repositories.UserRepository;
+import com.craftWine.shop.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,8 +13,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
 
-    @Autowired
     private final UserRepository userRepository;
+    private final TokenProvider tokenProvider;
 
     @Override
     public void saveUser(User user) {
@@ -35,8 +35,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findUserById(Long id) {
-
         return userRepository.findById(id);
+    }
+
+    @Override
+    public Optional<User> extractUserFromToken(String token) {
+
+        if (token == null) {
+            throw new IllegalArgumentException("Could not extract email");
+        }
+
+        String email = tokenProvider.extractUsername(token.substring(7));
+
+        return findUserByEmail(email);
     }
 
 

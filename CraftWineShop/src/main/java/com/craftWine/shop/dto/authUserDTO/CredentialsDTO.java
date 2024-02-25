@@ -8,8 +8,8 @@ import jakarta.validation.constraints.Size;
 @Schema(description = "сутність для аутентифікації")
 public record CredentialsDTO(@NotBlank
                              @Email(message = "Email pattern is not correct")
-                             @Schema(title = "емайл користувача", description = "емайл для здійснення аутентифікації", pattern = "має відповідати" +
-                                     " стандартному паттерну емайла")
+                             @Schema(title = "емайл користувача", description = "емайл для здійснення аутентифікації",
+                                     pattern = "має відповідати стандартному паттерну емайла")
                              String email,
 
                              @Size(min = 4, max = 35, message = "Password should be minimum 4 characters and maximum 35")

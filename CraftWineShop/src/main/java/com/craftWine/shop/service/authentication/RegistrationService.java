@@ -66,8 +66,8 @@ public class RegistrationService {
                 .findUserByEmail(requestDTO.getEmail().toLowerCase())
                 .isPresent();
         // The link to be included in the confirmation email.
-        String link = backendLink + "/api/v1/reg/confirm?token=";
-//        String link = "http://localhost:8080/api/v1/reg/confirm?token=";
+//        String link = backendLink + "/api/v1/reg/confirm?token=";
+        String link = "http://localhost:8080/api/v1/reg/confirm?token=";
 
         /*
          * If the user already exists and has confirmed their account, a message will be returned.

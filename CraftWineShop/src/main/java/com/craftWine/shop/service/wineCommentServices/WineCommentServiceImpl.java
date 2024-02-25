@@ -1,6 +1,7 @@
 package com.craftWine.shop.service.wineCommentServices;
 
 import com.craftWine.shop.exceptions.EmailProblemException;
+import com.craftWine.shop.exceptions.NotFoundException;
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.models.User;
 import com.craftWine.shop.models.WineComment;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,7 +35,9 @@ public class WineCommentServiceImpl implements WineCommentService {
         User user = userService.findUserByEmail(userEmailFromToken).orElseThrow(() ->
                 new EmailProblemException("Couldn't  find user with email " + userEmailFromToken));
 
-        CraftWine craftWine = craftWineService.findById(wineId);
+        Optional<CraftWine> craftWineOptional = craftWineService.findById(wineId);
+
+        CraftWine craftWine = craftWineOptional.orElseThrow(() -> new NotFoundException("Could not find craft with id " + wineId));
 
 
         WineComment wineComment = new WineComment();

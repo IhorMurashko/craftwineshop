@@ -22,7 +22,6 @@ public class UserCart extends AbstractUserCartClass {
         this.user = user;
     }
 
-
     @OneToOne
     private User user;
 

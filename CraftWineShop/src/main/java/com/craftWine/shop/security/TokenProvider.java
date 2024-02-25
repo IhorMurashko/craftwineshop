@@ -56,7 +56,6 @@ public class TokenProvider implements Serializable {
         Claims claims = null;
         try {
             claims = Jwts.parser().setSigningKey(tokenProperties.getTokenSecret()).parseClaimsJws(token).getBody();
-            System.out.println(claims.get("email"));
             return claims.getSubject();
         } catch (MalformedJwtException ex) {
             throw new RuntimeException(ex.getMessage());

@@ -31,12 +31,12 @@ public class UserRegisterAndAuthenticationService {
     @Autowired
     public UserRegisterAndAuthenticationService(AuthenticationManager authenticationManager, UserRepository userRepository,
                                                 TokenProvider tokenProvider, BCryptPasswordEncoder bCryptPasswordEncoder,
-                                                TokenProvider tokenProvider1, UserDetailsService userDetailsService,
+                                                UserDetailsService userDetailsService,
                                                 ConfirmationTokenService ConfirmationTokenService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.tokenProvider = tokenProvider1;
+        this.tokenProvider = tokenProvider;
         this.userDetailsService = userDetailsService;
         this.confirmationTokenService = ConfirmationTokenService;
     }
@@ -60,7 +60,8 @@ public class UserRegisterAndAuthenticationService {
         try {
 
 
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentialsDTO.email().toLowerCase(), credentialsDTO.password()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentialsDTO.email().toLowerCase(),
+                    credentialsDTO.password()));
             return tokenProvider.provideToken((User) userDetailsService.loadUserByUsername(credentialsDTO.email().toLowerCase()));
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);

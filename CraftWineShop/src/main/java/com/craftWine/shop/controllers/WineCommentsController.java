@@ -35,7 +35,7 @@ public class WineCommentsController {
                     " та проходить валідацію", required = true)
             @Valid @RequestBody WineCommentRequestDTO wineCommentRequestDTO,
             @Parameter(description = "jwt token авторизованого користувача, який знаходить в header Authorization",
-            required = true)
+                    required = true)
             @RequestHeader(name = "Authorization") String headerToken) {
 
         if (headerToken != null && headerToken.startsWith("Bearer ")) {
