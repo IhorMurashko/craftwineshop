@@ -1,7 +1,7 @@
 package com.craftWine.shop.service.wineCommentServices;
 
 import com.craftWine.shop.exceptions.EmailProblemException;
-import com.craftWine.shop.exceptions.NotFoundException;
+import com.craftWine.shop.exceptions.UserNotFoundException;
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.models.User;
 import com.craftWine.shop.models.WineComment;
@@ -37,7 +37,7 @@ public class WineCommentServiceImpl implements WineCommentService {
 
         Optional<CraftWine> craftWineOptional = craftWineService.findById(wineId);
 
-        CraftWine craftWine = craftWineOptional.orElseThrow(() -> new NotFoundException("Could not find craft with id " + wineId));
+        CraftWine craftWine = craftWineOptional.orElseThrow(() -> new UserNotFoundException("Could not find craft with id " + wineId));
 
 
         WineComment wineComment = new WineComment();

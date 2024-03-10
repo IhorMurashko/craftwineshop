@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "аутентифікація та авторизація")
 @RestController
-@CrossOrigin
 @Validated
 @Slf4j
 @RequiredArgsConstructor

@@ -6,7 +6,7 @@ import com.craftWine.shop.dto.wineDTO.CraftWineDTOResponse;
 import com.craftWine.shop.dto.wineDTO.CraftWineRegistrationDTO;
 import com.craftWine.shop.enumTypes.SugarConsistency;
 import com.craftWine.shop.enumTypes.WineColor;
-import com.craftWine.shop.exceptions.NotFoundException;
+import com.craftWine.shop.exceptions.UserNotFoundException;
 import com.craftWine.shop.mapper.CraftWineMapper;
 import com.craftWine.shop.mapper.ProducedCountryMapper;
 import com.craftWine.shop.models.CraftWine;
@@ -105,7 +105,7 @@ public class AdminController {
     public ResponseEntity<CraftWineDTOResponse> getWineById(@PathVariable("id") Long id) {
         Optional<CraftWine> craftWineOptional = craftWineService.findById(id);
 
-        CraftWine craftWine = craftWineOptional.orElseThrow(() -> new NotFoundException("Could not find craft with id " + id));
+        CraftWine craftWine = craftWineOptional.orElseThrow(() -> new UserNotFoundException("Could not find craft with id " + id));
 
         CraftWineDTOResponse craftWineDTOResponse = craftWineMapper.toDTOResponse(craftWine);
 
@@ -127,7 +127,7 @@ public class AdminController {
 
         Optional<CraftWine> craftWineOptional = craftWineService.findById(id);
 
-        CraftWine craftWine = craftWineOptional.orElseThrow(() -> new NotFoundException("Could not find craft with id " + id));
+        CraftWine craftWine = craftWineOptional.orElseThrow(() -> new UserNotFoundException("Could not find craft with id " + id));
 
 
         String imagePath = craftWine.getImageUrl();

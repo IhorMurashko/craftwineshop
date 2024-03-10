@@ -1,7 +1,7 @@
 package com.craftWine.shop.service.wineRateServices;
 
 import com.craftWine.shop.exceptions.EmailProblemException;
-import com.craftWine.shop.exceptions.NotFoundException;
+import com.craftWine.shop.exceptions.UserNotFoundException;
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.models.User;
 import com.craftWine.shop.models.WineEvaluation;
@@ -67,7 +67,7 @@ public class WineStarServiceImpl implements WineStarService {
         //get craft wine by craft wine's id;
         Optional<CraftWine> craftWineOptional = craftWineService.findById(craftWineId);
 
-        CraftWine craftWine = craftWineOptional.orElseThrow(() -> new NotFoundException("Could not find craft with id " + craftWineId));
+        CraftWine craftWine = craftWineOptional.orElseThrow(() -> new UserNotFoundException("Could not find craft with id " + craftWineId));
 
 
         //looking for a grade by the user for the wine

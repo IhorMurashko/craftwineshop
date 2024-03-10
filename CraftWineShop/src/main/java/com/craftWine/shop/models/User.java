@@ -10,7 +10,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -62,7 +65,7 @@ public class User extends AbstractUserClass implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "craft_wine_id")
     )
-    private List<CraftWine> favorites;
+    private Set<CraftWine> favorites;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<WineComment> wineComments;

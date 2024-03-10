@@ -11,4 +11,5 @@ public interface UserCartService {
 
     boolean removeWineFromTheCart(String token, long wineID);
 
+    UserCart getCart(String headerToken);
 }

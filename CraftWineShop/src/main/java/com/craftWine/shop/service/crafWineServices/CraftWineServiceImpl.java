@@ -1,7 +1,7 @@
 package com.craftWine.shop.service.crafWineServices;
 
 import com.craftWine.shop.dto.wineDTO.CraftWineRegistrationDTO;
-import com.craftWine.shop.exceptions.NotFoundException;
+import com.craftWine.shop.exceptions.UserNotFoundException;
 import com.craftWine.shop.mapper.CraftWineMapper;
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.models.ProducedCountry;
@@ -88,7 +88,7 @@ public class CraftWineServiceImpl implements CraftWineService {
 
             return true;
         } else {
-            throw new NotFoundException("Could not find wine with id: " + id);
+            throw new UserNotFoundException("Could not find wine with id: " + id);
         }
     }
 
