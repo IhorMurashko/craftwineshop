@@ -56,8 +56,8 @@ public class ProjectExceptionHandler {
         return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ResponseException> couldNotFound(NotFoundException exception) {
+    @ExceptionHandler({UserNotFoundException.class, FavoriteEmptyListException.class})
+    public ResponseEntity<ResponseException> couldNotFound(UserNotFoundException exception) {
         return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.NOT_FOUND);
     }
 
@@ -72,6 +72,11 @@ public class ProjectExceptionHandler {
     @ExceptionHandler(MultipartFileException.class)
     public ResponseEntity<ResponseException> multipartFileException(MultipartFileException exception) {
         return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ResponseException> runtimeException(RuntimeException exception) {
+        return new ResponseEntity<ResponseException>(new ResponseException(exception.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

@@ -170,9 +170,10 @@ VALUES (0, 0, 'false', 'false', 'false', 'false', 100.15, 100.15, 12, now(), 0,
 
 
 WITH inserted_user_cart AS (
-    INSERT INTO user_cart (id, user_id)
-        VALUES (nextval('user_cart_sequence_generator'), 1)
-        RETURNING id)
+    INSERT
+        INTO user_cart (id, user_id)
+            VALUES (nextval('user_cart_sequence_generator'), 1)
+            RETURNING id)
 INSERT
 INTO users (enabled, locked, id, last_time_reset_password, user_cart_id, delivery_address, email,
             first_name, last_name, password, phone_number, role)
@@ -192,9 +193,10 @@ FROM inserted_user_cart AS ic;
 
 
 WITH inserted_user_cart AS (
-    INSERT INTO user_cart (id, user_id)
-        VALUES (nextval('user_cart_sequence_generator'), 2)
-        RETURNING id)
+    INSERT
+        INTO user_cart (id, user_id)
+            VALUES (nextval('user_cart_sequence_generator'), 2)
+            RETURNING id)
 INSERT
 INTO users (enabled, locked, id, last_time_reset_password, user_cart_id, delivery_address, email,
             first_name, last_name, password, phone_number, role)

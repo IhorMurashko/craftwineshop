@@ -1,6 +1,7 @@
 package com.craftWine.shop.service.userFavoriteWineService;
 
-import com.craftWine.shop.exceptions.NotFoundException;
+import com.craftWine.shop.exceptions.FavoriteEmptyListException;
+import com.craftWine.shop.exceptions.UserNotFoundException;
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.models.User;
 import com.craftWine.shop.service.crafWineServices.CraftWineService;
@@ -10,7 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -27,15 +29,34 @@ public class UserFavoriteWineServiceImpl implements UserFavoriteWineService {
                 new UsernameNotFoundException("Could not find user"));
 
         CraftWine craftWine = craftWineService.findById(craftWineId)
-                .orElseThrow(() -> new NotFoundException("Could not find craft with id " + craftWineId));
+                .orElseThrow(() -> new UserNotFoundException("Could not find craft with id " + craftWineId));
 
         if (user.getFavorites() == null) {
-            user.setFavorites(new ArrayList<>(5));
+            user.setFavorites(new HashSet<CraftWine>(6, 0.75f));
         }
 
         user.getFavorites().add(craftWine);
 
         userService.saveUser(user);
+        return true;
+    }
+
+
+    @Override
+    public boolean removeAllFavorites(String token) {
+
+        User user = userService.extractUserFromToken(token).orElseThrow(() ->
+                new UsernameNotFoundException("Could not find user"));
+
+        if (user.getFavorites().isEmpty()) {
+            throw new FavoriteEmptyListException
+                    ("your cart of favorites wines is empty");
+        }
+
+        user.getFavorites().iterator().remove();
+
+        userService.saveUser(user);
+
         return true;
     }
 
@@ -46,15 +67,24 @@ public class UserFavoriteWineServiceImpl implements UserFavoriteWineService {
                 new UsernameNotFoundException("Could not find user"));
 
         CraftWine craftWine = craftWineService.findById(craftWineId)
-                .orElseThrow(() -> new NotFoundException("Could not find craft with id " + craftWineId));
+                .orElseThrow(() -> new UserNotFoundException("Could not find craft with id " + craftWineId));
 
         boolean contains = user.getFavorites().contains(craftWine);
         if (contains) {
             user.getFavorites().remove(craftWine);
+            userService.saveUser(user);
             return true;
         } else {
-            throw new NotFoundException("Couldn't find wine");
+            throw new UserNotFoundException("Couldn't find wine in favorites");
         }
+    }
+
+    @Override
+    public Set<CraftWine> getFavorites(@NotNull String token) {
+        User user = userService.extractUserFromToken(token).orElseThrow(() ->
+                new UsernameNotFoundException("Could not find user"));
+
+        return user.getFavorites();
     }
 
 

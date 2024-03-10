@@ -4,6 +4,7 @@ import com.craftWine.shop.enumTypes.SugarConsistency;
 import com.craftWine.shop.enumTypes.WineColor;
 import com.craftWine.shop.models.abstracts.AbstractWineClass;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

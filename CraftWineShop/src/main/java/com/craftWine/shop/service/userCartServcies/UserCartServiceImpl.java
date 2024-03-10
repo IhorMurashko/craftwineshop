@@ -1,7 +1,7 @@
 package com.craftWine.shop.service.userCartServcies;
 
 import com.craftWine.shop.dto.userCartDTO.WineItemForUserCart;
-import com.craftWine.shop.exceptions.NotFoundException;
+import com.craftWine.shop.exceptions.UserNotFoundException;
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.models.User;
 import com.craftWine.shop.models.UserCart;
@@ -11,6 +11,7 @@ import com.craftWine.shop.service.userServices.UserService;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -41,10 +42,18 @@ public class UserCartServiceImpl implements UserCartService {
             User user = optionalUser.get();
             CraftWine craftWine = optionalCraftWine.get();
 
-            user.getUserCart().getWinesWithQuantity()
-                    .put(craftWine, wineItemForUserCart.quantity());
 
-            userService.saveUser(user);
+            short wineQuantity =
+                    wineItemForUserCart.quantity() < 1
+                            ? 1
+                            : wineItemForUserCart.quantity();
+
+
+            user.getUserCart().getWinesWithQuantity()
+                    .put(craftWine, wineQuantity);
+
+//            userService.saveUser(user);
+            save(user.getUserCart());
             return true;
         } else {
             final String errorMessage =
@@ -74,13 +83,22 @@ public class UserCartServiceImpl implements UserCartService {
 
             if (userCartContainsAWine) {
                 user.getUserCart().getWinesWithQuantity().remove(craftWine);
+//                userService.saveUser(user);
+                save(user.getUserCart());
                 return true;
             } else {
-                throw new NotFoundException("Could not find wine in user cart");
+                throw new UserNotFoundException("Could not find wine in user cart");
             }
 
 
         }
         return false;
+    }
+
+    @Override
+    public UserCart getCart(@NotNull String token) {
+
+        return userService.extractUserFromToken(token).orElseThrow(() ->
+                new UsernameNotFoundException("Could not find user")).getUserCart();
     }
 }

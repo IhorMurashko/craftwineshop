@@ -61,10 +61,10 @@ public class SecurityConfig {
         http.exceptionHandling((exceptions) -> exceptions.authenticationEntryPoint(jwtAuthEntryPoint).accessDeniedHandler(myAccessDeniedHandler));
         http.authorizeHttpRequests((authorize) ->
                         authorize
-                                .requestMatchers("/api/v1/user_cart/**").hasRole("USER")
-                                .requestMatchers("/api/v1/user_favorite/**").hasRole("USER")
-                                .requestMatchers("/api/v1/comments/**").hasRole("USER")
-                                .requestMatchers("/api/v1/evaluation/**").hasRole("USER")
+                                .requestMatchers("/api/v1/user_cart/**").hasAuthority("USER")
+                                .requestMatchers("/api/v1/user_favorite/**").hasAuthority("USER")
+                                .requestMatchers("/api/v1/comments/**").hasAuthority("USER")
+                                .requestMatchers("/api/v1/evaluation/**").hasAuthority("USER")
 //                                .requestMatchers("/reg/login").permitAll()
 //                                .requestMatchers("reg/register").permitAll()
 ////                                .requestMatchers("/admin/**").hasAuthority("ADMIN")
