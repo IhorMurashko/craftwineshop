@@ -1,6 +1,6 @@
 package com.craftWine.shop.service.wineRateServices;
 
-public interface WineStarService {
+public interface WineEvaluationService {
 
     boolean addRateForTheWine(String userEmail, long craftWineId, short rate);
 

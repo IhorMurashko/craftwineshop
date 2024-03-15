@@ -1,6 +1,7 @@
 package com.craftWine.shop.models;
 
 import com.craftWine.shop.models.abstracts.AbstractUserCartClass;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class UserCart extends AbstractUserCartClass {
         this.user = user;
     }
 
+    @JsonIgnore
     @OneToOne
     private User user;
 

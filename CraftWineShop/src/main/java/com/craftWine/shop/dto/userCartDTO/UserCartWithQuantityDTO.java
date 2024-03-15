@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public record UserCartWithQuantityDTO(
         @Schema(description = "репрезентація вина")
         CraftWineDTOResponse craftWineDTOResponse,
-        @Schema(description = "та кількість пляшок")
+        @Schema(description = "кількість пляшок")
         short quantity
-) { }
+) {
+}

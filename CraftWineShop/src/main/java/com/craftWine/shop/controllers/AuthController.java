@@ -5,14 +5,11 @@ import com.craftWine.shop.security.TokenProvider;
 import com.craftWine.shop.service.authentication.UserRegisterAndAuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.headers.Header;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -38,8 +35,7 @@ public class AuthController {
                             "але вже має дійсний токен; " +
                             "якщо користувача не було знайдено в БД або ввів не дійсний пароль/емайл; " +
                             "якщо щось пішло не так"),
-                    @ApiResponse(responseCode = "200", description = "при вдалій аутентифікації",
-                            headers = {@Header(name = "Authorization", description = "JWT token", schema = @Schema(type = "string"))})
+                    @ApiResponse(responseCode = "200", description = "токен користувача")
             }
     )
     @PostMapping("/login")
@@ -65,11 +61,11 @@ public class AuthController {
             String token = userService.authenticate(credentialsDTO);
 
 
-            HttpHeaders header = new HttpHeaders();
-            header.setBearerAuth(token);
+//            HttpHeaders header = new HttpHeaders();
+//            header.setBearerAuth(token);
 
             return ResponseEntity.status(HttpStatus.OK)
-                    .headers(header).build();
+                    .body(token);
 
         } catch (Exception runtimeException) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid credentials");

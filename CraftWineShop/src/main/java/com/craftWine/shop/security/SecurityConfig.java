@@ -65,6 +65,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/v1/user_favorite/**").hasAuthority("USER")
                                 .requestMatchers("/api/v1/comments/**").hasAuthority("USER")
                                 .requestMatchers("/api/v1/evaluation/**").hasAuthority("USER")
+                                .requestMatchers("/api/v1/user/**").hasAuthority("USER")
 //                                .requestMatchers("/reg/login").permitAll()
 //                                .requestMatchers("reg/register").permitAll()
 ////                                .requestMatchers("/admin/**").hasAuthority("ADMIN")

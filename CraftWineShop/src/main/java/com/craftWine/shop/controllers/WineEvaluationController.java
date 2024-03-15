@@ -1,7 +1,7 @@
 package com.craftWine.shop.controllers;
 
 import com.craftWine.shop.dto.UpdateWineEvaluationDTO;
-import com.craftWine.shop.service.wineRateServices.WineStarService;
+import com.craftWine.shop.service.wineRateServices.WineEvaluationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class WineEvaluationController {
 
-    private final WineStarService wineStarService;
+    private final WineEvaluationService wineEvaluationService;
 
     @Operation(
             description = "нова оцінка для вина від авторизованого користувача або оновлення існуючої",
@@ -50,7 +50,7 @@ public class WineEvaluationController {
 
         if (headerToken != null && headerToken.startsWith("Bearer ")) {
             String token = headerToken.substring(7);
-            result = wineStarService.addRateForTheWine(token, updateWineEvaluationDTO.wineId(), updateWineEvaluationDTO.evaluation());
+            result = wineEvaluationService.addRateForTheWine(token, updateWineEvaluationDTO.wineId(), updateWineEvaluationDTO.evaluation());
 
         }
 

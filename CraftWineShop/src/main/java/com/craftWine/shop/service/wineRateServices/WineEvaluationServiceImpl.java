@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class WineStarServiceImpl implements WineStarService {
+public class WineEvaluationServiceImpl implements WineEvaluationService {
 
     private final UserService userService;
     private final CraftWineService craftWineService;
