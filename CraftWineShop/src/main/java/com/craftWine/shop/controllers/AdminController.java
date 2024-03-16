@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
         description = "навігація для адміністратора")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/admin")
+@RequestMapping("/api/v1/admin")
 @Validated
 public class AdminController {
 

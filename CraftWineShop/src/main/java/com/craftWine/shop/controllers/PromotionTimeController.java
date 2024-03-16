@@ -15,7 +15,7 @@ import java.util.List;
 @Tag(name = "акція \"час вина\"",
         description = "вина та країни, на які діє акція час вина")
 @RestController
-@RequestMapping("api/v1/wine_time_promotion")
+@RequestMapping("/api/v1/wine_time_promotion")
 @RequiredArgsConstructor
 public class PromotionTimeController {
     private final WineTimePromotionHandler wineTimePromotionHandler;

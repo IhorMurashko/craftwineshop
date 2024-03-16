@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "оцінка користувача для вина")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/evaluation")
+@RequestMapping("/api/v1/evaluation")
 @Validated
 public class WineEvaluationController {
 

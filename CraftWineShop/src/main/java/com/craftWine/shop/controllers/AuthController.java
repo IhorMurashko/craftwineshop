@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("api/v1/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
     private final UserRegisterAndAuthenticationService userService;
