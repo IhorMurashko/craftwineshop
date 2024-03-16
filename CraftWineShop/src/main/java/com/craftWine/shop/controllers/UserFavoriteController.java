@@ -47,6 +47,7 @@ public class UserFavoriteController {
                 .map(craftWineMapper::toDTOResponse)
                 .collect(Collectors.toSet());
 
+
         return ResponseEntity.ok(favoritesDTO);
     }
 

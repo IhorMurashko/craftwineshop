@@ -65,10 +65,6 @@ public class CraftWineServiceImpl implements CraftWineService {
     public Optional<CraftWine> findById(long id) {
 
         return craftWineRepository.findById(id);
-
-
-//        return optionalCraftWine.orElseThrow(
-//                () -> new NotFoundException("Could not find wine with id: " + id));
     }
 
 

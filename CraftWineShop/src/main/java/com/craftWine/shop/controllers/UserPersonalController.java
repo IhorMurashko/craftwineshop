@@ -55,8 +55,6 @@ public class UserPersonalController {
 
             return ResponseEntity.status(HttpStatus.OK)
                     .body(userDTO);
-
-
         } else {
             throw new JwtException("Invalid authorization");
         }

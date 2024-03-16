@@ -8,10 +8,12 @@ import java.util.Set;
 /**
  * DTO for {@link com.craftWine.shop.models.User}
  */
-public record UserDTO(String email,
-                      String firstName,
-                      String lastName,
-                      String deliveryAddress,
-                      Set<CraftWineDTOResponse> favorites
+public record UserDTO(
+        String email,
+        String firstName,
+        String lastName,
+        String deliveryAddress,
+        Set<CraftWineDTOResponse> favorites
+//        ,Set<UserCartWithQuantityDTO> userCartWithQuantityDTO
 ) implements Serializable {
 }
