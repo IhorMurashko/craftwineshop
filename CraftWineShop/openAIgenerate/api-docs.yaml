@@ -7,17 +7,17 @@ info:
     email: i.murashko0911@gmail.com
   version: "1.0"
 servers:
-- url: https://craft-wine-shop.onrender.com
+  - url: https://craft-wine-shop.onrender.com
 tags:
-- name: реєстрація
-  description: "реєстрація, підтвердження реєстрації, відновлення паролю"
-- name: акція "час вина"
-  description: "вина та країни, на які діє акція час вина"
+  - name: реєстрація
+    description: "реєстрація, підтвердження реєстрації, відновлення паролю"
+  - name: акція "час вина"
+    description: "вина та країни, на які діє акція час вина"
 paths:
   /api/v1/reg/registration:
     post:
       tags:
-      - реєстрація
+        - реєстрація
       summary: реєстрація нового кристовича
       description: отримання інформації для валідації і у разі успішної валідації
         реєструє нового кристовича
@@ -50,18 +50,18 @@ paths:
   /api/v1/evaluation/new_evaluation:
     post:
       tags:
-      - оцінка користувача для вина
+        - оцінка користувача для вина
       description: нова оцінка для вина від авторизованого користувача або оновлення
         існуючої
       operationId: updateWineEvaluation
       parameters:
-      - name: Authorization
-        in: header
-        description: "jwt token авторизованого користувача, який знаходить в header\
+        - name: Authorization
+          in: header
+          description: "jwt token авторизованого користувача, який знаходить в header\
           \ Authorization"
-        required: true
-        schema:
-          type: string
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -76,75 +76,75 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
         "400":
           description: при неудачі
           content:
@@ -152,89 +152,89 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
   /api/v1/comments/new_comment:
     post:
       tags:
-      - комментар
+        - комментар
       description: додати новий або оновити існуючий коментар
       operationId: newUserComment
       parameters:
-      - name: Authorization
-        in: header
-        description: "jwt token авторизованого користувача, який знаходить в header\
+        - name: Authorization
+          in: header
+          description: "jwt token авторизованого користувача, який знаходить в header\
           \ Authorization"
-        required: true
-        schema:
-          type: string
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -249,75 +249,75 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
         "400":
           description: якщо щось пішло не так
           content:
@@ -325,88 +325,88 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
   /api/v1/cart/save_wine_to_cart:
     post:
       tags:
-      - Кошик користувача
+        - Кошик користувача
       summary: додати вино у кошик
       operationId: saveAWineToCart
       parameters:
-      - name: Authorization
-        in: header
-        description: токен користувача в заголовці Authorization
-        required: true
-        schema:
-          type: string
+        - name: Authorization
+          in: header
+          description: токен користувача в заголовці Authorization
+          required: true
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -421,75 +421,75 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
         "400":
           description: BAD_REQUEST
           content:
@@ -497,90 +497,90 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
   /api/v1/auth/login:
     post:
       tags:
-      - аутентифікація та авторизація
+        - аутентифікація та авторизація
       summary: авторизація та аутентифікація користувача
       description: "авторизація та аутентифікація користувача на порталі, перевірк\
         а прав доступу"
       operationId: loginController
       parameters:
-      - name: header Authorization
-        in: header
-        description: перевіряє заголовок Authorization на наявність токена
-        required: false
-        schema:
-          type: string
+        - name: header Authorization
+          in: header
+          description: перевіряє заголовок Authorization на наявність токена
+          required: false
+          schema:
+            type: string
       requestBody:
         content:
           application/json:
@@ -597,13 +597,7 @@ paths:
               schema:
                 type: string
         "200":
-          description: при вдалій аутентифікації
-          headers:
-            Authorization:
-              description: JWT token
-              style: simple
-              schema:
-                type: string
+          description: токен користувача
           content:
             '*/*':
               schema:
@@ -611,7 +605,7 @@ paths:
   /api/v1/wine_time_promotion/get_promotion:
     get:
       tags:
-      - акція "час вина"
+        - акція "час вина"
       summary: Час вина
       description: "країни та вина, на які зараз діє акція \"час вина\""
       operationId: getPromotionCountries
@@ -625,21 +619,42 @@ paths:
                 type: array
                 items:
                   type: object
+  /api/v1/user/get_user:
+    get:
+      tags:
+        - user-personal-controller
+      description: отримати користувача
+      operationId: getUserInformation
+      parameters:
+        - name: Authorization
+          in: header
+          description: токен в заголовці Authorization
+          required: true
+          schema:
+            type: string
+          example: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0aGlzQGVtYWlsLmNvbSIsInJvbGUiOiJVU0VSIiwiaWQiOjEsImV4cCI6MTcxMDYxNzE5NiwiaWF0IjoxNzEwNTMwNzk2LCJlbWFpbCI6InRoaXNAZW1haWwuY29tIn0.xQViqf8XnVGuQjcdK9tSxgCbb0kMvZdXv48-PD4Z7TeGFVcSrkdnV4MDGB8yshCVJypCZR0u-na_dSJARl7Z_w
+      responses:
+        "200":
+          description: інформація про користувача з отриманого токену
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
   /api/v1/reg/reset_password:
     get:
       tags:
-      - реєстрація
+        - реєстрація
       summary: відновлення паролю
       description: відновлення забутого пароля користувача
       operationId: rememberThePassword
       parameters:
-      - name: email
-        in: query
-        description: не може бути порожнім та має відповідати паттерну електронної
-          адреси
-        required: true
-        schema:
-          type: string
+        - name: email
+          in: query
+          description: не може бути порожнім та має відповідати паттерну електронної
+            адреси
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: та повідомлення про успішне відправлення листа на електронну
@@ -664,16 +679,16 @@ paths:
   /api/v1/reg/confirm:
     get:
       tags:
-      - реєстрація
+        - реєстрація
       description: "посилання, яке буде присутнє у електронному листі, для підтвер\
         дження реєстрації"
       operationId: confirm
       parameters:
-      - name: token
-        in: query
-        required: true
-        schema:
-          type: string
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
       responses:
         "303":
           description: при успішному підтвердженні реєстрації перенаправляє на головну
@@ -683,75 +698,75 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
         "400":
           description: якщо електронна адреса уже підтверджена
           content:
@@ -759,75 +774,75 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
         "409":
           description: якщо термії підтвердження електронної адреси минув (більше
             24 годин)
@@ -836,88 +851,88 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
   /api/v1/favorites/get_favorites:
     get:
       tags:
-      - додати вино до обраного
+        - додати вино до обраного
       description: всі обрані вина користувача
       operationId: getFavorites
       parameters:
-      - name: Authorization
-        in: header
-        description: токен користувача в заголовці Authorization
-        required: true
-        schema:
-          type: string
+        - name: Authorization
+          in: header
+          description: токен користувача в заголовці Authorization
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "репрезентація вин, які присутні в обраному"
@@ -931,23 +946,23 @@ paths:
   /api/v1/favorites/add_favorite/{craftWineId}:
     get:
       tags:
-      - додати вино до обраного
+        - додати вино до обраного
       description: додати вино до обраного
       operationId: addFavorite
       parameters:
-      - name: craftWineId
-        in: path
-        description: унікальний ідентифікатор вина
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: Authorization
-        in: header
-        description: токен користувача в заголовці Authorization
-        required: true
-        schema:
-          type: string
+        - name: craftWineId
+          in: path
+          description: унікальний ідентифікатор вина
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: Authorization
+          in: header
+          description: токен користувача в заголовці Authorization
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: додано
@@ -956,75 +971,75 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
         "400":
           description: невдача
           content:
@@ -1032,79 +1047,79 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
   /api/v1/craft_wines:
     get:
       tags:
-      - Всі вина
+        - Всі вина
       summary: колекція всіх вин
       description: "кожен об'єкт репрезунтує вино, яке є на даний момент в магазин\
         і"
@@ -1122,16 +1137,16 @@ paths:
   /api/v1/cart/get_cart:
     get:
       tags:
-      - Кошик користувача
+        - Кошик користувача
       summary: кошик користувача
       operationId: getCart
       parameters:
-      - name: Authorization
-        in: header
-        description: токен користувача в заголовці Authorization
-        required: true
-        schema:
-          type: string
+        - name: Authorization
+          in: header
+          description: токен користувача в заголовці Authorization
+          required: true
+          schema:
+            type: string
       responses:
         "200":
           description: "словник у игляді об'єкта, який репрезунтує вина, кількість\
@@ -1145,23 +1160,23 @@ paths:
   /api/v1/favorites/delete_favorite/{craftWineId}:
     delete:
       tags:
-      - додати вино до обраного
+        - додати вино до обраного
       description: видалити вино з обраного
       operationId: deleteFavorite
       parameters:
-      - name: craftWineId
-        in: path
-        description: унікальний ідентифікатор вина
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: Authorization
-        in: header
-        description: токен користувача в заголовці Authorization
-        required: true
-        schema:
-          type: string
+        - name: craftWineId
+          in: path
+          description: унікальний ідентифікатор вина
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: Authorization
+          in: header
+          description: токен користувача в заголовці Authorization
+          required: true
+          schema:
+            type: string
       responses:
         "204":
           description: вдале видлення
@@ -1170,75 +1185,75 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
         "400":
           description: невдача
           content:
@@ -1246,88 +1261,88 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
   /api/v1/favorites/delete_all_favorites:
     delete:
       tags:
-      - додати вино до обраного
+        - додати вино до обраного
       description: видалити всі вина з обраного
       operationId: deleteAllFavorites
       parameters:
-      - name: Authorization
-        in: header
-        description: токен користувача в заголовці Authorization
-        required: true
-        schema:
-          type: string
+        - name: Authorization
+          in: header
+          description: токен користувача в заголовці Authorization
+          required: true
+          schema:
+            type: string
       responses:
         "204":
           description: вдале видлення
@@ -1336,75 +1351,75 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
         "400":
           description: невдача
           content:
@@ -1412,95 +1427,95 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
   /api/v1/cart/delete_wine_from_the_cart/{wine_id}:
     delete:
       tags:
-      - Кошик користувача
+        - Кошик користувача
       description: видалення вина із кошика
       operationId: deleteAWineFromCart
       parameters:
-      - name: wine_id
-        in: path
-        description: унікальний ідентифікатор вина
-        required: true
-        schema:
-          type: integer
-          format: int64
-      - name: Authorization
-        in: header
-        description: токен користувача в заголовці Authorization
-        required: true
-        schema:
-          type: string
+        - name: wine_id
+          in: path
+          description: унікальний ідентифікатор вина
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: Authorization
+          in: header
+          description: токен користувача в заголовці Authorization
+          required: true
+          schema:
+            type: string
       responses:
         "204":
           description: вдалення видалення
@@ -1509,75 +1524,75 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
         "400":
           description: помилка запиту
           content:
@@ -1585,84 +1600,84 @@ paths:
               schema:
                 type: string
                 enum:
-                - 100 CONTINUE
-                - 101 SWITCHING_PROTOCOLS
-                - 102 PROCESSING
-                - 103 EARLY_HINTS
-                - 103 CHECKPOINT
-                - 200 OK
-                - 201 CREATED
-                - 202 ACCEPTED
-                - 203 NON_AUTHORITATIVE_INFORMATION
-                - 204 NO_CONTENT
-                - 205 RESET_CONTENT
-                - 206 PARTIAL_CONTENT
-                - 207 MULTI_STATUS
-                - 208 ALREADY_REPORTED
-                - 226 IM_USED
-                - 300 MULTIPLE_CHOICES
-                - 301 MOVED_PERMANENTLY
-                - 302 FOUND
-                - 302 MOVED_TEMPORARILY
-                - 303 SEE_OTHER
-                - 304 NOT_MODIFIED
-                - 305 USE_PROXY
-                - 307 TEMPORARY_REDIRECT
-                - 308 PERMANENT_REDIRECT
-                - 400 BAD_REQUEST
-                - 401 UNAUTHORIZED
-                - 402 PAYMENT_REQUIRED
-                - 403 FORBIDDEN
-                - 404 NOT_FOUND
-                - 405 METHOD_NOT_ALLOWED
-                - 406 NOT_ACCEPTABLE
-                - 407 PROXY_AUTHENTICATION_REQUIRED
-                - 408 REQUEST_TIMEOUT
-                - 409 CONFLICT
-                - 410 GONE
-                - 411 LENGTH_REQUIRED
-                - 412 PRECONDITION_FAILED
-                - 413 PAYLOAD_TOO_LARGE
-                - 413 REQUEST_ENTITY_TOO_LARGE
-                - 414 URI_TOO_LONG
-                - 414 REQUEST_URI_TOO_LONG
-                - 415 UNSUPPORTED_MEDIA_TYPE
-                - 416 REQUESTED_RANGE_NOT_SATISFIABLE
-                - 417 EXPECTATION_FAILED
-                - 418 I_AM_A_TEAPOT
-                - 419 INSUFFICIENT_SPACE_ON_RESOURCE
-                - 420 METHOD_FAILURE
-                - 421 DESTINATION_LOCKED
-                - 422 UNPROCESSABLE_ENTITY
-                - 423 LOCKED
-                - 424 FAILED_DEPENDENCY
-                - 425 TOO_EARLY
-                - 426 UPGRADE_REQUIRED
-                - 428 PRECONDITION_REQUIRED
-                - 429 TOO_MANY_REQUESTS
-                - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
-                - 451 UNAVAILABLE_FOR_LEGAL_REASONS
-                - 500 INTERNAL_SERVER_ERROR
-                - 501 NOT_IMPLEMENTED
-                - 502 BAD_GATEWAY
-                - 503 SERVICE_UNAVAILABLE
-                - 504 GATEWAY_TIMEOUT
-                - 505 HTTP_VERSION_NOT_SUPPORTED
-                - 506 VARIANT_ALSO_NEGOTIATES
-                - 507 INSUFFICIENT_STORAGE
-                - 508 LOOP_DETECTED
-                - 509 BANDWIDTH_LIMIT_EXCEEDED
-                - 510 NOT_EXTENDED
-                - 511 NETWORK_AUTHENTICATION_REQUIRED
+                  - 100 CONTINUE
+                  - 101 SWITCHING_PROTOCOLS
+                  - 102 PROCESSING
+                  - 103 EARLY_HINTS
+                  - 103 CHECKPOINT
+                  - 200 OK
+                  - 201 CREATED
+                  - 202 ACCEPTED
+                  - 203 NON_AUTHORITATIVE_INFORMATION
+                  - 204 NO_CONTENT
+                  - 205 RESET_CONTENT
+                  - 206 PARTIAL_CONTENT
+                  - 207 MULTI_STATUS
+                  - 208 ALREADY_REPORTED
+                  - 226 IM_USED
+                  - 300 MULTIPLE_CHOICES
+                  - 301 MOVED_PERMANENTLY
+                  - 302 FOUND
+                  - 302 MOVED_TEMPORARILY
+                  - 303 SEE_OTHER
+                  - 304 NOT_MODIFIED
+                  - 305 USE_PROXY
+                  - 307 TEMPORARY_REDIRECT
+                  - 308 PERMANENT_REDIRECT
+                  - 400 BAD_REQUEST
+                  - 401 UNAUTHORIZED
+                  - 402 PAYMENT_REQUIRED
+                  - 403 FORBIDDEN
+                  - 404 NOT_FOUND
+                  - 405 METHOD_NOT_ALLOWED
+                  - 406 NOT_ACCEPTABLE
+                  - 407 PROXY_AUTHENTICATION_REQUIRED
+                  - 408 REQUEST_TIMEOUT
+                  - 409 CONFLICT
+                  - 410 GONE
+                  - 411 LENGTH_REQUIRED
+                  - 412 PRECONDITION_FAILED
+                  - 413 PAYLOAD_TOO_LARGE
+                  - 413 REQUEST_ENTITY_TOO_LARGE
+                  - 414 URI_TOO_LONG
+                  - 414 REQUEST_URI_TOO_LONG
+                  - 415 UNSUPPORTED_MEDIA_TYPE
+                  - 416 REQUESTED_RANGE_NOT_SATISFIABLE
+                  - 417 EXPECTATION_FAILED
+                  - 418 I_AM_A_TEAPOT
+                  - 419 INSUFFICIENT_SPACE_ON_RESOURCE
+                  - 420 METHOD_FAILURE
+                  - 421 DESTINATION_LOCKED
+                  - 422 UNPROCESSABLE_ENTITY
+                  - 423 LOCKED
+                  - 424 FAILED_DEPENDENCY
+                  - 425 TOO_EARLY
+                  - 426 UPGRADE_REQUIRED
+                  - 428 PRECONDITION_REQUIRED
+                  - 429 TOO_MANY_REQUESTS
+                  - 431 REQUEST_HEADER_FIELDS_TOO_LARGE
+                  - 451 UNAVAILABLE_FOR_LEGAL_REASONS
+                  - 500 INTERNAL_SERVER_ERROR
+                  - 501 NOT_IMPLEMENTED
+                  - 502 BAD_GATEWAY
+                  - 503 SERVICE_UNAVAILABLE
+                  - 504 GATEWAY_TIMEOUT
+                  - 505 HTTP_VERSION_NOT_SUPPORTED
+                  - 506 VARIANT_ALSO_NEGOTIATES
+                  - 507 INSUFFICIENT_STORAGE
+                  - 508 LOOP_DETECTED
+                  - 509 BANDWIDTH_LIMIT_EXCEEDED
+                  - 510 NOT_EXTENDED
+                  - 511 NETWORK_AUTHENTICATION_REQUIRED
 components:
   schemas:
     RegisterDTO:
       required:
-      - email
-      - firstName
-      - lastName
-      - password
-      - phoneNumber
+        - email
+        - firstName
+        - lastName
+        - password
+        - phoneNumber
       type: object
       properties:
         email:
@@ -1718,7 +1733,7 @@ components:
         \ вина та саму оцінку, і проходить валідацію"
     WineCommentRequestDTO:
       required:
-      - userComment
+        - userComment
       type: object
       properties:
         wineId:
@@ -1745,8 +1760,8 @@ components:
         ентифікатор вина та кількість пляшок"
     CredentialsDTO:
       required:
-      - email
-      - password
+        - email
+        - password
       type: object
       properties:
         email:
@@ -1877,6 +1892,22 @@ components:
           type: string
           description: Ім'я регіону
       description: Регіон виробництва вина
+    UserDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        deliveryAddress:
+          type: string
+        favorites:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/CraftWineDTOResponse'
     WineCommentResponseDTO:
       type: object
       properties:
