@@ -2,6 +2,8 @@ package com.craftWine.shop.repositories;
 
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.models.ProducedCountry;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -36,5 +38,8 @@ public interface CraftWineRepository extends JpaRepository<CraftWine, Long> {
 
     @Query("SELECT cw FROM CraftWine cw WHERE cw.isWineTimePromotion=:promotion")
     List<CraftWine> findCraftWineByWineTimePromotion(@Param("promotion") boolean promotion);
+
+
+    Page<CraftWine> findAllBy(Pageable pageable);
 
 }

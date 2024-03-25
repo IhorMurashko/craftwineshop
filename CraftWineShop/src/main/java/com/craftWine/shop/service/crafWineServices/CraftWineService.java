@@ -3,6 +3,8 @@ package com.craftWine.shop.service.crafWineServices;
 import com.craftWine.shop.dto.wineDTO.CraftWineRegistrationDTO;
 import com.craftWine.shop.models.CraftWine;
 import com.craftWine.shop.models.ProducedCountry;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,5 +33,7 @@ public interface CraftWineService {
 
 
     List<CraftWine> findCraftWineByWineTimePromotion(boolean promotion);
+
+    Page<CraftWine> findAllBy(Pageable pageable);
 
 }

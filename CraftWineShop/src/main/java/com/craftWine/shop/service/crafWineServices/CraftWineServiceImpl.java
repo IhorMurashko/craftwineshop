@@ -9,6 +9,8 @@ import com.craftWine.shop.repositories.CraftWineRepository;
 import com.craftWine.shop.utils.ImagineHandler;
 import com.craftWine.shop.utils.PercentageHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -114,6 +116,15 @@ public class CraftWineServiceImpl implements CraftWineService {
     @Override
     public List<CraftWine> findCraftWineByWineTimePromotion(boolean promotion) {
         return craftWineRepository.findCraftWineByWineTimePromotion(promotion);
+    }
+
+    /**
+     * @param pageable
+     * @return
+     */
+    @Override
+    public Page<CraftWine> findAllBy(Pageable pageable) {
+        return craftWineRepository.findAllBy(pageable);
     }
 
 }
